@@ -1,9 +1,9 @@
-const CACHE = "eyasin-v3";
-const PRECACHE = ["./", "index.html", "manifest.webmanifest", "icon.svg", "icon-192.png", "icon-512.png"];
+const CACHE = "eyasin-v4";
+const PRECACHE = ["./", "index.html", "manifest.webmanifest", "icon.svg"];
 const EXT = /^(fonts\.googleapis\.com|fonts\.gstatic\.com|drive\.google\.com|.*\.googleusercontent\.com)$/;
 
 self.addEventListener("install", e => {
-  e.waitUntil(caches.open(CACHE).then(c => c.addAll(PRECACHE)).then(() => self.skipWaiting()));
+  e.waitUntil(caches.open(CACHE).then(c => Promise.all(PRECACHE.map(u => c.add(u).catch(() => null)))).then(() => self.skipWaiting()));
 });
 
 self.addEventListener("activate", e => {
