@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#073b2b">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>E-Yasin & Doa Ziarah Keluarga</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Amiri+Quran&display=swap" rel="stylesheet">
+<style>
+:root{
+  --green-900:#06281d; --green-800:#073b2b; --green-700:#0b4d38; --green-600:#0f5a43;
+  --green-100:#d9f2e4; --green-50:#eefaf3;
+  --gold:#f5b400; --gold-soft:#fff6d6; --gold-line:#e8cf7c;
+  --bg:#f2f3ef; --card:#ffffff; --line:#e4e6df; --ink:#14221c; --muted:#5e6b63;
+  --arsize:22px;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  font-size:15px;line-height:1.5;padding-bottom:84px}
+.app{max-width:520px;margin:0 auto;min-height:100vh;position:relative}
+
+/* HEADER */
+header.top{position:sticky;top:0;z-index:30;background:var(--green-800);color:#fff;
+  padding:max(10px,env(safe-area-inset-top)) 14px 10px;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.brand{display:flex;align-items:center;gap:10px;min-width:0}
+.logo{width:34px;height:34px;border-radius:9px;background:var(--gold);color:var(--green-900);display:grid;place-items:center;flex:0 0 auto}
+.logo svg{width:20px;height:20px}
+.brand h1{margin:0;font-size:17px;font-weight:700;letter-spacing:.2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fontctl{display:flex;align-items:center;gap:2px;background:var(--green-600);border-radius:999px;padding:3px 4px;flex:0 0 auto}
+.fontctl button{background:transparent;border:0;color:var(--gold);font-weight:800;font-size:14px;min-width:34px;height:30px;border-radius:999px;cursor:pointer}
+.fontctl button:active{background:rgba(255,255,255,.12)}
+.fontctl span{font-size:12px;opacity:.85;padding:0 2px}
+
+/* TOP TABS */
+.tabs{position:sticky;top:54px;z-index:25;background:var(--green-800);border-bottom:3px solid var(--gold);
+  display:flex;gap:8px;overflow-x:auto;padding:6px 12px 10px;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tabs button{flex:0 0 auto;display:flex;align-items:center;gap:6px;border:0;background:transparent;color:#e8f5ee;
+  font-size:14px;font-weight:600;padding:8px 13px;border-radius:999px;cursor:pointer;white-space:nowrap}
+.tabs button svg{width:16px;height:16px}
+.tabs button.on{background:var(--gold);color:var(--green-900);font-weight:800}
+
+/* CONTENT */
+main{padding:14px 14px 20px}
+section.page{display:none;flex-direction:column;gap:14px}
+section.page.on{display:flex}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;box-shadow:0 1px 2px rgba(10,40,28,.05)}
+.hero{background:var(--green-800);color:#fff;border-radius:18px;padding:16px;border-left:5px solid var(--gold)}
+.hero h2{margin:0 0 2px;font-size:18px;display:flex;align-items:center;gap:8px}
+.hero p{margin:0;font-size:13px;opacity:.88}
+.hero svg{width:22px;height:22px;color:var(--gold)}
+.gold-note{background:var(--gold-soft);border:1px solid var(--gold-line);border-radius:18px;padding:16px}
+.step-head{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.badge{flex:0 0 auto;width:30px;height:30px;border-radius:50%;background:var(--green-100);color:var(--green-800);
+  display:grid;place-items:center;font-weight:800;font-size:14px;border:1px solid #bfe3cf}
+.step-head h3{margin:0;font-size:16px;color:var(--green-700);line-height:1.25}
+.pill{display:inline-block;font-size:11px;font-weight:700;padding:3px 9px;border-radius:999px;background:var(--gold-soft);color:#7a5a00;border:1px solid var(--gold-line)}
+.sub{margin:0 0 10px;font-size:13px;color:var(--muted)}
+.note{font-size:13px;color:var(--muted);margin:8px 0 0}
+
+/* ITEM (Arab / Latin / Arti) */
+.item{background:#fafaf7;border:1px solid var(--line);border-radius:14px;padding:10px 12px 10px;margin-top:10px}
+.item:first-of-type{margin-top:0}
+.ar{font-family:"Amiri","Scheherazade New","Noto Naskh Arabic","Noto Sans Arabic","Traditional Arabic","Geeza Pro","Droid Arabic Naskh","Segoe UI",serif;
+  direction:rtl;text-align:right;font-size:var(--arsize);line-height:1.95;margin:0;color:#14261d;font-weight:400;
+  text-rendering:optimizeLegibility;font-kerning:normal}
+.ar.q{font-family:"Amiri Quran","Amiri","Scheherazade New","Noto Naskh Arabic","Geeza Pro",serif}
+.ar .mk{color:#b8860b;font-size:.8em;margin:0 3px;white-space:nowrap}
+.ar bdi.nm{direction:ltr;unicode-bidi:isolate;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  font-size:.62em;font-weight:700;color:#8a6200;padding:0 4px}
+.lat{margin:6px 0 0;font-style:italic;color:#46544b;font-size:14px;line-height:1.55}
+.arti{margin:6px 0 0;color:#5a6860;font-size:14px;line-height:1.55}
+.arti b{color:#33423a}
+.tag{font-size:12px;font-weight:700;color:var(--green-700);margin:0 0 4px;display:block}
+
+/* YASIN */
+.ayat .num{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.ayat .num .badge{width:34px;height:34px}
+.ayat .num small{color:#7b867f;font-size:12px}
+.bismillah{text-align:center;background:var(--green-50);border-color:#c8e8d6}
+.bismillah .ar{text-align:center}
+
+/* BUTTONS */
+.next{width:100%;border:0;background:var(--green-600);color:#fff;font-weight:800;font-size:15px;padding:15px 16px;border-radius:14px;cursor:pointer;margin-top:4px;box-shadow:0 3px 10px rgba(11,77,56,.25)}
+.next:active{transform:scale(.99);background:var(--green-700)}
+.next.sm{width:auto;padding:10px 16px;font-size:14px;margin-top:10px}
+.ghost{border:1px solid #c8d8cf;background:#fff;color:var(--green-700);font-weight:700;border-radius:12px;padding:10px 14px;cursor:pointer;font-size:14px}
+details.fat{margin-top:12px;border:1px dashed #b9d2c4;border-radius:12px;background:#f6fbf8}
+details.fat summary{cursor:pointer;padding:11px 12px;font-weight:800;color:var(--green-700);text-align:center;list-style:none;font-size:14px}
+details.fat summary::-webkit-details-marker{display:none}
+details.fat summary:before{content:"▸ "}
+details.fat[open] summary:before{content:"▾ "}
+details.fat .inner{padding:0 10px 10px}
+details.adab{background:var(--gold-soft);border:1px solid var(--gold-line);border-radius:18px;padding:0}
+details.adab summary{cursor:pointer;padding:13px 16px;font-weight:800;color:#7a5a00;list-style:none;font-size:14px}
+details.adab summary::-webkit-details-marker{display:none}
+details.adab summary:before{content:"▸ "}
+details.adab[open] summary:before{content:"▾ "}
+details.adab .in{padding:0 16px 14px}
+
+/* LISTS */
+ul.ad{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px;font-size:14px}
+ul.ad li::marker{color:var(--green-600)}
+
+/* SILSILAH */
+.cover{background:linear-gradient(180deg,#0f4a37,#06281d);color:#fff;border-radius:22px;padding:18px;text-align:center;border:1px solid #c9a23a}
+.cover .chip{display:inline-block;font-size:11px;letter-spacing:1.4px;text-transform:uppercase;font-weight:800;color:var(--gold);border:1px solid rgba(245,180,0,.45);padding:5px 12px;border-radius:999px;background:rgba(0,0,0,.2)}
+.cover .photos{display:flex;gap:18px;justify-content:center;flex-wrap:wrap;margin:14px 0 6px}
+.avatar{width:82px;height:82px;border-radius:50%;padding:3px;background:linear-gradient(135deg,#f9dc7a,#b88a1a);display:grid}
+.avatar>div{border-radius:50%;background:#0b3a2b;overflow:hidden;display:grid;place-items:center;color:var(--gold)}
+.avatar img{width:100%;height:100%;object-fit:cover;display:block}
+.avatar svg{width:34px;height:34px}
+.cover .who{font-size:12px;font-weight:700;color:#ffe7a3;margin-top:5px}
+.cover h2{margin:2px 0 0;font-size:17px}
+.cover .meta{font-size:12px;color:#b9dcc9}
+.cover .small{font-size:12.5px;color:#a9d3bd;font-style:italic;margin:8px 0 0}
+.fam{display:flex;gap:12px;align-items:flex-start;background:#fff;border:1px solid var(--line);border-radius:14px;padding:11px}
+.fam .avatar{width:50px;height:50px;padding:2px;flex:0 0 auto}
+.fam .avatar svg{width:22px;height:22px}
+.fam .rel{display:flex;justify-content:space-between;gap:6px;align-items:center}
+.fam .rel b{font-size:11px;letter-spacing:.6px;text-transform:uppercase;color:var(--green-600)}
+.fam .rel i{font-style:normal;font-size:11px;background:var(--green-100);color:var(--green-800);padding:2px 8px;border-radius:999px;font-weight:700}
+.fam h4{margin:2px 0;font-size:15px}
+.fam .det{font-size:12px;color:var(--muted);display:flex;flex-wrap:wrap;gap:2px 12px}
+.fam .kenang{font-size:12px;color:#7a6b2a;font-style:italic;margin-top:3px}
+.fam.hidup{background:#fbfbf8}
+.count{background:var(--green-100);color:var(--green-800);font-weight:800;font-size:12px;padding:4px 10px;border-radius:999px}
+.row{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:12px}
+.row h3{margin:0;font-size:16px;color:var(--green-700)}
+.stat{font-size:12px;color:var(--muted)}
+
+/* TASBIH */
+.tasbih{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--green-50);border:1px solid #c8e8d6;border-radius:14px;padding:12px;margin-top:10px}
+.tasbih .n{font-size:34px;font-weight:900;color:var(--green-700);font-variant-numeric:tabular-nums;min-width:64px}
+.tasbih .lbl{font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--green-600)}
+.tasbih .btns{display:flex;gap:8px}
+.tasbih .plus{background:var(--gold);color:var(--green-900);border:0;font-weight:900;border-radius:12px;padding:12px 18px;font-size:15px;cursor:pointer}
+.tasbih .plus:active{transform:scale(.96)}
+
+/* BOTTOM NAV */
+nav.bottom{position:fixed;left:0;right:0;bottom:0;z-index:40;background:#fff;border-top:1px solid var(--line);
+  display:flex;justify-content:center;padding-bottom:env(safe-area-inset-bottom)}
+nav.bottom .in{max-width:520px;width:100%;display:flex}
+nav.bottom button{flex:1;border:0;background:transparent;display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 2px 7px;color:#2b3b33;font-size:11px;font-weight:600;cursor:pointer}
+nav.bottom button svg{width:22px;height:22px}
+nav.bottom button.on{color:var(--green-600);font-weight:800}
+nav.bottom button.on svg{stroke-width:2.6}
+
+.sync{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted);justify-content:center;margin-top:2px;text-align:center}
+.sync button{border:0;background:transparent;color:var(--green-600);font-weight:700;font-size:12px;cursor:pointer;text-decoration:underline}
+/* TUTORIAL PASANG */
+#page-pasang{position:relative}
+.wm{position:absolute;inset:0;pointer-events:none;z-index:5;overflow:hidden;border-radius:18px;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='260' height='190'><text x='130' y='95' transform='rotate(-28 130 95)' text-anchor='middle' font-family='Arial,sans-serif' font-size='17' font-weight='700' fill='%23073b2b' fill-opacity='0.13'>Created by Hari Santoso</text></svg>")}
+.shot{position:relative;margin:10px auto 0;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#222}
+.shot img,.shot svg.mock{display:block;width:100%;height:auto}
+.hl{position:absolute;border:3px solid #ff3b30;border-radius:12px;box-shadow:0 0 0 4px rgba(255,59,48,.28);animation:pulse 1.4s infinite}
+.hl-tag{position:absolute;background:#ff3b30;color:#fff;font-size:12px;font-weight:800;padding:3px 9px;border-radius:999px;white-space:nowrap}
+@keyframes pulse{50%{box-shadow:0 0 0 9px rgba(255,59,48,.08)}}
+.shot .stamp{position:absolute;right:8px;bottom:6px;font-size:11px;font-weight:700;color:rgba(255,255,255,.75);text-shadow:0 1px 2px rgba(0,0,0,.6)}
+.sig{text-align:center;font-size:12px;font-weight:700;color:var(--green-700);letter-spacing:.3px;padding:4px 0 2px}
+.lb{position:fixed;inset:0;z-index:100;background:rgba(5,15,10,.94);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:16px;touch-action:pinch-zoom}
+.lb img{max-width:100%;max-height:78vh;object-fit:contain;border-radius:12px;background:#0b3a2b;min-width:120px;min-height:120px}
+.lbx{position:absolute;top:max(12px,env(safe-area-inset-top));right:14px;width:42px;height:42px;border-radius:50%;border:0;background:rgba(255,255,255,.16);color:#fff;font-size:28px;line-height:1;cursor:pointer}
+.lbc{text-align:center;color:#fff}.lbc b{display:block;font-size:17px}.lbc span{font-size:13px;color:#ffe7a3}.lbd{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:8px}.lbd div{background:rgba(255,255,255,.12);border-radius:10px;padding:6px 12px;font-size:13px}.lbd small{display:block;font-size:10px;letter-spacing:.8px;text-transform:uppercase;color:#ffe7a3}
+svg.i{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="top">
+    <div class="brand">
+      <div class="logo"><svg class="i" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></div>
+      <h1>E-Yasin &amp; Doa Ziarah</h1>
+    </div>
+    <div class="fontctl" aria-label="Ukuran huruf Arab">
+      <button onclick="changeFont(-1)" aria-label="Perkecil huruf">A-</button>
+      <span>Font</span>
+      <button onclick="changeFont(1)" aria-label="Perbesar huruf">A+</button>
+    </div>
+  </header>
+  <div class="tabs" id="topTabs"></div>
+
+  <main>
+    <section class="page" id="page-cover"></section>
+    <section class="page" id="page-ziarah"></section>
+    <section class="page" id="page-tawasul"></section>
+    <section class="page" id="page-yasin"></section>
+    <section class="page" id="page-tahlil"></section>
+    <section class="page" id="page-doa"></section>
+    <section class="page" id="page-pasang"></section>
+  </main>
+</div>
+<nav class="bottom"><div class="in" id="bottomNav"></div></nav>
+
+<script>
+// Surat Yasin (QS. 36) ayat 1-83: [Arab, Latin, Terjemah Indonesia]
+const YASIN = [
+["يسٓ","Yaa-Siiin","Yā Sīn. (Huruf-huruf pembuka surah; maknanya hanya Allah yang mengetahui.)"],
+["وَٱلْقُرْءَانِ ٱلْحَكِيمِ","Wal-qur-aanil-hakiim","Demi Al-Qur’an yang penuh hikmah,"],
+["إِنَّكَ لَمِنَ ٱلْمُرْسَلِينَ","Innaka laminal-mursaliin","sungguh, engkau (Muhammad) benar-benar termasuk para rasul,"],
+["عَلَىٰ صِرَٰطٍۢ مُّسْتَقِيمٍۢ","'Alaa shiraathim-mustaqiim","(yang berada) di atas jalan yang lurus,"],
+["تَنزِيلَ ٱلْعَزِيزِ ٱلرَّحِيمِ","Tanziilal-'aziizir-rahiim","(sebagai wahyu) yang diturunkan oleh Yang Mahaperkasa lagi Maha Penyayang,"],
+["لِتُنذِرَ قَوْمًۭا مَّآ أُنذِرَ ءَابَآؤُهُمْ فَهُمْ غَٰفِلُونَ","Litundzira qawmam-maa undzira aabaaa-uhum fahum ghaafiluun","agar engkau memberi peringatan kepada kaum yang nenek moyangnya belum pernah diberi peringatan, karena itu mereka lalai."],
+["لَقَدْ حَقَّ ٱلْقَوْلُ عَلَىٰٓ أَكْثَرِهِمْ فَهُمْ لَا يُؤْمِنُونَ","Laqad haqqal-qawlu 'alaa aktsarihim fahum laa yu'minuun","Sungguh, telah pasti berlaku perkataan (azab) terhadap kebanyakan mereka, karena mereka tidak beriman."],
+["إِنَّا جَعَلْنَا فِىٓ أَعْنَٰقِهِمْ أَغْلَٰلًۭا فَهِىَ إِلَى ٱلْأَذْقَانِ فَهُم مُّقْمَحُونَ","Innaa ja'alnaa fiii a'naaqihim aghlaalan fahiya ilal-adzqaani fahum muqmahuun","Sungguh, Kami telah memasang belenggu di leher mereka, lalu tangan mereka (diangkat) ke dagu, maka mereka menengadah."],
+["وَجَعَلْنَا مِنۢ بَيْنِ أَيْدِيهِمْ سَدًّۭا وَمِنْ خَلْفِهِمْ سَدًّۭا فَأَغْشَيْنَٰهُمْ فَهُمْ لَا يُبْصِرُونَ","Wa ja'alnaa mim-bayni aydiihim saddaw-wa min khalfihim saddan fa-aghsyaynaahum fahum laa yubshiruun","Dan Kami adakan di hadapan mereka sekat dan di belakang mereka juga sekat, lalu Kami tutup (pandangan) mereka sehingga mereka tidak dapat melihat."],
+["وَسَوَآءٌ عَلَيْهِمْ ءَأَنذَرْتَهُمْ أَمْ لَمْ تُنذِرْهُمْ لَا يُؤْمِنُونَ","Wa sawaaa-un 'alayhim a-andzartahum am lam tundzirhum laa yu'minuun","Sama saja bagi mereka, engkau beri peringatan atau tidak engkau beri peringatan, mereka tidak akan beriman."],
+["إِنَّمَا تُنذِرُ مَنِ ٱتَّبَعَ ٱلذِّكْرَ وَخَشِىَ ٱلرَّحْمَٰنَ بِٱلْغَيْبِ ۖ فَبَشِّرْهُ بِمَغْفِرَةٍۢ وَأَجْرٍۢ كَرِيمٍ","Innamaa tundziru manittaba'adz-dzikra wa khasyiyar-rahmaana bil-ghayb, fabasysyirhu bimaghfiratiw-wa ajrin kariim","Sesungguhnya engkau hanya memberi peringatan kepada orang yang mau mengikuti peringatan dan takut kepada Allah Yang Maha Pengasih walaupun dia tidak melihat-Nya. Maka berilah dia kabar gembira dengan ampunan dan pahala yang mulia."],
+["إِنَّا نَحْنُ نُحْىِ ٱلْمَوْتَىٰ وَنَكْتُبُ مَا قَدَّمُوا۟ وَءَاثَٰرَهُمْ ۚ وَكُلَّ شَىْءٍ أَحْصَيْنَٰهُ فِىٓ إِمَامٍۢ مُّبِينٍۢ","Innaa nahnu nuhyil-mawtaa wa naktubu maa qaddamuu wa aatsaarahum, wa kulla syay-in ahsaynaahu fiii imaamim-mubiin","Sungguh, Kamilah yang menghidupkan orang-orang mati, dan Kami mencatat apa yang telah mereka kerjakan dan bekas-bekas (amal) yang mereka tinggalkan. Dan segala sesuatu Kami kumpulkan dalam kitab induk yang nyata (Lauh Mahfuz)."],
+["وَٱضْرِبْ لَهُم مَّثَلًا أَصْحَٰبَ ٱلْقَرْيَةِ إِذْ جَآءَهَا ٱلْمُرْسَلُونَ","Wadhrib lahum matsalan ash-haabal-qaryati idz jaaa-ahal-mursaluun","Dan buatkanlah bagi mereka suatu perumpamaan, yaitu penduduk suatu negeri ketika utusan-utusan datang kepada mereka."],
+["إِذْ أَرْسَلْنَآ إِلَيْهِمُ ٱثْنَيْنِ فَكَذَّبُوهُمَا فَعَزَّزْنَا بِثَالِثٍۢ فَقَالُوٓا۟ إِنَّآ إِلَيْكُم مُّرْسَلُونَ","Idz arsalnaaa ilayhimuts-nayni fakadz-dzabuuhumaa fa'azzaznaa bitsaalitsin faqaaluuu innaaa ilaykum mursaluun","(Yaitu) ketika Kami mengutus kepada mereka dua orang utusan, lalu mereka mendustakan keduanya; kemudian Kami kuatkan dengan (utusan) yang ketiga; maka ketiganya berkata, “Sungguh, kami adalah utusan-utusan kepadamu.”"],
+["قَالُوا۟ مَآ أَنتُمْ إِلَّا بَشَرٌۭ مِّثْلُنَا وَمَآ أَنزَلَ ٱلرَّحْمَٰنُ مِن شَىْءٍ إِنْ أَنتُمْ إِلَّا تَكْذِبُونَ","Qaaluu maaa antum illaa basyarum-mitslunaa wa maaa anzalar-rahmaanu min syay-in in antum illaa takdzibuun","Mereka menjawab, “Kamu hanyalah manusia seperti kami, dan (Allah) Yang Maha Pengasih tidak menurunkan sesuatu apa pun; kamu hanya berdusta belaka.”"],
+["قَالُوا۟ رَبُّنَا يَعْلَمُ إِنَّآ إِلَيْكُمْ لَمُرْسَلُونَ","Qaaluu rabbunaa ya'lamu innaaa ilaykum lamursaluun","Mereka (para utusan) berkata, “Tuhan kami mengetahui bahwa sungguh kami adalah utusan-utusan kepadamu."],
+["وَمَا عَلَيْنَآ إِلَّا ٱلْبَلَٰغُ ٱلْمُبِينُ","Wa maa 'alaynaaa illal-balaaghul-mubiin","Dan kewajiban kami hanyalah menyampaikan (perintah Allah) dengan jelas.”"],
+["قَالُوٓا۟ إِنَّا تَطَيَّرْنَا بِكُمْ ۖ لَئِن لَّمْ تَنتَهُوا۟ لَنَرْجُمَنَّكُمْ وَلَيَمَسَّنَّكُم مِّنَّا عَذَابٌ أَلِيمٌۭ","Qaaluuu innaa tathayyarnaa bikum, la-il-lam tantahuu lanarjumannakum wa layamassannakum minnaa 'adzaabun aliim","Mereka menjawab, “Sungguh, kami bernasib malang karena kamu. Jika kamu tidak berhenti, niscaya kami akan merajam kamu dan kamu pasti akan merasakan siksaan yang pedih dari kami.”"],
+["قَالُوا۟ طَٰٓئِرُكُم مَّعَكُمْ ۚ أَئِن ذُكِّرْتُم ۚ بَلْ أَنتُمْ قَوْمٌۭ مُّسْرِفُونَ","Qaaluu thaaa-irukum ma'akum, a-in dzukkirtum, bal antum qawmum-musrifuun","Mereka (para utusan) berkata, “Nasib malangmu itu adalah karena kamu sendiri. Apakah karena kamu diberi peringatan? Sungguh, kamu kaum yang melampaui batas.”"],
+["وَجَآءَ مِنْ أَقْصَا ٱلْمَدِينَةِ رَجُلٌۭ يَسْعَىٰ قَالَ يَٰقَوْمِ ٱتَّبِعُوا۟ ٱلْمُرْسَلِينَ","Wa jaaa-a min aqshal-madiinati rajuluy-yas'aa qaala yaa qawmittabi'ul-mursaliin","Dan datanglah dari ujung kota seorang laki-laki dengan bergegas-gegas, dia berkata, “Wahai kaumku! Ikutilah utusan-utusan itu."],
+["ٱتَّبِعُوا۟ مَن لَّا يَسْـَٔلُكُمْ أَجْرًۭا وَهُمْ مُّهْتَدُونَ","Ittabi'uu mal-laa yas-alukum ajraw-wahum muhtaduun","Ikutilah orang yang tidak meminta imbalan kepadamu, dan mereka adalah orang-orang yang mendapat petunjuk."],
+["وَمَا لِىَ لَآ أَعْبُدُ ٱلَّذِى فَطَرَنِى وَإِلَيْهِ تُرْجَعُونَ","Wa maa liya laaa a'budulladzii fatharanii wa ilayhi turja'uun","Dan mengapa aku tidak menyembah (Allah) yang telah menciptakanku dan hanya kepada-Nyalah kamu (semua) akan dikembalikan?"],
+["ءَأَتَّخِذُ مِن دُونِهِۦٓ ءَالِهَةً إِن يُرِدْنِ ٱلرَّحْمَٰنُ بِضُرٍّۢ لَّا تُغْنِ عَنِّى شَفَٰعَتُهُمْ شَيْـًۭٔا وَلَا يُنقِذُونِ","A-attakhidzu min duunihiii aalihatan iy-yuridnir-rahmaanu bidhurril-laa tughni 'annii syafaa'atuhum syay-aw-wa laa yunqidzuun","Mengapa aku akan menyembah tuhan-tuhan selain-Nya? Jika (Allah) Yang Maha Pengasih menghendaki bencana terhadapku, pasti pertolongan mereka tidak berguna sedikit pun bagiku dan mereka tidak (pula) dapat menyelamatkanku."],
+["إِنِّىٓ إِذًۭا لَّفِى ضَلَٰلٍۢ مُّبِينٍ","Inniii idzal-lafii dhalaalim-mubiin","Sungguh, jika demikian aku benar-benar berada dalam kesesatan yang nyata."],
+["إِنِّىٓ ءَامَنتُ بِرَبِّكُمْ فَٱسْمَعُونِ","Inniii aamantu birabbikum fasma'uun","Sungguh, aku telah beriman kepada Tuhanmu, maka dengarkanlah (pengakuan imanku)."],
+["قِيلَ ٱدْخُلِ ٱلْجَنَّةَ ۖ قَالَ يَٰلَيْتَ قَوْمِى يَعْلَمُونَ","Qiiladkhulil-jannah, qaala yaa layta qawmii ya'lamuun","Dikatakan (kepadanya), “Masuklah ke surga.” Dia berkata, “Alangkah baiknya sekiranya kaumku mengetahui,"],
+["بِمَا غَفَرَ لِى رَبِّى وَجَعَلَنِى مِنَ ٱلْمُكْرَمِينَ","Bimaa ghafara lii rabbii wa ja'alanii minal-mukramiin","bahwa Tuhanku telah memberi ampun kepadaku dan menjadikan aku termasuk orang-orang yang dimuliakan.”"],
+["وَمَآ أَنزَلْنَا عَلَىٰ قَوْمِهِۦ مِنۢ بَعْدِهِۦ مِن جُندٍۢ مِّنَ ٱلسَّمَآءِ وَمَا كُنَّا مُنزِلِينَ","Wa maaa anzalnaa 'alaa qawmihii mim-ba'dihii min jundim-minas-samaaa-i wa maa kunnaa munziliin","Dan setelah dia (wafat), Kami tidak menurunkan suatu pasukan pun dari langit kepada kaumnya, dan tidak perlu Kami menurunkannya."],
+["إِن كَانَتْ إِلَّا صَيْحَةًۭ وَٰحِدَةًۭ فَإِذَا هُمْ خَٰمِدُونَ","In kaanat illaa shayhataw-waahidatan fa-idzaa hum khaamiduun","Tidak ada (siksaan atas mereka) melainkan satu teriakan saja; maka seketika itu mereka semuanya mati."],
+["يَٰحَسْرَةً عَلَى ٱلْعِبَادِ ۚ مَا يَأْتِيهِم مِّن رَّسُولٍ إِلَّا كَانُوا۟ بِهِۦ يَسْتَهْزِءُونَ","Yaa hasratan 'alal-'ibaad, maa ya'tiihim mir-rasuulin illaa kaanuu bihii yastahzi-uun","Alangkah besar penyesalan terhadap hamba-hamba itu; setiap datang seorang rasul kepada mereka, mereka selalu memperolok-olokkannya."],
+["أَلَمْ يَرَوْا۟ كَمْ أَهْلَكْنَا قَبْلَهُم مِّنَ ٱلْقُرُونِ أَنَّهُمْ إِلَيْهِمْ لَا يَرْجِعُونَ","Alam yaraw kam ahlaknaa qablahum minal-quruuni annahum ilayhim laa yarji'uun","Tidakkah mereka memperhatikan berapa banyak umat sebelum mereka yang telah Kami binasakan, bahwa (generasi) yang telah binasa itu tidak akan kembali kepada mereka?"],
+["وَإِن كُلٌّۭ لَّمَّا جَمِيعٌۭ لَّدَيْنَا مُحْضَرُونَ","Wa in kullul-lammaa jamii'ul-ladaynaa muhdharuun","Dan semuanya, tidak terkecuali, akan dihadapkan kepada Kami."],
+["وَءَايَةٌۭ لَّهُمُ ٱلْأَرْضُ ٱلْمَيْتَةُ أَحْيَيْنَٰهَا وَأَخْرَجْنَا مِنْهَا حَبًّۭا فَمِنْهُ يَأْكُلُونَ","Wa aayatul-lahumul-ardhul-maytatu ahyaynaahaa wa akhrajnaa minhaa habban faminhu ya'kuluun","Dan suatu tanda (kebesaran Allah) bagi mereka adalah bumi yang mati. Kami hidupkan bumi itu dan Kami keluarkan darinya biji-bijian, maka dari (biji-bijian) itu mereka makan."],
+["وَجَعَلْنَا فِيهَا جَنَّٰتٍۢ مِّن نَّخِيلٍۢ وَأَعْنَٰبٍۢ وَفَجَّرْنَا فِيهَا مِنَ ٱلْعُيُونِ","Wa ja'alnaa fiihaa jannaatim-min nakhiiliw-wa a'naabiw-wa fajjarnaa fiihaa minal-'uyuun","Dan Kami jadikan padanya kebun-kebun kurma dan anggur, dan Kami pancarkan padanya beberapa mata air,"],
+["لِيَأْكُلُوا۟ مِن ثَمَرِهِۦ وَمَا عَمِلَتْهُ أَيْدِيهِمْ ۖ أَفَلَا يَشْكُرُونَ","Liya'kuluu min tsamarihii wa maa 'amilat-hu aydiihim, afalaa yasykuruun","agar mereka dapat makan dari buahnya, dan dari hasil usaha tangan mereka. Maka mengapa mereka tidak bersyukur?"],
+["سُبْحَٰنَ ٱلَّذِى خَلَقَ ٱلْأَزْوَٰجَ كُلَّهَا مِمَّا تُنۢبِتُ ٱلْأَرْضُ وَمِنْ أَنفُسِهِمْ وَمِمَّا لَا يَعْلَمُونَ","Subhaanalladzii khalaqal-azwaaja kullahaa mimmaa tumbitul-ardhu wa min anfusihim wa mimmaa laa ya'lamuun","Mahasuci (Allah) yang telah menciptakan semuanya berpasang-pasangan, baik dari apa yang ditumbuhkan oleh bumi dan dari diri mereka sendiri, maupun dari apa yang tidak mereka ketahui."],
+["وَءَايَةٌۭ لَّهُمُ ٱلَّيْلُ نَسْلَخُ مِنْهُ ٱلنَّهَارَ فَإِذَا هُم مُّظْلِمُونَ","Wa aayatul-lahumul-laylu naslakhu minhun-nahaara fa-idzaa hum muzhlimuun","Dan suatu tanda (kebesaran Allah) bagi mereka adalah malam; Kami tanggalkan siang darinya, maka seketika itu mereka dalam kegelapan."],
+["وَٱلشَّمْسُ تَجْرِى لِمُسْتَقَرٍّۢ لَّهَا ۚ ذَٰلِكَ تَقْدِيرُ ٱلْعَزِيزِ ٱلْعَلِيمِ","Wasy-syamsu tajrii limustaqarril-lahaa, dzaalika taqdiirul-'aziizil-'aliim","Dan matahari berjalan di tempat peredarannya. Demikianlah ketetapan (Allah) Yang Mahaperkasa, Maha Mengetahui."],
+["وَٱلْقَمَرَ قَدَّرْنَٰهُ مَنَازِلَ حَتَّىٰ عَادَ كَٱلْعُرْجُونِ ٱلْقَدِيمِ","Wal-qamara qaddarnaahu manaazila hattaa 'aada kal-'urjuunil-qadiim","Dan telah Kami tetapkan tempat-tempat bagi bulan, sehingga (setelah sampai ke tempat yang terakhir) kembalilah ia seperti bentuk tandan yang tua."],
+["لَا ٱلشَّمْسُ يَنۢبَغِى لَهَآ أَن تُدْرِكَ ٱلْقَمَرَ وَلَا ٱلَّيْلُ سَابِقُ ٱلنَّهَارِ ۚ وَكُلٌّۭ فِى فَلَكٍۢ يَسْبَحُونَ","Lasy-syamsu yambaghii lahaaa an tudrikal-qamara wa lal-laylu saabiqun-nahaar, wa kullun fii falakiy-yasbahuun","Tidaklah mungkin bagi matahari mengejar bulan dan malam pun tidak dapat mendahului siang. Masing-masing beredar pada garis edarnya."],
+["وَءَايَةٌۭ لَّهُمْ أَنَّا حَمَلْنَا ذُرِّيَّتَهُمْ فِى ٱلْفُلْكِ ٱلْمَشْحُونِ","Wa aayatul-lahum annaa hamalnaa dzurriyyatahum fil-fulkil-masyhuun","Dan suatu tanda (kebesaran Allah) bagi mereka adalah bahwa Kami angkut keturunan mereka dalam kapal yang penuh muatan,"],
+["وَخَلَقْنَا لَهُم مِّن مِّثْلِهِۦ مَا يَرْكَبُونَ","Wa khalaqnaa lahum mim-mitslihii maa yarkabuun","dan Kami ciptakan bagi mereka (angkutan lain) yang serupa dengan itu yang mereka kendarai."],
+["وَإِن نَّشَأْ نُغْرِقْهُمْ فَلَا صَرِيخَ لَهُمْ وَلَا هُمْ يُنقَذُونَ","Wa in nasya' nughriqhum falaa shariikha lahum wa laa hum yunqadzuun","Dan jika Kami menghendaki, Kami tenggelamkan mereka, maka tidak ada yang menolong mereka dan tidak (pula) mereka diselamatkan,"],
+["إِلَّا رَحْمَةًۭ مِّنَّا وَمَتَٰعًا إِلَىٰ حِينٍۢ","Illaa rahmatam-minnaa wa mataa'an ilaa hiin","kecuali karena rahmat dari Kami dan untuk memberikan kesenangan hidup sampai waktu tertentu."],
+["وَإِذَا قِيلَ لَهُمُ ٱتَّقُوا۟ مَا بَيْنَ أَيْدِيكُمْ وَمَا خَلْفَكُمْ لَعَلَّكُمْ تُرْحَمُونَ","Wa idzaa qiila lahumuttaquu maa bayna aydiikum wa maa khalfakum la'allakum turhamuun","Dan apabila dikatakan kepada mereka, “Takutlah kamu akan apa yang di depanmu dan apa yang di belakangmu (azab dunia dan akhirat) agar kamu mendapat rahmat,” (niscaya mereka berpaling)."],
+["وَمَا تَأْتِيهِم مِّنْ ءَايَةٍۢ مِّنْ ءَايَٰتِ رَبِّهِمْ إِلَّا كَانُوا۟ عَنْهَا مُعْرِضِينَ","Wa maa ta'tiihim min aayatim-min aayaati rabbihim illaa kaanuu 'anhaa mu'ridhiin","Dan tidak datang kepada mereka suatu tanda dari tanda-tanda (kebesaran) Tuhan mereka, melainkan mereka selalu berpaling darinya."],
+["وَإِذَا قِيلَ لَهُمْ أَنفِقُوا۟ مِمَّا رَزَقَكُمُ ٱللَّهُ قَالَ ٱلَّذِينَ كَفَرُوا۟ لِلَّذِينَ ءَامَنُوٓا۟ أَنُطْعِمُ مَن لَّوْ يَشَآءُ ٱللَّهُ أَطْعَمَهُۥٓ إِنْ أَنتُمْ إِلَّا فِى ضَلَٰلٍۢ مُّبِينٍۢ","Wa idzaa qiila lahum anfiquu mimmaa razaqakumullaahu qaalalladziina kafaruu lilladziina aamanuuu anuth'imu mal-law yasyaaa-ullaahu ath'amah, in antum illaa fii dhalaalim-mubiin","Dan apabila dikatakan kepada mereka, “Infakkanlah sebagian rezeki yang diberikan Allah kepadamu,” orang-orang kafir berkata kepada orang-orang beriman, “Apakah kami akan memberi makan orang-orang yang jika Allah menghendaki tentu Dia akan memberinya makan? Kamu benar-benar dalam kesesatan yang nyata.”"],
+["وَيَقُولُونَ مَتَىٰ هَٰذَا ٱلْوَعْدُ إِن كُنتُمْ صَٰدِقِينَ","Wa yaquuluuna mataa haadzal-wa'du in kuntum shaadiqiin","Dan mereka berkata, “Kapankah janji (hari berbangkit) ini (terjadi), jika kamu orang yang benar?”"],
+["مَا يَنظُرُونَ إِلَّا صَيْحَةًۭ وَٰحِدَةًۭ تَأْخُذُهُمْ وَهُمْ يَخِصِّمُونَ","Maa yanzhuruuna illaa shayhataw-waahidatan ta'khudzuhum wa hum yakhish-shimuun","Mereka hanya menunggu satu teriakan saja yang akan membinasakan mereka ketika mereka sedang bertengkar."],
+["فَلَا يَسْتَطِيعُونَ تَوْصِيَةًۭ وَلَآ إِلَىٰٓ أَهْلِهِمْ يَرْجِعُونَ","Falaa yastathii'uuna tawshiyataw-wa laaa ilaaa ahlihim yarji'uun","Maka mereka tidak sempat membuat wasiat dan tidak (pula) dapat kembali kepada keluarganya."],
+["وَنُفِخَ فِى ٱلصُّورِ فَإِذَا هُم مِّنَ ٱلْأَجْدَاثِ إِلَىٰ رَبِّهِمْ يَنسِلُونَ","Wa nufikha fish-shuuri fa-idzaa hum minal-ajdaatsi ilaa rabbihim yansiluun","Dan sangkakala pun ditiup, maka seketika itu mereka keluar dari kuburnya (menuju) kepada Tuhan mereka."],
+["قَالُوا۟ يَٰوَيْلَنَا مَنۢ بَعَثَنَا مِن مَّرْقَدِنَا ۜ ۗ هَٰذَا مَا وَعَدَ ٱلرَّحْمَٰنُ وَصَدَقَ ٱلْمُرْسَلُونَ","Qaaluu yaa waylanaa mam-ba'atsanaa mim-marqadinaa, haadzaa maa wa'adar-rahmaanu wa shadaqal-mursaluun","Mereka berkata, “Celakalah kami! Siapakah yang membangkitkan kami dari tempat tidur kami (kubur)?” Inilah yang dijanjikan (Allah) Yang Maha Pengasih dan benarlah para rasul(-Nya)."],
+["إِن كَانَتْ إِلَّا صَيْحَةًۭ وَٰحِدَةًۭ فَإِذَا هُمْ جَمِيعٌۭ لَّدَيْنَا مُحْضَرُونَ","In kaanat illaa shayhataw-waahidatan fa-idzaa hum jamii'ul-ladaynaa muhdharuun","Tidak ada teriakan itu selain satu teriakan saja, maka seketika itu mereka semua dihadapkan kepada Kami."],
+["فَٱلْيَوْمَ لَا تُظْلَمُ نَفْسٌۭ شَيْـًۭٔا وَلَا تُجْزَوْنَ إِلَّا مَا كُنتُمْ تَعْمَلُونَ","Fal-yawma laa tuzhlamu nafsun syay-aw-wa laa tujzawna illaa maa kuntum ta'maluun","Maka pada hari itu tidak seorang pun dirugikan sedikit pun, dan kamu tidak diberi balasan kecuali apa yang telah kamu kerjakan."],
+["إِنَّ أَصْحَٰبَ ٱلْجَنَّةِ ٱلْيَوْمَ فِى شُغُلٍۢ فَٰكِهُونَ","Inna ash-haabal-jannatil-yawma fii syughulin faakihuun","Sungguh, penghuni surga pada hari itu bersenang-senang dalam kesibukan (mereka)."],
+["هُمْ وَأَزْوَٰجُهُمْ فِى ظِلَٰلٍ عَلَى ٱلْأَرَآئِكِ مُتَّكِـُٔونَ","Hum wa azwaajuhum fii zhilaalin 'alal-araaa-iki muttaki-uun","Mereka dan pasangan-pasangan mereka berada dalam naungan, bersandar di atas dipan-dipan."],
+["لَهُمْ فِيهَا فَٰكِهَةٌۭ وَلَهُم مَّا يَدَّعُونَ","Lahum fiihaa faakihatuw-wa lahum maa yadda'uun","Di surga itu mereka memperoleh buah-buahan dan memperoleh apa saja yang mereka minta."],
+["سَلَٰمٌۭ قَوْلًۭا مِّن رَّبٍّۢ رَّحِيمٍۢ","Salaamun qawlam-mir-rabbir-rahiim","(Kepada mereka dikatakan), “Salam,” sebagai ucapan selamat dari Tuhan Yang Maha Penyayang."],
+["وَٱمْتَٰزُوا۟ ٱلْيَوْمَ أَيُّهَا ٱلْمُجْرِمُونَ","Wamtaazul-yawma ayyuhal-mujrimuun","(Dan dikatakan kepada orang-orang durhaka), “Berpisahlah kamu (dari orang-orang mukmin) pada hari ini, wahai para pendurhaka!"],
+["أَلَمْ أَعْهَدْ إِلَيْكُمْ يَٰبَنِىٓ ءَادَمَ أَن لَّا تَعْبُدُوا۟ ٱلشَّيْطَٰنَ ۖ إِنَّهُۥ لَكُمْ عَدُوٌّۭ مُّبِينٌۭ","Alam a'had ilaykum yaa baniii aadama al-laa ta'budusy-syaythaan, innahuu lakum 'aduwwum-mubiin","Bukankah Aku telah memerintahkan kepadamu wahai anak cucu Adam agar kamu tidak menyembah setan? Sungguh, setan itu musuh yang nyata bagimu,"],
+["وَأَنِ ٱعْبُدُونِى ۚ هَٰذَا صِرَٰطٌۭ مُّسْتَقِيمٌۭ","Wa ani'buduunii, haadzaa shiraathum-mustaqiim","dan hendaklah kamu menyembah-Ku. Inilah jalan yang lurus."],
+["وَلَقَدْ أَضَلَّ مِنكُمْ جِبِلًّۭا كَثِيرًا ۖ أَفَلَمْ تَكُونُوا۟ تَعْقِلُونَ","Wa laqad adhalla minkum jibillan katsiiraa, afalam takuunuu ta'qiluun","Dan sungguh, (setan) itu telah menyesatkan banyak di antara kamu. Maka apakah kamu tidak mengerti?"],
+["هَٰذِهِۦ جَهَنَّمُ ٱلَّتِى كُنتُمْ تُوعَدُونَ","Haadzihii jahannamullatii kuntum tuu'aduun","Inilah (neraka) Jahanam yang dahulu diancamkan kepadamu."],
+["ٱصْلَوْهَا ٱلْيَوْمَ بِمَا كُنتُمْ تَكْفُرُونَ","Ishlawhal-yawma bimaa kuntum takfuruun","Masuklah ke dalamnya pada hari ini, karena dahulu kamu mengingkarinya.”"],
+["ٱلْيَوْمَ نَخْتِمُ عَلَىٰٓ أَفْوَٰهِهِمْ وَتُكَلِّمُنَآ أَيْدِيهِمْ وَتَشْهَدُ أَرْجُلُهُم بِمَا كَانُوا۟ يَكْسِبُونَ","Al-yawma nakhtimu 'alaaa afwaahihim wa tukallimunaaa aydiihim wa tasyhadu arjuluhum bimaa kaanuu yaksibuun","Pada hari ini Kami tutup mulut mereka; tangan mereka akan berkata kepada Kami dan kaki mereka akan memberi kesaksian atas apa yang dahulu mereka usahakan."],
+["وَلَوْ نَشَآءُ لَطَمَسْنَا عَلَىٰٓ أَعْيُنِهِمْ فَٱسْتَبَقُوا۟ ٱلصِّرَٰطَ فَأَنَّىٰ يُبْصِرُونَ","Wa law nasyaaa-u lathamasnaa 'alaaa a'yunihim fastabaqush-shiraatha fa-annaa yubshiruun","Dan sekiranya Kami menghendaki, pastilah Kami hapuskan penglihatan mata mereka, sehingga mereka berlomba-lomba (mencari) jalan. Maka bagaimana mereka dapat melihat?"],
+["وَلَوْ نَشَآءُ لَمَسَخْنَٰهُمْ عَلَىٰ مَكَانَتِهِمْ فَمَا ٱسْتَطَٰعُوا۟ مُضِيًّۭا وَلَا يَرْجِعُونَ","Wa law nasyaaa-u lamasakhnaahum 'alaa makaanatihim famastathaa'uu mudhiyyaw-wa laa yarji'uun","Dan sekiranya Kami menghendaki, pastilah Kami ubah mereka di tempat mereka berada; sehingga mereka tidak sanggup berjalan lagi dan tidak (pula) sanggup kembali."],
+["وَمَن نُّعَمِّرْهُ نُنَكِّسْهُ فِى ٱلْخَلْقِ ۖ أَفَلَا يَعْقِلُونَ","Wa man nu'ammirhu nunakkis-hu fil-khalq, afalaa ya'qiluun","Dan barang siapa Kami panjangkan umurnya, niscaya Kami kembalikan dia pada awal kejadiannya (lemah). Maka apakah mereka tidak mengerti?"],
+["وَمَا عَلَّمْنَٰهُ ٱلشِّعْرَ وَمَا يَنۢبَغِى لَهُۥٓ ۚ إِنْ هُوَ إِلَّا ذِكْرٌۭ وَقُرْءَانٌۭ مُّبِينٌۭ","Wa maa 'allamnaahusy-syi'ra wa maa yambaghii lah, in huwa illaa dzikruw-wa qur-aanum-mubiin","Dan Kami tidak mengajarkan syair kepadanya (Muhammad) dan bersyair itu tidaklah pantas baginya. Al-Qur’an itu tidak lain hanyalah pelajaran dan kitab yang jelas,"],
+["لِّيُنذِرَ مَن كَانَ حَيًّۭا وَيَحِقَّ ٱلْقَوْلُ عَلَى ٱلْكَٰفِرِينَ","Liyundzira man kaana hayyaw-wa yahiqqal-qawlu 'alal-kaafiriin","agar dia (Muhammad) memberi peringatan kepada orang yang hidup (hatinya) dan agar pastilah (ketetapan azab) terhadap orang-orang kafir."],
+["أَوَلَمْ يَرَوْا۟ أَنَّا خَلَقْنَا لَهُم مِّمَّا عَمِلَتْ أَيْدِينَآ أَنْعَٰمًۭا فَهُمْ لَهَا مَٰلِكُونَ","Awa lam yaraw annaa khalaqnaa lahum mimmaa 'amilat aydiinaaa an'aaman fahum lahaa maalikuun","Dan apakah mereka tidak memperhatikan bahwa Kami telah menciptakan hewan ternak untuk mereka, yaitu sebagian dari apa yang telah Kami ciptakan dengan kekuasaan Kami sendiri, lalu mereka menguasainya?"],
+["وَذَلَّلْنَٰهَا لَهُمْ فَمِنْهَا رَكُوبُهُمْ وَمِنْهَا يَأْكُلُونَ","Wa dzallalnaahaa lahum faminhaa rakuubuhum wa minhaa ya'kuluun","Dan Kami tundukkan (hewan-hewan itu) untuk mereka; maka sebagiannya menjadi tunggangan mereka dan sebagian (lainnya) mereka makan."],
+["وَلَهُمْ فِيهَا مَنَٰفِعُ وَمَشَارِبُ ۖ أَفَلَا يَشْكُرُونَ","Wa lahum fiihaa manaafi'u wa masyaarib, afalaa yasykuruun","Dan mereka memperoleh berbagai manfaat dan minuman darinya. Maka mengapa mereka tidak bersyukur?"],
+["وَٱتَّخَذُوا۟ مِن دُونِ ٱللَّهِ ءَالِهَةًۭا لَّعَلَّهُمْ يُنصَرُونَ","Wattakhadzuu min duunillaahi aalihatal-la'allahum yunsharuun","Mereka mengambil sembahan-sembahan selain Allah agar mereka mendapat pertolongan."],
+["لَا يَسْتَطِيعُونَ نَصْرَهُمْ وَهُمْ لَهُمْ جُندٌۭ مُّحْضَرُونَ","Laa yastathii'uuna nashrahum wa hum lahum jundum-muhdharuun","(Sembahan-sembahan) itu tidak dapat menolong mereka, padahal (sembahan itu) menjadi tentara yang disiapkan untuk (menjaga) mereka."],
+["فَلَا يَحْزُنكَ قَوْلُهُمْ ۘ إِنَّا نَعْلَمُ مَا يُسِرُّونَ وَمَا يُعْلِنُونَ","Falaa yahzunka qawluhum, innaa na'lamu maa yusirruuna wa maa yu'linuun","Maka janganlah ucapan mereka membuatmu bersedih. Sungguh, Kami mengetahui apa yang mereka rahasiakan dan apa yang mereka nyatakan."],
+["أَوَلَمْ يَرَ ٱلْإِنسَٰنُ أَنَّا خَلَقْنَٰهُ مِن نُّطْفَةٍۢ فَإِذَا هُوَ خَصِيمٌۭ مُّبِينٌۭ","Awa lam yaral-insaanu annaa khalaqnaahu min nuthfatin fa-idzaa huwa khasiimum-mubiin","Dan tidakkah manusia memperhatikan bahwa Kami menciptakannya dari setetes mani, ternyata dia menjadi penantang yang nyata!"],
+["وَضَرَبَ لَنَا مَثَلًۭا وَنَسِىَ خَلْقَهُۥ ۖ قَالَ مَن يُحْىِ ٱلْعِظَٰمَ وَهِىَ رَمِيمٌۭ","Wa dharaba lanaa matsalaw-wa nasiya khalqah, qaala may-yuhyil-'izhaama wa hiya ramiim","Dan dia membuat perumpamaan bagi Kami dan melupakan asal kejadiannya; dia berkata, “Siapakah yang dapat menghidupkan tulang-belulang, padahal sudah hancur luluh?”"],
+["قُلْ يُحْيِيهَا ٱلَّذِىٓ أَنشَأَهَآ أَوَّلَ مَرَّةٍۢ ۖ وَهُوَ بِكُلِّ خَلْقٍ عَلِيمٌ","Qul yuhyiihalladziii ansya-ahaaa awwala marrah, wa Huwa bikulli khalqin 'aliim","Katakanlah, “Yang akan menghidupkannya ialah (Allah) yang menciptakannya pertama kali. Dan Dia Maha Mengetahui tentang segala makhluk,"],
+["ٱلَّذِى جَعَلَ لَكُم مِّنَ ٱلشَّجَرِ ٱلْأَخْضَرِ نَارًۭا فَإِذَآ أَنتُم مِّنْهُ تُوقِدُونَ","Alladzii ja'ala lakum minasy-syajaril-akhdhari naaran fa-idzaaa antum minhu tuuqiduun","(yaitu) yang menjadikan api untukmu dari kayu yang hijau, maka seketika itu kamu menyalakan (api) dari kayu itu.”"],
+["أَوَلَيْسَ ٱلَّذِى خَلَقَ ٱلسَّمَٰوَٰتِ وَٱلْأَرْضَ بِقَٰدِرٍ عَلَىٰٓ أَن يَخْلُقَ مِثْلَهُم ۚ بَلَىٰ وَهُوَ ٱلْخَلَّٰقُ ٱلْعَلِيمُ","Awa laysalladzii khalaqas-samaawaati wal-ardha biqaadirin 'alaaa ay-yakhluqa mitslahum, balaa wa Huwal-khallaaqul-'aliim","Dan bukankah (Allah) yang menciptakan langit dan bumi mampu menciptakan kembali yang serupa dengan itu? Benar, Dia mampu. Dan Dialah Maha Pencipta, Maha Mengetahui."],
+["إِنَّمَآ أَمْرُهُۥٓ إِذَآ أَرَادَ شَيْـًٔا أَن يَقُولَ لَهُۥ كُن فَيَكُونُ","Innamaaa amruhuuu idzaaa araada syay-an ay-yaquula lahuu kun fayakuun","Sesungguhnya urusan-Nya apabila Dia menghendaki sesuatu, Dia hanya berkata kepadanya, “Jadilah!” Maka jadilah sesuatu itu."],
+["فَسُبْحَٰنَ ٱلَّذِى بِيَدِهِۦ مَلَكُوتُ كُلِّ شَىْءٍۢ وَإِلَيْهِ تُرْجَعُونَ","Fa-subhaanalladzii biyadihii malakuutu kulli syay-iw-wa ilayhi turja'uun.","Maka Mahasuci (Allah) yang di tangan-Nyalah kekuasaan atas segala sesuatu, dan kepada-Nyalah kamu dikembalikan."]
+];
+
+</script>
+<script>
+"use strict";
+/* ============ UTIL ============ */
+const store = {
+  get(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } },
+  set(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+};
+const esc = s => String(s==null?"":s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const IC = {
+  users:'<svg class="i" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>',
+  pin:'<svg class="i" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>',
+  heart:'<svg class="i" viewBox="0 0 24 24"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>',
+  book:'<svg class="i" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>',
+  layers:'<svg class="i" viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>',
+  star:'<svg class="i" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>',
+  user:'<svg class="i" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>',
+  dl:'<svg class="i" viewBox="0 0 24 24"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><rect x="4" y="19" width="16" height="2" rx="1"/></svg>'
+};
+window.ICON_USER = IC.user;
+const TABS = [
+  {id:"cover",  top:"Cover & Arwah",  nav:"Silsilah", icon:IC.users},
+  {id:"ziarah", top:"Ziarah Kubur",   nav:"Ziarah",   icon:IC.pin},
+  {id:"tawasul",top:"Tawasul",        nav:"Tawasul",  icon:IC.heart},
+  {id:"yasin",  top:"Surat Yasin",    nav:"Yasin",    icon:IC.book},
+  {id:"tahlil", top:"Susunan Tahlil", nav:"Tahlil",   icon:IC.layers},
+  {id:"doa",    top:"Doa Ahlil Kubur",nav:"Doa",      icon:IC.star},
+  {id:"pasang", top:"Pasang Aplikasi",nav:"Pasang",   icon:IC.dl}
+];
+function toArabicDigits(n){ return String(n).replace(/\d/g,d=>"٠١٢٣٤٥٦٧٨٩"[d]); }
+const dot = s => /[.!?)”]$/.test(s) ? s : s + ".";
+
+/* item Arab / Latin / Arti ; q = teks Al-Qur'an (font mushaf) */
+function item(ar, lat, arti, tag, q){
+  return '<div class="item">' + (tag?'<span class="tag">'+tag+'</span>':'') +
+    '<p class="ar'+(q?' q':'')+'" lang="ar" dir="rtl">'+ar+'</p>' +
+    (lat?'<p class="lat">'+lat+'</p>':'') +
+    (arti?'<p class="arti"><b>Artinya:</b> '+arti+'</p>':'') + '</div>';
+}
+function card(num, title, body, cls){
+  return '<div class="card '+(cls||'')+'"><div class="step-head">'+
+    (num!==null&&num!==undefined&&num!==""?'<span class="badge">'+num+'</span>':'')+
+    '<h3>'+title+'</h3></div>'+body+'</div>';
+}
+function nextBtn(id, label){ return '<button class="next" onclick="goTab(\''+id+'\')">'+label+' →</button>'; }
+function ayatJoin(arr, start){ return arr.map((t,i)=>t+' <span class="mk">﴿'+toArabicDigits((start||1)+i)+'﴾</span>').join(" "); }
+const BSM = "بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ ";
+
+/* ============ DATA KELUARGA ============ */
+let familyData = [
+  { id:"1", hubungan:"Kakek dari Ayah", nama:"Kuru bin Adam", panggilan:"", lahir:"", wafat:"", makam:"", foto:"", catatan:"", sampul:"", status:"", urutan:"" },
+  { id:"2", hubungan:"Nenek dari Ayah", nama:"-", panggilan:"", lahir:"", wafat:"", makam:"", foto:"", catatan:"", sampul:"", status:"", urutan:"" },
+  { id:"3", hubungan:"Ayah dari Bapak", nama:"Djean bin Kuru", panggilan:"Engkong", lahir:"", wafat:"", makam:"Makam Kukusan", foto:"", catatan:"", sampul:"", status:"", urutan:"" },
+  { id:"4", hubungan:"Ibu dari Bapak", nama:"Naisyah binti H. Nidih", panggilan:"Nyai", lahir:"", wafat:"", makam:"Makam Kukusan", foto:"", catatan:"", sampul:"", status:"", urutan:"" },
+  { id:"5", hubungan:"Bapak (Anak 1 Djean)", nama:"Sapiih bin Djean", panggilan:"Baba", lahir:"", wafat:"8 Agustus 2021", makam:"Makam Kukusan", foto:"", catatan:"Sosok ayah teladan bagi keluarga", sampul:"YA", status:"", urutan:"" },
+  { id:"6", hubungan:"Kakek dari Emak", nama:"Risin bin Siun", panggilan:"", lahir:"", wafat:"", makam:"", foto:"", catatan:"", sampul:"", status:"", urutan:"" },
+  { id:"7", hubungan:"Nenek dari Emak", nama:"-", panggilan:"", lahir:"", wafat:"", makam:"", foto:"", catatan:"", sampul:"", status:"", urutan:"" },
+  { id:"8", hubungan:"Ayah dari Emak", nama:"Panjang bin Risin", panggilan:"Engkong", lahir:"", wafat:"", makam:"Makam Kapling", foto:"", catatan:"", sampul:"", status:"", urutan:"" },
+  { id:"9", hubungan:"Ibu dari Emak", nama:"Penil binti Dilan", panggilan:"Empi", lahir:"", wafat:"", makam:"Makam Kapling", foto:"", catatan:"", sampul:"", status:"", urutan:"" },
+  { id:"10", hubungan:"Emak", nama:"Djumi binti Panjang", panggilan:"Emak", lahir:"", wafat:"25 Agustus 2026", makam:"Makam Kukusan", foto:"", catatan:"Ibu tercinta penuh kasih sayang", sampul:"YA", status:"", urutan:"" },
+  { id:"11", hubungan:"Anak 2 Djean", nama:"Fatimah binti Djean", panggilan:"Encing", lahir:"", wafat:"", makam:"Makam Kukusan", foto:"", catatan:"", sampul:"", status:"", urutan:"" },
+  { id:"12", hubungan:"Anak 5 Djean", nama:"Widati binti Djean", panggilan:"Encing", lahir:"", wafat:"", makam:"Makam Kukusan", foto:"", catatan:"", sampul:"", status:"", urutan:"" },
+  { id:"13", hubungan:"Mantu Anak 2 Djean", nama:"Agus Sohu bin Adam", panggilan:"Mamang", lahir:"", wafat:"", makam:"Makam Kukusan", foto:"", catatan:"", sampul:"", status:"", urutan:"" },
+  { id:"14", hubungan:"Mantu Anak 5 Djean", nama:"Sardi Sutisna bin Adam", panggilan:"Mamang", lahir:"", wafat:"", makam:"Makam Kukusan", foto:"", catatan:"", sampul:"", status:"", urutan:"" }
+];
+/* Urutan nama pada tawasul & doa (bila kolom "Urutan Doa" di Sheets tidak diisi) */
+const DEFAULT_ORDER = ["djumi binti panjang","panjang bin risin","risin bin siun","sapiih bin djean","djean bin kuru","naisyah binti h. nidih","penil binti dilan"];
+
+const clean = v => { v=(v||"").trim(); return (v==="-"||v==="—"||v==="–")?"":v; };
+function parseCSV(text){
+  const rows=[]; let row=[], cell="", q=false;
+  for(let i=0;i<text.length;i++){
+    const c=text[i];
+    if(q){
+      if(c==='"'){ if(text[i+1]==='"'){cell+='"';i++;} else q=false; }
+      else cell+=c;
+    } else {
+      if(c==='"') q=true;
+      else if(c===','){ row.push(cell); cell=""; }
+      else if(c==='\n'){ row.push(cell); rows.push(row); row=[]; cell=""; }
+      else if(c==='\r'){ }
+      else cell+=c;
+    }
+  }
+  if(cell.length||row.length){ row.push(cell); rows.push(row); }
+  return rows;
+}
+function mapRows(rows){
+  if(rows.length<2) return [];
+  const h = rows[0].map(x=>x.trim().toLowerCase());
+  const out=[];
+  for(let i=1;i<rows.length;i++){
+    const o={}; h.forEach((k,idx)=>{ o[k]=(rows[i][idx]||"").trim(); });
+    out.push({
+      id:o["id"]||"", hubungan:clean(o["hubungan / silsilah"]||o["hubungan"]),
+      nama:(o["nama lengkap (bin / binti)"]||o["nama"]||"").trim(), panggilan:clean(o["panggilan / gelar"]||o["panggilan"]),
+      lahir:clean(o["tanggal lahir"]), wafat:clean(o["tanggal wafat"]), makam:clean(o["lokasi makam"]),
+      foto:clean(o["url foto"]), catatan:clean(o["catatan / kenangan"]), sampul:clean(o["jadikan sampul"]),
+      status:clean(o["status"]), urutan:clean(o["urutan doa"]||o["urutan"])
+    });
+  }
+  return out.filter(p=>p.nama);
+}
+function normalize(list){ return list.map(p=>Object.assign({}, p, {
+  hubungan:clean(p.hubungan), panggilan:clean(p.panggilan), lahir:clean(p.lahir), wafat:clean(p.wafat),
+  makam:clean(p.makam), foto:clean(p.foto), catatan:clean(p.catatan), sampul:clean(p.sampul),
+  status:clean(p.status), urutan:clean(p.urutan)
+})); }
+function loadCache(){
+  const c = store.get("eyasin_family_v2");
+  if(!c) return;
+  try{ const a = JSON.parse(c); if(Array.isArray(a)&&a.length) familyData=a; }catch(e){}
+}
+const CSV_BASE = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTDOlZ_-b4eNwEeQTjAoF2NyhSVX69X_Zgf9KTv5uJamYUPfJU5loPipqJEg7IluSmd1L-pWw8qfEfs/pub";
+const SHEET_ID = "1W8O6mR5mPVoWgvrjlX1enYJscJGwRvGK2gziTFL5E58", SHEET_GID = "1003402181";
+/* beberapa alamat dicoba berurutan; yang pertama berisi tabel nama dipakai */
+const CSV_URLS = [
+  CSV_BASE + "?gid=" + SHEET_GID + "&single=true&output=csv",
+  CSV_BASE + "?output=csv",
+  "https://docs.google.com/spreadsheets/d/" + SHEET_ID + "/gviz/tq?tqx=out:csv&gid=" + SHEET_GID
+];
+let syncMsg = store.get("eyasin_syncmsg") || "", syncing = false;
+function setSync(m){ syncMsg = m; store.set("eyasin_syncmsg", m); const e=document.getElementById("syncMsg"); if(e) e.textContent=m; }
+function stamp(){ const d=new Date(), p=n=>String(n).padStart(2,"0"); return p(d.getDate())+"/"+p(d.getMonth()+1)+" "+p(d.getHours())+":"+p(d.getMinutes()); }
+async function fetchUpdate(){
+  if(syncing) return false; syncing = true;
+  let why = "";
+  try{
+    for(const u of CSV_URLS){
+      try{
+        const res = await fetch(u + (u.indexOf("?")>-1?"&":"?") + "t=" + Date.now(), {cache:"no-store"});
+        if(!res.ok){ why = "HTTP "+res.status; continue; }
+        const rows = parseCSV(await res.text());
+        const head = (rows[0]||[]).join("|").toLowerCase();
+        if(head.indexOf("nama lengkap")<0){ why = "tab yang terbit bukan tab data silsilah"; continue; }
+        const items = mapRows(rows);
+        if(!items.length){ why = "tabel kosong"; continue; }
+        familyData = items; store.set("eyasin_family_v2", JSON.stringify(items));
+        setSync("Tersinkron "+stamp()+" • "+items.length+" data dari Google Sheets");
+        renderDynamic(); return true;
+      }catch(e){ why = navigator.onLine===false ? "tidak ada internet" : "gagal terhubung ke Google Sheets"; }
+    }
+  } finally { syncing = false; }
+  setSync("Belum tersinkron ("+why+") — memakai data tersimpan");
+  return false;
+}
+function syncNow(btn){
+  if(btn) btn.textContent="Menyinkronkan…";
+  fetchUpdate().then(ok=>{ if(btn) btn.textContent = ok ? "Data diperbarui ✓" : "Coba lagi"; });
+}
+const valid = () => normalize(familyData).filter(p=>p.nama && p.nama!=="-");
+const gelar = p => /\bbinti\b|\bbt\.?\b/i.test(p.nama) ? "Almarhumah" : "Almarhum";
+const isBB = p => /\b(bin|binti|bt\.?)\b/i.test(p.nama||"");
+const isUtama = p => /ya/i.test(p.sampul||"");
+function isWafat(p){
+  const st=(p.status||"").toLowerCase();
+  if(/hidup|tidak|belum/.test(st)) return false;
+  if(/wafat|alm/.test(st)) return true;
+  if(p.wafat) return true;
+  if(isBB(p)) return true;
+  return /^(kakek|nenek|ayah|ibu|bapak|emak|buyut|moyang|datuk|abah)/i.test(p.hubungan||"");
+}
+/* daftar yang didoakan (sudah wafat), berurutan */
+function doaList(){
+  const idx = p => { const n=parseInt(p.urutan,10); if(n>0) return n;
+    const k=DEFAULT_ORDER.indexOf(p.nama.toLowerCase().replace(/\s+/g," ").trim()); return k>=0?k+1:1000; };
+  return valid().filter(p=>isBB(p) && !/hidup|tidak|belum/i.test(p.status||"")).map((p,i)=>({p,i})).sort((a,b)=>idx(a.p)-idx(b.p)||a.i-b.i).map(x=>x.p);
+}
+
+/* ============ FOTO (Google Drive -> tautan gambar langsung) ============ */
+function photoList(u,sz){
+  sz=sz||400;
+  u=(u||"").trim(); if(!u) return [];
+  if(/drive\.google\.com|docs\.google\.com/.test(u)){
+    const m=u.match(/\/d\/([\w-]{15,})/)||u.match(/[?&]id=([\w-]{15,})/);
+    if(m) return ["https://drive.google.com/thumbnail?id="+m[1]+"&sz=w"+sz,"https://lh3.googleusercontent.com/d/"+m[1]+"=w"+sz,"https://drive.google.com/uc?export=view&id="+m[1],"https://drive.usercontent.google.com/download?id="+m[1]+"&export=view"];
+  }
+  return [u];
+}
+function fotoErr(img){
+  const alts=(img.dataset.alt||"").split("|").filter(Boolean);
+  if(alts.length){ img.dataset.alt=alts.slice(1).join("|"); img.src=alts[0]; }
+  else { img.outerHTML=ICON_USER; window.__ff=(window.__ff||0)+1;
+    const e=document.getElementById("syncMsg"); if(e && !/foto/.test(e.textContent)) e.textContent+=" • foto Drive tidak bisa dimuat: pastikan file dibagikan “Siapa saja yang memiliki link”"; }
+}
+function avatar(p){
+  const l=photoList(p.foto), b=photoList(p.foto,1200);
+  const cap=p.nama;
+  return '<div class="avatar"><div>'+(l.length?'<img src="'+esc(l[0])+'" data-alt="'+esc(l.slice(1).join("|"))+'" data-big="'+esc(b.join("|"))+'" data-cap="'+esc(cap)+'" data-sub="'+esc(p.hubungan||"")+'" data-lahir="'+esc(p.lahir||"")+'" data-wafat="'+esc(p.wafat||"")+'" data-makam="'+esc(p.makam||"")+'" alt="'+esc(p.nama)+'" loading="lazy" referrerpolicy="no-referrer" style="cursor:zoom-in" onclick="openFoto(this)" onerror="fotoErr(this)">':IC.user)+'</div></div>';
+}
+/* foto diperbesar saat diketuk */
+function openFoto(img){
+  closeFoto();
+  const list=(img.dataset.big||"").split("|").filter(Boolean); if(!list.length) return;
+  const o=document.createElement("div"); o.id="lightbox"; o.className="lb";
+  o.innerHTML='<button class="lbx" aria-label="Tutup">&times;</button><img alt="" referrerpolicy="no-referrer"><div class="lbc"><b></b><span></span><div class="lbd"></div></div>';
+  const big=o.querySelector("img"); let i=0;
+  big.onerror=function(){ i++; if(i<list.length) big.src=list[i]; else { big.src=img.src; } };
+  big.src=list[0];
+  o.querySelector(".lbc b").textContent=img.dataset.cap||"";
+  o.querySelector(".lbc span").textContent=img.dataset.sub||"";
+  const d=img.dataset, lbd=o.querySelector(".lbd");
+  lbd.innerHTML='<div><small>Lahir</small>'+esc(d.lahir||"-")+'</div><div><small>Wafat</small>'+esc(d.wafat||"-")+'</div>'+(d.makam?'<div><small>Makam</small>'+esc(d.makam)+'</div>':'');
+  o.addEventListener("click",e=>{ if(e.target!==big) closeFoto(); });
+  document.body.appendChild(o); document.body.style.overflow="hidden";
+}
+function closeFoto(){ const o=document.getElementById("lightbox"); if(o){ o.remove(); document.body.style.overflow=""; } }
+document.addEventListener("keydown",e=>{ if(e.key==="Escape") closeFoto(); });
+
+/* ============ FONT ============ */
+const SIZES=[18,20,22,24,26,29,33,38];
+let fontIdx = 2;
+(function(){ const s=parseInt(store.get("eyasin_font2"),10); if(s>=0&&s<SIZES.length) fontIdx=s; })();
+function applyFont(){ document.documentElement.style.setProperty("--arsize", SIZES[fontIdx]+"px"); }
+function changeFont(d){ fontIdx=Math.max(0,Math.min(SIZES.length-1,fontIdx+d)); store.set("eyasin_font2",fontIdx); applyFont(); }
+
+/* ============ BACAAN BERSAMA ============ */
+const FATIHAH = [
+ ["بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ","Bismillaahir-rahmaanir-rahiim.","Dengan nama Allah Yang Maha Pengasih, Maha Penyayang."],
+ ["ٱلْحَمْدُ لِلَّهِ رَبِّ ٱلْعَٰلَمِينَ","Al-hamdu lillaahi rabbil-'aalamiin.","Segala puji bagi Allah, Tuhan seluruh alam,"],
+ ["ٱلرَّحْمَٰنِ ٱلرَّحِيمِ","Ar-rahmaanir-rahiim.","Yang Maha Pengasih, Maha Penyayang,"],
+ ["مَٰلِكِ يَوْمِ ٱلدِّينِ","Maaliki yawmid-diin.","Pemilik hari pembalasan."],
+ ["إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ","Iyyaaka na'budu wa iyyaaka nasta'iin.","Hanya kepada Engkaulah kami menyembah dan hanya kepada Engkaulah kami memohon pertolongan."],
+ ["ٱهْدِنَا ٱلصِّرَٰطَ ٱلْمُسْتَقِيمَ","Ihdinash-shiraathal-mustaqiim.","Tunjukilah kami jalan yang lurus,"],
+ ["صِرَٰطَ ٱلَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ ٱلْمَغْضُوبِ عَلَيْهِمْ وَلَا ٱلضَّآلِّينَ","Shiraathalladziina an'amta 'alayhim ghayril-maghdhuubi 'alayhim wa ladh-dhaalliin.","(yaitu) jalan orang-orang yang telah Engkau beri nikmat, bukan (jalan) mereka yang dimurkai, dan bukan (pula jalan) mereka yang sesat."]
+];
+const TAAWUDZ = () => item("أَعُوذُ بِاللَّهِ مِنَ الشَّيْطَانِ الرَّجِيمِ، بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ","A'uudzu billaahi minasy-syaithaanir-rajiim. Bismillaahir-rahmaanir-rahiim.","Aku berlindung kepada Allah dari godaan setan yang terkutuk. Dengan nama Allah Yang Maha Pengasih, Maha Penyayang.");
+function fatihahBox(label, open){
+  return '<details class="fat"'+(open?' open':'')+'><summary>'+(label||"Membaca Surat Al-Fatihah")+'</summary><div class="inner">'+
+    TAAWUDZ()+FATIHAH.map(a=>item(a[0],a[1],a[2],null,true)).join("")+'</div></details>';
+}
+const TAKBIR = (withArti) => item("اللَّهُ أَكْبَرُ، لَا إِلَٰهَ إِلَّا اللَّهُ وَاللَّهُ أَكْبَرُ","Allaahu Akbar, Laa ilaaha illallaahu wallaahu Akbar.", withArti?"Allah Mahabesar. Tiada tuhan selain Allah, dan Allah Mahabesar.":"", "Takbir Tahlil");
+
+/* nama ahlil kubur (otomatis dari Google Sheets) */
+function namesItem(mode){
+  const L = doaList();
+  if(!L.length) return item("—","(Daftar nama belum terisi)","");
+  let ar=[], lat=[], arti=[];
+  L.forEach((p,i)=>{
+    const f = gelar(p)==="Almarhumah";
+    const nm = '<bdi class="nm">'+esc(p.nama)+'</bdi>';
+    const g = f ? "الْمَرْحُومَةِ" : "الْمَرْحُومِ";
+    const gl = f ? "almarhumah" : "almarhum";
+    if(mode==="tawasul"){
+      ar.push((i===0?"خُصُوصًا":"وَخُصُوصًا")+" إِلَى رُوحِ "+g+" "+nm+"،");
+      lat.push((i===0?"Khusuushan":"wa khusuushan")+" ilaa ruuhi "+gl+" "+esc(p.nama)+",");
+      arti.push((i===0?"Khususnya":"dan khususnya")+" kepada arwah "+gl+" "+esc(p.nama)+(i<L.length-1?",":"."));
+    } else {
+      ar.push("ثُمَّ إِلَى رُوحِ "+g+" "+nm+"، وَاجْعَلْ"+(f?"هَا":"هُ")+" مِنْ عِبَادِكَ الْمَغْفُورِ لَهُمْ.");
+      lat.push("Tsumma ilaa ruuhi "+gl+" "+esc(p.nama)+", waj'al"+(f?"haa":"hu")+" min 'ibaadikal-maghfuuri lahum.");
+      arti.push("Kemudian kepada arwah "+gl+" "+esc(p.nama)+"; jadikanlah "+(f?"ia":"ia")+" termasuk hamba-hamba-Mu yang diampuni.");
+    }
+  });
+  return '<div class="item"><span class="tag">Nama-nama otomatis dari daftar silsilah</span><p class="ar" lang="ar" dir="rtl">'+ar.join("<br>")+'</p>'+
+    '<p class="lat">'+lat.join("<br>")+'</p><p class="arti"><b>Artinya:</b> '+arti.join(" ")+'</p></div>';
+}
+
+/* ============ 1. SILSILAH ============ */
+function renderCover(){
+  const v = valid(), w = v.filter(isWafat);
+  let covers = w.filter(isUtama);
+  if(!covers.length) covers = w.slice(0,2);
+  let h = '<div class="cover"><span class="chip">Mengenang Yang Tercinta</span><div class="photos">'+
+    covers.map(p=>'<div>'+avatar(p)+'<div class="who">'+esc(p.panggilan||p.hubungan)+'</div></div>').join("")+'</div>'+
+    '<p class="small">Ilaa hadhrati ruuhi almarhum / almarhumah:</p>'+
+    covers.map(p=>'<h2>'+esc(p.nama)+'</h2><div class="meta">'+(p.wafat?'Wafat: '+esc(p.wafat):'')+(p.makam?' • '+esc(p.makam):'')+'</div>').join("")+
+    '</div>';
+
+  h += '<div class="card"><div class="row"><div><h3>Silsilah &amp; Galeri Nasab Keluarga</h3><div class="stat">Dikenal &amp; didoakan oleh anak, mantu, cucu &amp; cicit</div></div><span class="count">'+v.filter(isBB).length+' Almarhum/ah</span></div>'+
+    '<div style="display:flex;flex-direction:column;gap:10px">'+
+    v.map(p=>'<div class="fam'+(isWafat(p)?'':' hidup')+'">'+avatar(p)+'<div style="flex:1;min-width:0"><div class="rel"><b>'+esc(p.hubungan)+'</b>'+(p.panggilan?'<i>“'+esc(p.panggilan)+'”</i>':'')+'</div>'+
+      '<h4>'+esc(p.nama)+'</h4><div class="det">'+(p.wafat?'<span>⏳ '+esc(p.wafat)+'</span>':'')+(p.makam?'<span>📍 '+esc(p.makam)+'</span>':'')+'</div>'+
+      (p.catatan?'<div class="kenang">“'+esc(p.catatan)+'”</div>':'')+'</div></div>').join("")+
+    '</div><div class="sync"><span>Nama &amp; foto ikut diperbarui dari Google Sheets bila ada internet.</span></div>'+
+    '<div class="sync"><span id="syncMsg">'+esc(syncMsg)+'</span></div>'+
+    '<div class="sync"><button onclick="syncNow(this)">Sinkronkan sekarang</button></div></div>';
+
+  h += '<div class="gold-note"><span class="tag" style="color:#7a5a00">Pesan Kasih Sayang</span><p class="ar" lang="ar" dir="rtl">إِذَا مَاتَ ابْنُ آدَمَ انْقَطَعَ عَمَلُهُ إِلَّا مِنْ ثَلَاثَةٍ: صَدَقَةٍ جَارِيَةٍ، أَوْ عِلْمٍ يُنْتَفَعُ بِهِ، أَوْ وَلَدٍ صَالِحٍ يَدْعُو لَهُ</p>'+
+    '<p class="lat">Idzaa maata ibnu aadama inqatha\'a \'amaluhuu illaa min tsalaatsah: shadaqatin jaariyah, au \'ilmin yuntafa\'u bih, au waladin shaalihiy yad\'uu lah.</p>'+
+    '<p class="arti">“Apabila manusia meninggal dunia, terputuslah amalnya kecuali tiga perkara: sedekah jariyah, ilmu yang bermanfaat, dan anak saleh yang mendoakannya.” (HR. Muslim)</p></div>';
+
+  h += nextBtn("ziarah","Lanjutkan ke Tuntunan Ziarah Kubur");
+  $("#page-cover").innerHTML = h;
+}
+
+/* ============ 2. ZIARAH ============ */
+function renderZiarah(){
+  let h = '<div class="hero"><h2>'+IC.pin+' Tuntunan Ziarah Kubur Ringkas</h2><p>Sesuai sunnah dan adab tata krama ketika memasuki makam.</p></div>';
+
+  h += card(1,"Mengucapkan Salam Masuk Kuburan",
+    '<p class="sub">Ketika tiba di pintu gerbang atau area pemakaman, ucapkan salam dengan menghadap ke arah makam:</p>'+
+    item("السَّلَامُ عَلَيْكُمْ دَارَ قَوْمٍ مُؤْمِنِينَ، وَإِنَّا إِنْ شَاءَ اللَّهُ بِكُمْ لَاحِقُونَ، أَسْأَلُ اللَّهَ لَنَا وَلَكُمُ الْعَافِيَةَ",
+      "Assalaamu 'alaikum daara qawmin mu'miniin, wa innaa insyaa-allaahu bikum laahiquun, as-alullaaha lanaa wa lakumul-'aafiyah.",
+      "“Semoga keselamatan tercurah kepada kalian, wahai penghuni tempat kaum beriman. Sesungguhnya kami insya Allah akan menyusul kalian. Aku memohon kepada Allah keselamatan bagi kami dan bagi kalian.” (HR. Muslim)")+
+    item("السَّلَامُ عَلَيْكُمْ أَهْلَ الدِّيَارِ مِنَ الْمُؤْمِنِينَ وَالْمُسْلِمِينَ، وَيَرْحَمُ اللَّهُ الْمُسْتَقْدِمِينَ مِنَّا وَالْمُسْتَأْخِرِينَ، وَإِنَّا إِنْ شَاءَ اللَّهُ بِكُمْ لَلَاحِقُونَ",
+      "Assalaamu 'alaikum ahlad-diyaari minal-mu'miniina wal-muslimiin, wa yarhamullaahul-mustaqdimiina minnaa wal-musta'khiriin, wa innaa insyaa-allaahu bikum lalaahiquun.",
+      "“Keselamatan atas kalian, wahai penghuni negeri (kubur) dari kaum mukminin dan muslimin. Semoga Allah merahmati orang-orang yang mendahului kami dan yang menyusul kemudian. Sungguh kami insya Allah akan menyusul kalian.” (HR. Muslim)"));
+
+  h += card(2,"Adab Menghampiri Makam",
+    '<ul class="ad">'+
+    '<li>Berwudhu dan berpakaian sopan serta bersih; niatkan ziarah karena Allah untuk mengingat kematian dan mendoakan almarhum/almarhumah.</li>'+
+    '<li>Menghampiri pusara dari arah kaki atau depan wajah almarhum/almarhumah.</li>'+
+    '<li>Dilarang menginjak, menduduki, atau melangkahi gundukan kuburan.</li>'+
+    '<li>Mengucapkan salam khusus: <b>“Assalaamu\'alaika yaa …”</b> (sebut nama almarhum/almarhumah).</li>'+
+    '<li>Duduk dengan tenang dan khusyuk, menghadap ke arah kiblat saat berdoa; tidak berkata kotor dan tidak meratap berlebihan.</li>'+
+    '<li>Menjaga kebersihan area makam dan tidak mengganggu peziarah lain.</li></ul>');
+
+  h += card(3,"Membaca Ayat Suci & Zikir",
+    '<p class="sub" style="margin-bottom:0">Susunan yang umum dibaca: Hadhrah Tawasul, Surat Al-Fatihah, Surat Yasin, Tahlil, dan diakhiri dengan Doa khusus ahlil kubur.</p>'+
+    '<button class="next sm" style="width:100%" onclick="goTab(\'tawasul\')">Buka Bacaan Tawasul →</button>');
+
+  h += card(4,"Menyiram Air & Menabur Bunga (Sunnah / Mubah)",
+    '<p class="sub" style="margin:0;color:#33423a">Sebagian ulama membolehkan menyiramkan air dingin dan meletakkan tumbuhan hijau/bunga di atas pusara dengan niat agar tasbih dari dedaunan yang basah meringankan beban penghuni kubur, sebagaimana riwayat Rasulullah ﷺ yang menancapkan pelepah kurma basah di atas dua kubur (HR. Bukhari dan Muslim). Hal ini termasuk perkara yang diperselisihkan ulama; lakukan sesuai keyakinan dan bimbingan ustadz/kiai keluarga.</p>');
+
+  h += nextBtn("tawasul","Lanjutkan ke Hadhrah & Tawasul");
+  $("#page-ziarah").innerHTML = h;
+}
+
+/* ============ 3. TAWASUL ============ */
+function renderTawasul(){
+  let h = '<div class="hero"><h2>'+IC.heart+' Hadhrah &amp; Tawasul Fatihah</h2><p>Dibaca bersama-sama sebelum Surat Yasin — urut dari 1 sampai 5.</p></div>';
+
+  h += '<details class="adab"><summary>Niat &amp; adab sebelum memulai</summary><div class="in"><ul class="ad">'+
+    '<li><b>Ikhlas</b> — niatkan karena Allah semata.</li>'+
+    '<li><b>Bersuci</b> — berwudhu bila memungkinkan, menghadap kiblat, duduk tenang dan khusyuk.</li>'+
+    '<li><b>Niat dalam hati:</b> “Ya Allah, aku membaca ini karena-Mu, dan kuhadiahkan pahalanya untuk Rasulullah ﷺ, para wali, serta arwah orang tua dan keluarga kami.”</li></ul>'+
+    '<p class="note">Susunan ini mengikuti amaliah tahlilan yang lazim di Indonesia dan boleh disesuaikan dengan bimbingan kiai/ustadz keluarga.</p></div></details>';
+
+  h += card(1,"Istighfar &amp; Dzikir Bersama-sama",
+    item("أَسْتَغْفِرُ اللَّهَ الْعَظِيمَ","Astaghfirullaahal-'azhiim.","Aku memohon ampun kepada Allah Yang Mahaagung.","Dibaca 3×")+
+    item("الَّذِي لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ وَأَتُوبُ إِلَيْهِ، مِنْ جَمِيعِ الْمَعَاصِي وَالذُّنُوبِ، لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ الْعَلِيِّ الْعَظِيمِ",
+      "Alladzii laa ilaaha illaa Huwal-Hayyul-Qayyuumu wa atuubu ilayhi, min jamii'il-ma'aashii wadz-dzunuub, laa hawla wa laa quwwata illaa billaahil-'aliyyil-'azhiim.",
+      "Yang tiada tuhan selain Dia, Yang Mahahidup lagi Maha Berdiri Sendiri, dan aku bertobat kepada-Nya dari semua maksiat dan dosa. Tiada daya dan kekuatan kecuali dengan pertolongan Allah Yang Mahatinggi lagi Mahaagung."));
+
+  h += card(2,"Syahadat",
+    item("أَشْهَدُ أَنْ لَا إِلَٰهَ إِلَّا اللَّهُ، وَأَشْهَدُ أَنَّ مُحَمَّدًا رَسُولُ اللَّهِ صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ",
+      "Asyhadu an laa ilaaha illallaah, wa asyhadu anna Muhammadar Rasuulullaahi shallallaahu 'alayhi wa sallam.",
+      "Aku bersaksi bahwa tiada tuhan selain Allah, dan aku bersaksi bahwa Muhammad adalah utusan Allah, semoga Allah melimpahkan shalawat dan salam kepadanya."));
+
+  h += card(3,"Hadiah Al-Fatihah ke Hadirat Rasulullah ﷺ",
+    item("إِلَى حَضْرَةِ النَّبِيِّ الْمُصْطَفَى رَسُولِ اللَّهِ صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ، وَآلِهِ وَأَزْوَاجِهِ وَذُرِّيَّاتِهِ وَأَهْلِ بَيْتِهِ وَأَصْحَابِهِ الْكِرَامِ، الْفَاتِحَةُ",
+      "Ilaa hadhratin-nabiyyil-musthafaa Rasuulillaahi shallallaahu 'alayhi wa sallama wa aalihii wa azwaajihii wa dzurriyyatihii wa ahli baytihii wa ash-haabihil-kiraam, al-Faatihah.",
+      "Kepada hadirat Nabi pilihan, Rasulullah ﷺ, beserta keluarga, istri-istri, keturunan, Ahlul Bait, dan para sahabat beliau yang mulia — Al-Fatihah.")+
+    fatihahBox("Membaca Surat Al-Fatihah"));
+
+  h += card(4,"Doa untuk Kami, Orang Tua &amp; Kaum Mukminin",
+    item("رَبَّنَا اغْفِرْ لَنَا وَلِوَالِدَيْنَا وَلِلْمُؤْمِنِينَ يَوْمَ يَقُومُ الْحِسَابُ",
+      "Rabbanaghfir lanaa wa liwaalidaynaa wa lil-mu'miniina yawma yaquumul-hisaab.",
+      "Ya Tuhan kami, ampunilah kami, kedua orang tua kami, dan seluruh orang mukmin pada hari diadakan perhitungan (hari Kiamat). (Diambil dari QS. Ibrahim: 41)",null,true));
+
+  h += '<div class="card" style="border-color:var(--gold-line);background:linear-gradient(180deg,#fffdf3,#fff)"><div class="step-head"><span class="badge">5</span><h3>Hadiah ke Arwah Ahlil Kubur</h3><span class="pill" style="margin-left:auto">Otomatis</span></div>'+
+    item("ثُمَّ إِلَى أَرْوَاحِ جَمِيعِ أَهْلِ الْقُبُورِ مِنَ الْمُسْلِمِينَ وَالْمُسْلِمَاتِ وَالْمُؤْمِنِينَ وَالْمُؤْمِنَاتِ، اللَّهُمَّ اغْفِرْ لَهُمْ وَارْحَمْهُمْ وَعَافِهِمْ وَاعْفُ عَنْهُمْ",
+      "Tsumma ilaa arwaahi jamii'i ahlil-qubuur minal-muslimiina wal-muslimaati wal-mu'miniina wal-mu'minaat, Allahummaghfir lahum warhamhum wa 'aafihim wa'fu 'anhum...",
+      "Kemudian kepada arwah seluruh penghuni kubur dari kaum muslimin dan muslimat, mukminin dan mukminat. Ya Allah, ampunilah mereka, rahmatilah mereka, selamatkanlah mereka, dan maafkanlah mereka...")+
+    '<div id="tawasulNames">'+namesItem("tawasul")+'</div>'+
+    item("غَفَرَ اللَّهُ ذُنُوبَهُمْ وَطَهَّرَ اللَّهُ أَرْوَاحَهُمْ، الْفَاتِحَةُ","Ghafarallaahu dzunuubahum wa thahharallaahu arwaahahum, al-Faatihah.","Semoga Allah mengampuni dosa-dosa mereka dan menyucikan arwah mereka — Al-Fatihah.")+
+    fatihahBox("Membaca Surat Al-Fatihah")+'</div>';
+
+  h += nextBtn("yasin","Lanjutkan Membaca Surat Yasin");
+  $("#page-tawasul").innerHTML = h;
+}
+
+/* ============ 4. YASIN ============ */
+function renderYasin(){
+  let h = '<div class="card" style="text-align:center"><p class="ar q" lang="ar" style="text-align:center;font-size:calc(var(--arsize) + 8px);color:var(--green-700)">سُورَةُ يس</p>'+
+    '<h3 style="margin:2px 0;color:var(--green-700)">Surat Yasin</h3><div class="stat">Surat ke-36 • Makkiyyah • 83 ayat</div></div>';
+  h += '<div class="card"><div class="step-head"><h3>Pembuka</h3></div>'+
+    item("تَقَبَّلَ اللَّهُ مِنَّا وَمِنْكُمْ، تَقَبَّلْ يَا كَرِيمُ","Taqabbalallaahu minnaa wa minkum taqabbal yaa kariim.","Semoga Allah menerima (amal) dari kami dan dari kalian; terimalah, wahai Yang Maha Pemurah.")+
+    TAAWUDZ()+'</div>';
+  YASIN.forEach((a,i)=>{
+    const n=i+1;
+    h += '<div class="card ayat"><div class="num"><span class="badge">'+n+'</span><small>Ayat '+n+'</small></div>'+
+      '<div class="item" style="margin-top:0"><p class="ar q" lang="ar" dir="rtl">'+a[0]+' <span class="mk">﴿'+toArabicDigits(n)+'﴾</span></p>'+
+      '<p class="lat">'+dot(a[1])+'</p><p class="arti">'+a[2]+'</p></div></div>';
+  });
+  h += card("","Penutup Yasin",
+    item("صَدَقَ اللَّهُ الْعَظِيمُ","Shadaqallaahul-'azhiim.","Mahabenar Allah Yang Mahaagung."));
+  h += nextBtn("tahlil","Selesai Yasin, Lanjut ke Susunan Tahlil");
+  $("#page-yasin").innerHTML = h;
+}
+
+/* ============ 5. TAHLIL ============ */
+let tasbihCount = 0;
+function tasbihBox(label){
+  return '<div class="tasbih"><div><div class="lbl">'+(label||"Penghitung Dzikir")+'</div><div class="n" data-tasbih>0</div></div>'+
+    '<div class="btns"><button class="plus" onclick="countTasbih()">Hitung +1</button><button class="ghost" onclick="resetTasbih()">Ulang</button></div></div>';
+}
+function countTasbih(){ tasbihCount++; try{ if(navigator.vibrate) navigator.vibrate(15);}catch(e){} document.querySelectorAll("[data-tasbih]").forEach(e=>e.textContent=tasbihCount); }
+function resetTasbih(){ tasbihCount=0; document.querySelectorAll("[data-tasbih]").forEach(e=>e.textContent=0); }
+
+function renderTahlil(){
+  let h = '<div class="hero"><h2>'+IC.layers+' Susunan Tahlil</h2><p>Dibaca berurutan dari 1 sampai 8, lalu lanjut ke doa ahlil kubur.</p></div>';
+
+  h += card(1,"Al-Ikhlas, Al-Falaq &amp; An-Nas",
+    TAKBIR(true)+
+    item(BSM+ayatJoin(["قُلْ هُوَ ٱللَّهُ أَحَدٌ","ٱللَّهُ ٱلصَّمَدُ","لَمْ يَلِدْ وَلَمْ يُولَدْ","وَلَمْ يَكُن لَّهُۥ كُفُوًا أَحَدٌۢ"]),
+      "Bismillaahir-rahmaanir-rahiim. Qul huwallaahu ahad. Allaahush-shamad. Lam yalid wa lam yuulad. Wa lam yakul-lahuu kufuwan ahad.",
+      "Katakanlah (Muhammad), “Dialah Allah, Yang Maha Esa. Allah tempat meminta segala sesuatu. (Allah) tidak beranak dan tidak pula diperanakkan, dan tidak ada sesuatu yang setara dengan Dia.”","Surat Al-Ikhlas — dibaca 3×",true)+
+    TAKBIR(false)+
+    item(BSM+ayatJoin(["قُلْ أَعُوذُ بِرَبِّ ٱلْفَلَقِ","مِن شَرِّ مَا خَلَقَ","وَمِن شَرِّ غَاسِقٍ إِذَا وَقَبَ","وَمِن شَرِّ ٱلنَّفَّٰثَٰتِ فِى ٱلْعُقَدِ","وَمِن شَرِّ حَاسِدٍ إِذَا حَسَدَ"]),
+      "Bismillaahir-rahmaanir-rahiim. Qul a'uudzu birabbil-falaq. Min syarri maa khalaq. Wa min syarri ghaasiqin idzaa waqab. Wa min syarrin-naffaatsaati fil-'uqad. Wa min syarri haasidin idzaa hasad.",
+      "Katakanlah, “Aku berlindung kepada Tuhan yang menguasai subuh (fajar), dari kejahatan (makhluk) yang Dia ciptakan, dari kejahatan malam apabila telah gelap gulita, dari kejahatan para penyihir yang meniup pada buhul-buhul (talinya), dan dari kejahatan orang yang dengki apabila dia dengki.”","Surat Al-Falaq",true)+
+    TAKBIR(false)+
+    item(ayatJoin(["قُلْ أَعُوذُ بِرَبِّ ٱلنَّاسِ","مَلِكِ ٱلنَّاسِ","إِلَٰهِ ٱلنَّاسِ","مِن شَرِّ ٱلْوَسْوَاسِ ٱلْخَنَّاسِ","ٱلَّذِى يُوَسْوِسُ فِى صُدُورِ ٱلنَّاسِ","مِنَ ٱلْجِنَّةِ وَٱلنَّاسِ"]),
+      "Qul a'uudzu birabbin-naas. Malikin-naas. Ilaahin-naas. Min syarril-waswaasil-khannaas. Alladzii yuwaswisu fii shuduurin-naas. Minal-jinnati wan-naas.",
+      "Katakanlah, “Aku berlindung kepada Tuhannya manusia, Rajanya manusia, sembahannya manusia, dari kejahatan (bisikan) setan yang bersembunyi, yang membisikkan (kejahatan) ke dalam dada manusia, dari (golongan) jin dan manusia.”","Surat An-Nas",true));
+
+  h += card(2,"Al-Fatihah &amp; Awal Al-Baqarah (1–5, 163)",
+    TAKBIR(false)+
+    item(ayatJoin(FATIHAH.map(a=>a[0])), FATIHAH.map(a=>a[1]).join(" "), FATIHAH.map(a=>a[2]).join(" "),"Surat Al-Fatihah",true)+
+    item(BSM+ayatJoin(["الٓمٓ","ذَٰلِكَ ٱلْكِتَٰبُ لَا رَيْبَ ۛ فِيهِ ۛ هُدًۭى لِّلْمُتَّقِينَ","ٱلَّذِينَ يُؤْمِنُونَ بِٱلْغَيْبِ وَيُقِيمُونَ ٱلصَّلَوٰةَ وَمِمَّا رَزَقْنَٰهُمْ يُنفِقُونَ","وَٱلَّذِينَ يُؤْمِنُونَ بِمَآ أُنزِلَ إِلَيْكَ وَمَآ أُنزِلَ مِن قَبْلِكَ وَبِٱلْءَاخِرَةِ هُمْ يُوقِنُونَ","أُو۟لَٰٓئِكَ عَلَىٰ هُدًۭى مِّن رَّبِّهِمْ ۖ وَأُو۟لَٰٓئِكَ هُمُ ٱلْمُفْلِحُونَ"]),
+      "Bismillaahir-rahmaanir-rahiim. Alif-Laaam-Miiim. Dzaalikal-kitaabu laa rayba fiihi hudal-lil-muttaqiin. Alladziina yu'minuuna bil-ghaybi wa yuqiimuunash-shalaata wa mimmaa razaqnaahum yunfiquun. Walladziina yu'minuuna bimaaa unzila ilayka wa maaa unzila min qablik, wa bil-aakhirati hum yuuqinuun. Ulaaa-ika 'alaa hudam-mir-rabbihim wa ulaaa-ika humul-muflihuun.",
+      "Alif Lam Mim. Kitab (Al-Qur’an) ini tidak ada keraguan padanya; petunjuk bagi mereka yang bertakwa, (yaitu) mereka yang beriman kepada yang gaib, melaksanakan salat, dan menginfakkan sebagian rezeki yang Kami berikan kepada mereka; dan mereka yang beriman kepada (Al-Qur’an) yang diturunkan kepadamu (Muhammad) dan (kitab-kitab) yang diturunkan sebelum engkau, serta mereka yakin akan adanya akhirat. Merekalah yang mendapat petunjuk dari Tuhannya, dan merekalah orang-orang yang beruntung.","Awal Surat Al-Baqarah (1–5)",true)+
+    item("وَإِلَٰهُكُمْ إِلَٰهٌۭ وَٰحِدٌۭ ۖ لَّآ إِلَٰهَ إِلَّا هُوَ ٱلرَّحْمَٰنُ ٱلرَّحِيمُ",
+      "Wa ilaahukum ilaahuw-waahid, laaa ilaaha illaa Huwar-Rahmaanur-Rahiim.",
+      "Dan Tuhanmu adalah Tuhan Yang Maha Esa; tidak ada tuhan selain Dia, Yang Maha Pengasih, Maha Penyayang.","QS. Al-Baqarah: 163",true));
+
+  h += card(3,"Ayat Kursi (QS. Al-Baqarah: 255)",
+    item("ٱللَّهُ لَآ إِلَٰهَ إِلَّا هُوَ ٱلْحَىُّ ٱلْقَيُّومُ ۚ لَا تَأْخُذُهُۥ سِنَةٌۭ وَلَا نَوْمٌۭ ۚ لَّهُۥ مَا فِى ٱلسَّمَٰوَٰتِ وَمَا فِى ٱلْأَرْضِ ۗ مَن ذَا ٱلَّذِى يَشْفَعُ عِندَهُۥٓ إِلَّا بِإِذْنِهِۦ ۚ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ ۖ وَلَا يُحِيطُونَ بِشَىْءٍۢ مِّنْ عِلْمِهِۦٓ إِلَّا بِمَا شَآءَ ۚ وَسِعَ كُرْسِيُّهُ ٱلسَّمَٰوَٰتِ وَٱلْأَرْضَ ۖ وَلَا يَـُٔودُهُۥ حِفْظُهُمَا ۚ وَهُوَ ٱلْعَلِىُّ ٱلْعَظِيمُ",
+      "Allaahu laaa ilaaha illaa Huwal-Hayyul-Qayyuum, laa ta'khudzuhuu sinatuw-wa laa nawm, lahuu maa fis-samaawaati wa maa fil-ardh, man dzalladzii yasyfa'u 'indahuuu illaa bi-idznih, ya'lamu maa bayna aydiihim wa maa khalfahum, wa laa yuhiithuuna bisyay-im-min 'ilmihiii illaa bimaa syaaa', wasi'a kursiyyuhus-samaawaati wal-ardh, wa laa ya-uuduhuu hifzhuhumaa wa Huwal-'Aliyyul-'Azhiim.",
+      "Allah, tidak ada tuhan selain Dia, Yang Mahahidup, Yang terus-menerus mengurus (makhluk-Nya), tidak mengantuk dan tidak tidur. Milik-Nyalah apa yang ada di langit dan apa yang ada di bumi. Tidak ada yang dapat memberi syafaat di sisi-Nya tanpa izin-Nya. Dia mengetahui apa yang di hadapan mereka dan apa yang di belakang mereka, dan mereka tidak mengetahui sesuatu apa pun tentang ilmu-Nya melainkan apa yang Dia kehendaki. Kursi-Nya meliputi langit dan bumi. Dan Dia tidak merasa berat memelihara keduanya, dan Dialah Yang Mahatinggi, Mahabesar.",null,true));
+
+  h += card(4,"Akhir Surat Al-Baqarah (284–286)",
+    item("لِّلَّهِ مَا فِى ٱلسَّمَٰوَٰتِ وَمَا فِى ٱلْأَرْضِ ۗ وَإِن تُبْدُوا۟ مَا فِىٓ أَنفُسِكُمْ أَوْ تُخْفُوهُ يُحَاسِبْكُم بِهِ ٱللَّهُ ۖ فَيَغْفِرُ لِمَن يَشَآءُ وَيُعَذِّبُ مَن يَشَآءُ ۗ وَٱللَّهُ عَلَىٰ كُلِّ شَىْءٍۢ قَدِيرٌ",
+      "Lillaahi maa fis-samaawaati wa maa fil-ardh, wa in tubduu maa fiii anfusikum aw tukhfuuhu yuhaasibkum bihillaah, fayaghfiru limay-yasyaaa-u wa yu'adz-dzibu may-yasyaaa', wallaahu 'alaa kulli syay-in qadiir.",
+      "Milik Allah apa yang ada di langit dan apa yang ada di bumi. Jika kamu nyatakan apa yang ada di dalam hatimu atau kamu sembunyikan, niscaya Allah memperhitungkannya. Dia mengampuni siapa yang Dia kehendaki dan mengazab siapa yang Dia kehendaki. Allah Mahakuasa atas segala sesuatu.","Ayat 284",true)+
+    item("ءَامَنَ ٱلرَّسُولُ بِمَآ أُنزِلَ إِلَيْهِ مِن رَّبِّهِۦ وَٱلْمُؤْمِنُونَ ۚ كُلٌّ ءَامَنَ بِٱللَّهِ وَمَلَٰٓئِكَتِهِۦ وَكُتُبِهِۦ وَرُسُلِهِۦ لَا نُفَرِّقُ بَيْنَ أَحَدٍۢ مِّن رُّسُلِهِۦ ۚ وَقَالُوا۟ سَمِعْنَا وَأَطَعْنَا ۖ غُفْرَانَكَ رَبَّنَا وَإِلَيْكَ ٱلْمَصِيرُ",
+      "Aamanar-rasuulu bimaaa unzila ilayhi mir-rabbihii wal-mu'minuun, kullun aamana billaahi wa malaaa-ikatihii wa kutubihii wa rusulih, laa nufarriqu bayna ahadim-mir-rusulih, wa qaaluu sami'naa wa atha'naa ghufraanaka rabbanaa wa ilaykal-mashiir.",
+      "Rasul (Muhammad) beriman kepada apa yang diturunkan kepadanya (Al-Qur’an) dari Tuhannya, demikian pula orang-orang mukmin. Semuanya beriman kepada Allah, malaikat-malaikat-Nya, kitab-kitab-Nya, dan rasul-rasul-Nya. (Mereka berkata), “Kami tidak membeda-bedakan seorang pun dari rasul-rasul-Nya.” Dan mereka berkata, “Kami dengar dan kami taat. Ampunilah kami, wahai Tuhan kami, dan kepada Engkaulah tempat kembali.”","Ayat 285",true)+
+    item("لَا يُكَلِّفُ ٱللَّهُ نَفْسًا إِلَّا وُسْعَهَا ۚ لَهَا مَا كَسَبَتْ وَعَلَيْهَا مَا ٱكْتَسَبَتْ ۗ رَبَّنَا لَا تُؤَاخِذْنَآ إِن نَّسِينَآ أَوْ أَخْطَأْنَا ۚ رَبَّنَا وَلَا تَحْمِلْ عَلَيْنَآ إِصْرًۭا كَمَا حَمَلْتَهُۥ عَلَى ٱلَّذِينَ مِن قَبْلِنَا ۚ رَبَّنَا وَلَا تُحَمِّلْنَا مَا لَا طَاقَةَ لَنَا بِهِۦ",
+      "Laa yukallifullaahu nafsan illaa wus'ahaa, lahaa maa kasabat wa 'alayhaa maktasabat, rabbanaa laa tu-aakhidznaaa in nasiinaaa aw akhtha'naa, rabbanaa wa laa tahmil 'alaynaaa ishran kamaa hamaltahuu 'alalladziina min qablinaa, rabbanaa wa laa tuhammilnaa maa laa thaaqata lanaa bih.",
+      "Allah tidak membebani seseorang melainkan sesuai dengan kesanggupannya. Dia mendapat (pahala) dari (kebajikan) yang dikerjakannya dan dia mendapat (siksa) dari (kejahatan) yang diperbuatnya. (Mereka berdoa), “Ya Tuhan kami, janganlah Engkau hukum kami jika kami lupa atau kami melakukan kesalahan. Ya Tuhan kami, janganlah Engkau bebankan kepada kami beban yang berat sebagaimana Engkau bebankan kepada orang-orang sebelum kami. Ya Tuhan kami, janganlah Engkau pikulkan kepada kami apa yang tidak sanggup kami memikulnya.","Ayat 286 (bagian 1)",true)+
+    item("وَٱعْفُ عَنَّا وَٱغْفِرْ لَنَا وَٱرْحَمْنَآ","Wa'fu 'annaa waghfir lanaa warhamnaa.","Maafkanlah kami, ampunilah kami, dan rahmatilah kami.","Dibaca 3×",true)+
+    item("أَنتَ مَوْلَىٰنَا فَٱنصُرْنَا عَلَى ٱلْقَوْمِ ٱلْكَٰفِرِينَ","Anta mawlaanaa fanshurnaa 'alal-qawmil-kaafiriin.","Engkaulah pelindung kami, maka tolonglah kami menghadapi kaum yang kafir.”","Ayat 286 (bagian akhir)",true));
+
+  h += card(5,"Istighfar &amp; Dzikir Paling Utama",
+    item("أَسْتَغْفِرُ اللَّهَ الْعَظِيمَ","Astaghfirullaahal-'azhiim.","Aku memohon ampun kepada Allah Yang Mahaagung.","Dibaca 3×")+
+    item("أَفْضَلُ الذِّكْرِ فَاعْلَمْ أَنَّهُ: لَا إِلَٰهَ إِلَّا اللَّهُ حَيٌّ مَوْجُودٌ، لَا إِلَٰهَ إِلَّا اللَّهُ حَيٌّ مَعْبُودٌ، لَا إِلَٰهَ إِلَّا اللَّهُ حَيٌّ بَاقٍ، سَيِّدُنَا مُحَمَّدٌ رَسُولُ اللَّهِ صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ",
+      "Afdhaludz-dzikri fa'lam annahu: Laa ilaaha illallaah, Hayyun Mawjuud. Laa ilaaha illallaah, Hayyun Ma'buud. Laa ilaaha illallaah, Hayyun Baaq. Sayyidunaa Muhammadur Rasuulullaahi shallallaahu 'alayhi wa sallam.",
+      "Dzikir yang paling utama, ketahuilah, adalah: Tiada tuhan selain Allah, Yang Hidup lagi Maha Ada. Tiada tuhan selain Allah, Yang Hidup lagi Maha Disembah. Tiada tuhan selain Allah, Yang Hidup lagi Maha Kekal. Junjungan kami Muhammad adalah utusan Allah ﷺ."));
+
+  h += card(6,"Dzikir Tahlil (33× atau 100×)",
+    item("لَا إِلَٰهَ إِلَّا اللَّهُ","Laa ilaaha illallaah...","Tiada tuhan selain Allah. (Diulang sebanyak 33 kali, atau 100 kali, bersama-sama)","Tahlil")+
+    tasbihBox("Penghitung Tahlil")+
+    item("لَا إِلَٰهَ إِلَّا اللَّهُ لَا إِلَٰهَ إِلَّا اللَّهُ<br>لَا إِلَٰهَ إِلَّا اللَّهُ لَا إِلَٰهَ إِلَّا اللَّهُ<br>لَا إِلَٰهَ إِلَّا اللَّهُ لَا إِلَٰهَ إِلَّا اللَّهُ<br>لَا إِلَٰهَ إِلَّا اللَّهُ سَيِّدُنَا مُحَمَّدٌ رَسُولُ اللَّهِ",
+      "Laa ilaaha illallaahu Laa ilaaha illallaah.<br>Laa ilaaha illallaahu Laa ilaaha illallaah.<br>Laa ilaaha illallaahu Laa ilaaha illallaah.<br>Laa ilaaha illallaahu Sayyidunaa Muhammadur Rasuulullaah.",
+      "Tiada tuhan selain Allah (diulang). Tiada tuhan selain Allah; junjungan kami Muhammad adalah utusan Allah.","Tahlil penutup"));
+
+  h += card(7,"Tasbih &amp; Shalawat Penutup Tahlil",
+    item("اللَّهُمَّ صَلِّ عَلَى سَيِّدِنَا مُحَمَّدٍ، اللَّهُمَّ صَلِّ عَلَيْهِ وَسَلِّمْ<br>اللَّهُمَّ صَلِّ عَلَى سَيِّدِنَا مُحَمَّدٍ، اللَّهُمَّ صَلِّ عَلَيْهِ وَسَلِّمْ<br>اللَّهُمَّ صَلِّ عَلَى سَيِّدِنَا مُحَمَّدٍ، يَا رَبِّ صَلِّ عَلَيْهِ وَبَارِكْ وَسَلِّمْ",
+      "Allaahumma shalli 'alaa sayyidinaa Muhammad, Allaahumma shalli 'alayhi wa sallim.<br>Allaahumma shalli 'alaa sayyidinaa Muhammad, Allaahumma shalli 'alayhi wa sallim.<br>Allaahumma shalli 'alaa sayyidinaa Muhammad, yaa Rabbi shalli 'alayhi wa baarik wa sallim.",
+      "Ya Allah, limpahkanlah shalawat kepada junjungan kami Muhammad; ya Allah, limpahkanlah shalawat dan salam kepadanya. (diulang) Ya Allah, limpahkanlah shalawat kepada junjungan kami Muhammad; wahai Tuhanku, limpahkanlah shalawat, berkah, dan salam kepadanya.","Shalawat")+
+    item("سُبْحَانَ اللَّهِ وَبِحَمْدِهِ، سُبْحَانَ اللَّهِ وَبِحَمْدِهِ<br>سُبْحَانَ اللَّهِ وَبِحَمْدِهِ، سُبْحَانَ اللَّهِ الْعَظِيمِ وَبِحَمْدِهِ",
+      "Subhaanallaahi wa bihamdihii, Subhaanallaahi wa bihamdih. (Dibaca berulang kali)<br>Subhaanallaahi wa bihamdihii, Subhaanallaahil-'Azhiimi wa bihamdih.",
+      "Mahasuci Allah dan segala puji bagi-Nya; Mahasuci Allah Yang Mahaagung dan segala puji bagi-Nya.","Tasbih")+
+    item("اللَّهُمَّ صَلِّ عَلَى حَبِيبِكَ سَيِّدِنَا مُحَمَّدٍ وَعَلَى آلِهِ وَصَحْبِهِ وَسَلِّمْ<br>اللَّهُمَّ صَلِّ عَلَى حَبِيبِكَ سَيِّدِنَا مُحَمَّدٍ وَعَلَى آلِهِ وَصَحْبِهِ وَسَلِّمْ<br>اللَّهُمَّ صَلِّ عَلَى حَبِيبِكَ سَيِّدِنَا مُحَمَّدٍ وَعَلَى آلِهِ وَصَحْبِهِ وَبَارِكْ وَسَلِّمْ أَجْمَعِينَ",
+      "Allaahumma shalli 'alaa habiibika sayyidinaa Muhammadin wa 'alaa aalihii wa shahbihii wa sallim.<br>Allaahumma shalli 'alaa habiibika sayyidinaa Muhammadin wa 'alaa aalihii wa shahbihii wa sallim.<br>Allaahumma shalli 'alaa habiibika sayyidinaa Muhammadin wa 'alaa aalihii wa shahbihii wa baarik wa sallim ajma'iin.",
+      "Ya Allah, limpahkanlah shalawat dan salam kepada kekasih-Mu, junjungan kami Muhammad, beserta keluarga dan sahabat beliau (diulang). Ya Allah, limpahkanlah shalawat, berkah, dan salam kepadanya, keluarganya, dan seluruh sahabatnya.","Shalawat")+
+    item("حَسْبُنَا اللَّهُ وَنِعْمَ الْوَكِيلُ، نِعْمَ الْمَوْلَى وَنِعْمَ النَّصِيرُ<br>وَلَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ الْعَلِيِّ الْعَظِيمِ",
+      "Hasbunallaahu wa ni'mal-wakiil, ni'mal-mawlaa wa ni'man-nashiir. (Dibaca 3 kali)<br>Wa laa hawla wa laa quwwata illaa billaahil-'aliyyil-'azhiim.",
+      "Cukuplah Allah bagi kami dan Dia sebaik-baik pelindung; Dia sebaik-baik penolong. Tiada daya dan kekuatan kecuali dengan pertolongan Allah Yang Mahatinggi lagi Mahaagung.","Dibaca 3×")+
+    item("إِنَّ ٱللَّهَ وَمَلَٰٓئِكَتَهُۥ يُصَلُّونَ عَلَى ٱلنَّبِىِّ ۚ يَٰٓأَيُّهَا ٱلَّذِينَ ءَامَنُوا۟ صَلُّوا۟ عَلَيْهِ وَسَلِّمُوا۟ تَسْلِيمًا",
+      "Innallaaha wa malaaa-ikatahuu yushalluuna 'alan-nabiyy, yaaa ayyuhalladziina aamanuu shalluu 'alayhi wa sallimuu tasliimaa.",
+      "Sesungguhnya Allah dan para malaikat-Nya bershalawat untuk Nabi. Wahai orang-orang yang beriman! Bershalawatlah kamu untuk Nabi dan ucapkanlah salam penghormatan kepadanya. (QS. Al-Ahzab: 56)","Shalawat Al-Ahzab 56",true)+
+    item("اللَّهُمَّ صَلِّ وَسَلِّمْ وَبَارِكْ عَلَيْهِ","Allaahumma shalli wa sallim wa baarik 'alayh.","Ya Allah, limpahkanlah shalawat, salam, dan berkah kepadanya."));
+
+  h += card(8,"Salam Penutup Tahlil",
+    '<p class="sub">Dibaca oleh pemimpin tahlil, lalu dijawab bersama-sama.</p>'+
+    item("وَاللَّهُ الْمُوَفِّقُ إِلَى أَقْوَمِ الطَّرِيقِ، وَالسَّلَامُ عَلَيْكُمْ وَرَحْمَةُ اللَّهِ وَبَرَكَاتُهُ",
+      "Kurang lebih mohon maaf dari saya. Wallaahul-muwaffiq ilaa aqwaamit-thariiq, wassalaamu'alaikum warahmatullaahi wabarakaatuh.",
+      "Kurang lebih mohon maaf dari saya. Allah-lah Yang Memberi taufik menuju jalan yang paling lurus. Semoga keselamatan, rahmat Allah, dan berkah-Nya tercurah kepada kalian.")+
+    item("وَعَلَيْكُمُ السَّلَامُ وَرَحْمَةُ اللَّهِ وَبَرَكَاتُهُ","Wa'alaikumussalaam warahmatullaahi wabarakaatuh.","Dan semoga keselamatan, rahmat Allah, dan berkah-Nya tercurah pula kepada Anda.","Dijawab bersama-sama"));
+
+  h += nextBtn("doa","Lanjutkan Membaca Doa Tahlil & Ahlil Kubur");
+  $("#page-tahlil").innerHTML = h;
+}
+
+/* ============ 6. DOA AHLIL KUBUR ============ */
+function renderDoa(){
+  let h = '<div class="hero"><h2>'+IC.star+' Doa Ahlil Kubur</h2><p>Puncak munajat: doa untuk arwah keluarga, orang tua, dan seluruh kaum mukminin.</p></div>';
+
+  h += card(1,"Pembuka Doa",
+    item("أَسْتَغْفِرُ اللَّهَ الْعَظِيمَ","Astaghfirullaahal-'azhiim.","Aku memohon ampun kepada Allah Yang Mahaagung.","Dibaca 3×")+
+    TAAWUDZ()+
+    item("الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ، حَمْدَ الشَّاكِرِينَ، حَمْدَ النَّاعِمِينَ، حَمْدًا يُوَافِي نِعَمَهُ وَيُكَافِئُ مَزِيدَهُ",
+      "Alhamdulillaahi rabbil-'aalamiin, hamdasy-syaakiriin, hamdan-naa'imiin, hamday-yuwaafii ni'amahuu wa yukaafi-u maziidah.",
+      "Segala puji bagi Allah, Tuhan semesta alam; pujian orang-orang yang bersyukur, pujian orang-orang yang menikmati karunia-Nya; pujian yang sepadan dengan nikmat-nikmat-Nya dan membalas tambahan karunia-Nya.")+
+    item("يَا رَبَّنَا لَكَ الْحَمْدُ وَلَكَ الشُّكْرُ وَلَكَ الْمُلْكُ كَمَا يَنْبَغِي لِجَلَالِ وَجْهِكَ الْكَرِيمِ وَعَظِيمِ سُلْطَانِكَ",
+      "Yaa rabbanaa lakal-hamdu wa lakasy-syukru wa lakal-mulku kamaa yambaghii lijalaali wajhikal-kariimi wa 'azhiimi sulthaanik.",
+      "Wahai Tuhan kami, bagi-Mu segala puji, syukur, dan kerajaan, sebagaimana layak bagi keagungan Wajah-Mu yang mulia dan kebesaran kekuasaan-Mu."));
+
+  h += card(2,"Shalawat Penolong (Shalawat Tunjina)",
+    item("اللَّهُمَّ صَلِّ وَسَلِّمْ عَلَى سَيِّدِنَا مُحَمَّدٍ وَعَلَى آلِ سَيِّدِنَا مُحَمَّدٍ، صَلَاةً تُنْجِينَا بِهَا مِنْ جَمِيعِ الْأَهْوَالِ وَالْآفَاتِ، وَتَقْضِي لَنَا بِهَا جَمِيعَ الْحَاجَاتِ، وَتُطَهِّرُنَا بِهَا مِنْ جَمِيعِ السَّيِّئَاتِ، وَتَرْفَعُنَا بِهَا عِنْدَكَ أَعْلَى الدَّرَجَاتِ، وَتُبَلِّغُنَا بِهَا أَقْصَى الْغَايَاتِ مِنْ جَمِيعِ الْخَيْرَاتِ فِي الْحَيَاةِ وَبَعْدَ الْمَمَاتِ",
+      "Allaahumma shalli wa sallim 'alaa sayyidinaa Muhammadin wa 'alaa aali sayyidinaa Muhammad, shalaatan tunjiinaa bihaa min jamii'il-ahwaali wal-aafaat, wa taqdhii lanaa bihaa jamii'al-haajaat, wa tuthahhirunaa bihaa min jamii'is-sayyi-aat, wa tarfa'unaa bihaa 'indaka a'lad-darajaat, wa tuballighunaa bihaa aqshal-ghaayaati min jamii'il-khayraati fil-hayaati wa ba'dal-mamaat.",
+      "Ya Allah, limpahkanlah shalawat dan salam kepada junjungan kami Muhammad dan keluarganya, shalawat yang dengannya Engkau menyelamatkan kami dari segala kengerian dan bencana, memenuhi segala hajat kami, menyucikan kami dari segala kesalahan, mengangkat kami ke derajat tertinggi di sisi-Mu, dan menyampaikan kami pada puncak segala kebaikan, dalam kehidupan dan setelah kematian."));
+
+  h += card(3,"Doa Perlindungan, Keselamatan &amp; Ampunan",
+    item("اللَّهُمَّ إِنَّا نَسْتَحْفِظُكَ وَنَسْتَوْدِعُكَ دِينَنَا وَأَنْفُسَنَا وَأَمْوَالَنَا وَأَوْلَادَنَا وَكُلَّ شَيْءٍ أَعْطَيْتَنَا. اللَّهُمَّ اجْعَلْنَا فِي كَنَفِكَ وَأَمَانِكَ وَجِوَارِكَ وَعِيَاذِكَ مِنْ كُلِّ شَيْطَانٍ مَرِيدٍ، وَجَبَّارٍ عَنِيدٍ، وَذِي عَيْنٍ وَذِي بَغْيٍ، وَمِنْ شَرِّ كُلِّ ذِي شَرٍّ، إِنَّكَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ",
+      "Allaahumma innaa nastahfizhuka wa nastawdi'uka diinanaa wa anfusanaa wa amwaalanaa wa awlaadanaa wa kulla syay-in a'thaytanaa. Allaahummaj'alnaa fii kanafik wa amaanik wa jiwaarik wa 'iyaadzika min kulli syaythaanim-mariid, wa jabbaarin 'aniid, wa dzi 'aynin wa dzi baghyin, wa min syarri kulli dzi syarr, innaka 'alaa kulli syay-in qadiir.",
+      "Ya Allah, kami titipkan kepada-Mu agama kami, diri kami, harta kami, anak-anak kami, dan segala sesuatu yang Engkau anugerahkan kepada kami. Ya Allah, jadikanlah kami berada dalam naungan, keamanan, perlindungan, dan penjagaan-Mu dari setiap setan yang durhaka, penguasa yang zalim, orang yang dengki dan aniaya, dan dari kejahatan setiap pelaku kejahatan. Sungguh, Engkau Mahakuasa atas segala sesuatu.")+
+    item("اللَّهُمَّ جَمِّلْنَا بِالْعَافِيَةِ وَالسَّلَامَةِ، وَحَقِّقْنَا بِالتَّقْوَى وَالِاسْتِقَامَةِ، وَأَعِذْنَا مِنْ مُوجِبَاتِ النَّدَامَةِ، إِنَّكَ سَمِيعُ الدُّعَاءِ. اللَّهُمَّ اغْفِرْ لَنَا ذُنُوبَنَا وَلِوَالِدِينَا وَارْحَمْهُمْ كَمَا رَبَّوْنَا صِغَارًا، وَلِجَمِيعِ الْمُسْلِمِينَ وَالْمُسْلِمَاتِ وَالْمُؤْمِنِينَ وَالْمُؤْمِنَاتِ، الْأَحْيَاءِ مِنْهُمْ وَالْأَمْوَاتِ، إِنَّكَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ",
+      "Allaahumma jammilnaa bil-'aafiyati was-salaamah, wa haqqiqnaa bit-taqwaa wal-istiqaamah, wa a'idznaa mim-muujibaatin-nadaamah, innaka samii'ud-du'aa'. Allaahummaghfir lanaa dzunuubanaa wa liwaalidiinaa warhamhum kamaa rabbawnaa shighaaraa, wa lijamii'il-muslimiina wal-muslimaati wal-mu'miniina wal-mu'minaat, al-ahyaa-i minhum wal-amwaat, innaka 'alaa kulli syay-in qadiir.",
+      "Ya Allah, hiasilah kami dengan kesehatan dan keselamatan, teguhkan kami dengan takwa dan istiqamah, lindungilah kami dari hal-hal yang menyebabkan penyesalan; sungguh Engkau Maha Mendengar doa. Ya Allah, ampunilah dosa-dosa kami dan kedua orang tua kami, rahmatilah mereka sebagaimana mereka mendidik kami di waktu kecil, serta seluruh muslimin dan muslimat, mukminin dan mukminat, yang masih hidup maupun yang telah wafat. Sungguh, Engkau Mahakuasa atas segala sesuatu."));
+
+  h += card(4,"Menghadiahkan Pahala Bacaan",
+    item("اللَّهُمَّ تَقَبَّلْ وَأَوْصِلْ ثَوَابَ مَا قَرَأْنَاهُ مِنَ الْقُرْآنِ الْعَظِيمِ، وَمَا هَلَّلْنَا وَمَا سَبَّحْنَا وَمَا اسْتَغْفَرْنَا وَمَا صَلَّيْنَا عَلَى نَبِيِّكَ مُحَمَّدٍ صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ فِي هَذَا الْمَجْلِسِ، هَدِيَّةً مِنَّا وَاصِلَةً، وَرَحْمَةً نَازِلَةً، وَبَرَكَةً شَامِلَةً، إِلَى حَضْرَةِ سَيِّدِنَا وَشَفِيعِنَا وَحَبِيبِنَا وَمَوْلَانَا مُحَمَّدٍ صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ، وَجَمِيعِ إِخْوَانِهِ مِنَ الْأَنْبِيَاءِ وَالْمُرْسَلِينَ، وَالْأَوْلِيَاءِ وَالشُّهَدَاءِ وَالصَّالِحِينَ، وَالصَّحَابَةِ وَالتَّابِعِينَ وَتَابِعِي التَّابِعِينَ لَهُمْ بِإِحْسَانٍ إِلَى يَوْمِ الدِّينِ، وَالْعُلَمَاءِ الْعَامِلِينَ وَالْمُصَنِّفِينَ الْمُخْلِصِينَ، وَجَمِيعِ الْمُجَاهِدِينَ فِي سَبِيلِ اللَّهِ رَبِّ الْعَالَمِينَ، وَالْمَلَائِكَةِ الْمُقَرَّبِينَ",
+      "Allaahumma taqabbal wa awshil tsawaaba maa qara'naahu minal-qur-aanil-'azhiim, wa maa hallalnaa wa maa sabbahnaa wa mastaghfarnaa wa maa shallaynaa 'alaa nabiyyika Muhammadin shallallaahu 'alayhi wa sallama fii haadzal-majlis, hadiyyatan minnaa waashilah, wa rahmatan naazilah, wa barakatan syaamilah, ilaa hadhrati sayyidinaa wa syafii'inaa wa habiibinaa wa mawlaanaa Muhammadin shallallaahu 'alayhi wa sallam, wa jamii'i ikhwaanihii minal-ambiyaa-i wal-mursaliin, wal-awliyaa-i wash-shuhadaa-i wash-shaalihiina wash-shahaabati wat-taabi'iina wa taabi'it-taabi'iina lahum bi-ihsaanin ilaa yawmid-diin, wal-'ulamaa-il-'aamiliina wal-mushannifiinal-mukhlishiina wa jamii'il-mujaahidiina fii sabiilillaahi rabbil-'aalamiin, wal-malaaa-ikatil-muqarrabiin.",
+      "Ya Allah, terimalah dan sampaikanlah pahala bacaan Al-Qur’an yang agung, tahlil, tasbih, istighfar, dan shalawat kepada Nabi-Mu Muhammad ﷺ yang telah kami baca di majelis ini, sebagai hadiah yang sampai dari kami, rahmat yang turun, dan berkah yang merata, kepada hadirat junjungan, pemberi syafaat, kekasih, dan pemimpin kami Muhammad ﷺ, dan seluruh saudara beliau dari para nabi dan rasul, wali, syuhada, orang-orang saleh, sahabat, tabi’in dan tabi’it tabi’in yang mengikuti mereka dengan baik hingga hari kiamat, para ulama yang mengamalkan ilmunya dan para penulis yang ikhlas, seluruh mujahid di jalan Allah Tuhan semesta alam, serta para malaikat yang didekatkan (kepada Allah).")+
+    item("ثُمَّ إِلَى آبَائِنَا وَأُمَّهَاتِنَا وَأَجْدَادِنَا وَجَدَّاتِنَا، وَمَشَايِخِنَا وَمُعَلِّمِينَا، وَلِمَنِ اجْتَمَعْنَا هَاهُنَا بِسَبَبِهِ وَلِأَجْلِهِ",
+      "Wa tsumma ilaa aabaa-inaa wa ummahaatinaa wa ajdaadinaa wa jaddaatinaa, wa masyaayikhinaa wa mu'allimiinaa, wa limanijtama'naa haahunaa bisababihii wa li-ajlih.",
+      "Kemudian kepada ayah-ibu kami, kakek-nenek kami, guru-guru kami, dan kepada orang yang karenanya dan untuknyalah kami berkumpul di sini."));
+
+  h += '<div class="card" style="border-color:var(--gold-line);background:linear-gradient(180deg,#fffdf3,#fff)"><div class="step-head"><span class="badge">5</span><h3>Khusus untuk Arwah Keluarga</h3><span class="pill" style="margin-left:auto">Otomatis</span></div>'+
+    '<div id="doaNames">'+namesItem("doa")+'</div>'+
+    item("غَفَرَ اللَّهُ ذُنُوبَهُمْ وَطَهَّرَ اللَّهُ أَرْوَاحَهُمْ","Ghafarallaahu dzunuubahum wa thahharallaahu arwaahahum.","Semoga Allah mengampuni dosa-dosa mereka dan menyucikan arwah mereka.")+
+    item("وَثُمَّ إِلَى أَرْوَاحِ جَمِيعِ أَهْلِ الْقُبُورِ مِنَ الْمُسْلِمِينَ وَالْمُسْلِمَاتِ وَالْمُؤْمِنِينَ وَالْمُؤْمِنَاتِ، الْأَحْيَاءِ مِنْهُمْ وَالْأَمْوَاتِ، إِنَّكَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ. اللَّهُمَّ اغْفِرْ لَهُمْ وَارْحَمْهُمْ وَعَافِهِمْ وَاعْفُ عَنْهُمْ وَاجْعَلِ الْجَنَّةَ مَثْوَاهُمْ. اللَّهُمَّ أَنْزِلِ الرَّحْمَةَ وَالْمَغْفِرَةَ عَلَى أَهْلِ الْقُبُورِ مِنْ أَهْلِ لَا إِلَٰهَ إِلَّا اللَّهُ مُحَمَّدٌ رَسُولُ اللَّهِ صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ، وَاجْعَلْهُمْ مُتَطَهِّرِينَ، وَضَاعِفْ لَهُمُ الْحَسَنَاتِ، وَكَفِّرْ عَنْهُمُ السَّيِّئَاتِ، وَاجْعَلْهُمْ فِي جَنَّاتِ النَّعِيمِ",
+      "Wa tsumma ilaa arwaahi jamii'i ahlil-qubuuri minal-muslimiina wal-muslimaati wal-mu'miniina wal-mu'minaat, al-ahyaa-i minhum wal-amwaat, innaka 'alaa kulli syay-in qadiir. Allaahummaghfir lahum warhamhum wa 'aafihim wa'fu 'anhum waj'alil-jannata matswaahum. Allaahumma anzilir-rahmata wal-maghfirata 'alaa ahlil-qubuuri min ahli Laa ilaaha illallaah Muhammadur Rasuulullaahi shallallaahu 'alayhi wa sallam, waj'alhum mutathahhiriin, wa dhaa'if lahumul-hasanaat, wa kaffir 'anhumus-sayyi-aat, waj'alhum fii jannaatin-na'iim.",
+      "Kemudian kepada arwah seluruh penghuni kubur dari muslimin dan muslimat, mukminin dan mukminat, yang masih hidup maupun yang telah wafat; sungguh Engkau Mahakuasa atas segala sesuatu. Ya Allah, ampunilah mereka, rahmatilah mereka, selamatkanlah dan maafkanlah mereka, dan jadikanlah surga tempat tinggal mereka. Ya Allah, turunkanlah rahmat dan ampunan atas penghuni kubur dari golongan ahli “Lā ilāha illallāh Muhammadur Rasūlullāh” ﷺ; jadikanlah mereka orang-orang yang bersih, lipatgandakanlah kebaikan mereka, hapuskanlah keburukan mereka, dan tempatkanlah mereka di surga-surga yang penuh kenikmatan.")+
+    '</div>';
+
+  h += card(6,"Munajat Memohon Ampunan &amp; Kebaikan",
+    item(ayatJoin(["يَٰٓأَيَّتُهَا ٱلنَّفْسُ ٱلْمُطْمَئِنَّةُ","ٱرْجِعِىٓ إِلَىٰ رَبِّكِ رَاضِيَةًۭ مَّرْضِيَّةًۭ","فَٱدْخُلِى فِى عِبَٰدِى","وَٱدْخُلِى جَنَّتِى"],27),
+      "Yaaa ayyatuhan-nafsul-muthma-innah, irji'iii ilaa rabbiki raadhiyatam-mardhiyyah, fadkhulii fii 'ibaadii wadkhulii jannatii.",
+      "Wahai jiwa yang tenang! Kembalilah kepada Tuhanmu dengan hati yang puas lagi diridai-Nya. Maka masuklah ke dalam golongan hamba-hamba-Ku, dan masuklah ke dalam surga-Ku. (QS. Al-Fajr: 27–30)",null,true)+
+    item("رَبَّنَا ظَلَمْنَآ أَنفُسَنَا وَإِن لَّمْ تَغْفِرْ لَنَا وَتَرْحَمْنَا لَنَكُونَنَّ مِنَ ٱلْخَٰسِرِينَ",
+      "Rabbanaa zhalamnaaa anfusanaa wa il-lam taghfir lanaa wa tarhamnaa lanakuunanna minal-khaasiriin.",
+      "Ya Tuhan kami, kami telah menzalimi diri kami sendiri. Jika Engkau tidak mengampuni kami dan tidak merahmati kami, niscaya kami termasuk orang-orang yang rugi. (QS. Al-A’raf: 23)",null,true)+
+    item("اللَّهُمَّ إِنَّا نَسْأَلُكَ رِضَاكَ وَالْجَنَّةَ، وَنَعُوذُ بِكَ مِنْ سَخَطِكَ وَالنَّارِ",
+      "Allaahumma innaa nas-aluka ridhaaka wal-jannah, wa na'uudzu bika min sakhatika wan-naar.",
+      "Ya Allah, kami memohon ridha-Mu dan surga, dan kami berlindung kepada-Mu dari murka-Mu dan neraka.")+
+    item("اللَّهُمَّ إِنَّا نَسْأَلُكَ سَلَامَةً فِي الدِّينِ، وَعَافِيَةً فِي الْجَسَدِ، وَزِيَادَةً فِي الْعِلْمِ، وَبَرَكَةً فِي الرِّزْقِ، وَتَوْبَةً قَبْلَ الْمَوْتِ، وَرَحْمَةً عِنْدَ الْمَوْتِ، وَمَغْفِرَةً بَعْدَ الْمَوْتِ. اللَّهُمَّ هَوِّنْ عَلَيْنَا فِي سَكَرَاتِ الْمَوْتِ، وَالنَّجَاةَ مِنَ النَّارِ، وَالْعَفْوَ عِنْدَ الْحِسَابِ",
+      "Allaahumma innaa nas-aluka salaamatan fid-diini, wa 'aafiyatan fil-jasad, wa ziyaadatan fil-'ilmi, wa barakatan fir-rizqi, wa tawbatan qablal-mawt, wa rahmatan 'indal-mawt, wa maghfiratam-ba'dal-mawt. Allaahumma hawwin 'alaynaa fii sakaraatil-mawt, wan-najaata minan-naari wal-'afwa 'indal-hisaab.",
+      "Ya Allah, kami memohon kepada-Mu keselamatan dalam agama, kesehatan badan, tambahan ilmu, keberkahan rezeki, tobat sebelum mati, rahmat ketika mati, dan ampunan setelah mati. Ya Allah, ringankanlah kami pada saat sakaratul maut, selamatkanlah kami dari neraka, dan berilah maaf pada saat hisab.")+
+    item("رَبَّنَا هَبْ لَنَا مِنْ أَزْوَٰجِنَا وَذُرِّيَّٰتِنَا قُرَّةَ أَعْيُنٍۢ وَٱجْعَلْنَا لِلْمُتَّقِينَ إِمَامًا",
+      "Rabbanaa hab lanaa min azwaajinaa wa dzurriyyatinaa qurrata a'yuniw-waj'alnaa lil-muttaqiina imaamaa.",
+      "Ya Tuhan kami, anugerahkanlah kepada kami pasangan kami dan keturunan kami sebagai penyenang hati (kami), dan jadikanlah kami pemimpin bagi orang-orang yang bertakwa. (QS. Al-Furqan: 74)",null,true));
+
+  h += card(7,"Doa Penutup",
+    item("رَبَّنَآ ءَاتِنَا فِى ٱلدُّنْيَا حَسَنَةًۭ وَفِى ٱلْءَاخِرَةِ حَسَنَةًۭ وَقِنَا عَذَابَ ٱلنَّارِ",
+      "Rabbanaa aatinaa fid-dunyaa hasanataw-wa fil-aakhirati hasanataw-wa qinaa 'adzaaban-naar.",
+      "Ya Tuhan kami, berilah kami kebaikan di dunia dan kebaikan di akhirat, dan lindungilah kami dari azab neraka. (QS. Al-Baqarah: 201)",null,true)+
+    item("وَصَلَّى اللَّهُ عَلَى سَيِّدِنَا مُحَمَّدٍ، سُبْحَٰنَ رَبِّكَ رَبِّ ٱلْعِزَّةِ عَمَّا يَصِفُونَ، وَسَلَٰمٌ عَلَى ٱلْمُرْسَلِينَ، وَٱلْحَمْدُ لِلَّهِ رَبِّ ٱلْعَٰلَمِينَ، بِسِرِّ الْفَاتِحَةِ",
+      "Wa shallallaahu 'alaa sayyidinaa Muhammad, subhaana rabbika rabbil-'izzati 'ammaa yashifuun, wa salaamun 'alal-mursaliina wal-hamdu lillaahi rabbil-'aalamiin, bisirril-Faatihah.",
+      "Semoga Allah melimpahkan shalawat kepada junjungan kami Muhammad. Mahasuci Tuhanmu, Tuhan Yang Mahaperkasa, dari apa yang mereka sifatkan. Selamat sejahtera bagi para rasul. Segala puji bagi Allah, Tuhan seluruh alam, (kami bertawasul) dengan rahasia Al-Fatihah. (QS. Ash-Shaffat: 180–182)",null,true)+
+    fatihahBox("Membaca Surat Al-Fatihah bersama-sama", true)+
+    item("وَاعْفُ عَنَّا يَا كَرِيمُ، وَاعْفُ عَنَّا يَا رَحِيمُ، يَا أَرْحَمَ الرَّاحِمِينَ",
+      "Wa'fu 'annaa yaa Kariim, wa'fu 'annaa yaa Rahiim, yaa Arhamar-Raahimiin.",
+      "Maafkanlah kami, wahai Yang Maha Pemurah; maafkanlah kami, wahai Yang Maha Penyayang, wahai Yang Paling Penyayang di antara para penyayang.")+
+    item("اللَّهُمَّ بِحَقِّ الْفَاتِحَةِ، وَبِسِرِّ الْفَاتِحَةِ، وَبِكَرَامَةِ الْفَاتِحَةِ، وَبِمُعْجِزَةِ الْفَاتِحَةِ، افْتَحْ لَنَا أَبْوَابَ الْخَيْرِ يَا اللَّهُ، افْتَحْ لَنَا أَبْوَابَ الْعِلْمِ، افْتَحْ لَنَا أَبْوَابَ النَّجَاحِ يَا اللَّهُ، افْتَحْ لَنَا أَبْوَابَ الْجَنَّةِ، وَاجْعَلْنَا وَأَهْلَنَا مِنْ أَهْلِ الْخَيْرِ",
+      "Allaahumma bihaqqil-Faatihah, wa bisirril-Faatihah, wa bikaraamatil-Faatihah, wa bimu'jizatil-Faatihah, iftah lanaa abwaabal-khayr yaa Allaah, iftah lanaa abwaabal-'ilm, iftah lanaa abwaaban-najaah yaa Allaah, iftah lanaa abwaabal-jannah, waj'alnaa wa ahlanaa min ahlil-khayr.",
+      "Ya Allah, dengan hak, rahasia, kemuliaan, dan keistimewaan Al-Fatihah, bukakanlah bagi kami pintu-pintu kebaikan, pintu-pintu ilmu, pintu-pintu keberhasilan, dan pintu-pintu surga, serta jadikanlah kami dan keluarga kami termasuk ahli kebaikan.")+
+    item("دَعْوَىٰهُمْ فِيهَا سُبْحَٰنَكَ ٱللَّهُمَّ وَتَحِيَّتُهُمْ فِيهَا سَلَٰمٌۭ ۚ وَءَاخِرُ دَعْوَىٰهُمْ أَنِ ٱلْحَمْدُ لِلَّهِ رَبِّ ٱلْعَٰلَمِينَ",
+      "Da'waahum fiihaa subhaanakallaahumma wa tahiyyatuhum fiihaa salaam, wa aakhiru da'waahum anil-hamdu lillaahi rabbil-'aalamiin.",
+      "Doa mereka di dalamnya ialah, “Mahasuci Engkau, ya Allah,” dan salam penghormatan mereka ialah, “Salam.” Dan penutup doa mereka ialah, “Alhamdulillahi rabbil ‘alamin” (segala puji bagi Allah, Tuhan seluruh alam). (QS. Yunus: 10)",null,true));
+
+  h += '<div class="gold-note" style="text-align:center"><span class="tag" style="color:#7a5a00">Selesai</span><p class="note" style="margin:0;color:#5e4a00">Semoga Allah menerima doa kita, mengampuni dan merahmati para almarhum dan almarhumah, serta mengumpulkan kita semua bersama mereka di surga-Nya.</p></div>';
+  h += nextBtn("cover","Selesai — Kembali ke Awal");
+  $("#page-doa").innerHTML = h;
+}
+
+/* ============ 7. PASANG APLIKASI ============ */
+const MENUIMG = "data:image/jpeg;base64,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7rN9atdWemXM0ClhvVOpXrj1x3xVmbRlfw5o11ZwzS319dTwsi5bds2bQF9fmNAGFRWlf6Bq+nSwR3unzwvcNshDL99s4wCOM5PSlvvD2safZ/bL3TbmC33bTI6YAJ6Z9M+9AGZRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFfRvw6/5EjR/wDr3H8zXzlX0b8Ov+RI0f8A69x/M0mB5h8Yr+z1HXbGawuobmL7J9+JwwHzE84rga7/AOMllaWGv2UVjaw28ZtclYYwgJ3HnArgKmHwob3NbwraWF/4isLXVbmS2tZZQrSx8EHtz2ycDPavefiL4Pk8V6Rb2tpdLDcWsm9PNJKsCMYOOfxr5wrqPCPjW+8OavcajIr373EXluJ5m55BBzz6VYj2j4feD38LaHc2N5dLNcXbl5PKJAUY24XPP414D4ktrGy12+ttLuJLm0ilKxyydWx15785571qeLvGd94j1mLUo1eweKHylWCZvUknPHXP6VzNABXd6BHrEWm2Q0bULG/0yYZu7O/aPy7Z8/MGVzkDHO5eua4SjAPagD0VW0y507VtM0Czs75I9VaZLae5aLzISuFZDuXcAc8E8Ag0NdSaje65prTadHeNpEVtCtvcHy2ZGU7fMc/MwGRnPavOiAetGKAPTbeYXK6Be6ZZaW8djbRxvc3N88f2SRCdxZQ44J5yAd2ar2FzaahFoXn30dqz3+oyN9nm8rBYKVUE8orH5cnsa86wOuKKAPRpVt7LSNNhktrfT5RrtvK9qt955VMEbzydv59h0rKivhM/jhp7oObiJim58+YRcLjHrx+lcdgDoKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAK+jfh1/yJGj/9e4/ma+cq+jPh3/yJGj/9e4/maTA88+OihfEliFGP9E/9navNq9N+PCoNf05g4L/ZSGXPIG7g/jk/lXmVMAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACvpP4bxI3gbRiVBP2cfzNfNlfT3gW1a08HaRA4IZbVCQR0yM/wBaQHBfEfQG1XX9ZiCE3ptIbqxH/PVUysiD35zivHq+pfFOgnWbeGW0m+zanZv5tncgfcbuD6qehFeO+IvBWr6xe3N5p2gTWU0S5vIWYCOSXPJh9QetAjzyipLiCa1maG5ieGVThkkUqR+BqOmMKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKK2fDnhfVvElyItNtWaPOHncYjT6n+g5oAk8FaBL4j8Q21iqnyQwe4b+7GDz+fT8a+oIo1SNUUABRgD0Fc74I8IWfhTTvJg/e3MuDPORy59PYDsK6bFIBM0mM5BoooAztT0PS9VXGo2Fvc8cebGCR+PWsNvh14TLE/2ND+DN/jRRQAf8K58J/8AQHh/77f/ABo/4Vz4T/6A8P8A32/+NFFAB/wrnwn/ANAeH/vt/wDGkHw58Jn/AJg8P/fb/wCNFFAC/wDCufCf/QHh/wC+3/xo/wCFc+E/+gPD/wB9v/jRRQAn/CuvCf8A0Bof++3/AMaX/hXPhP8A6A8P/fb/AONFFAB/wrnwn/0B4f8Avt/8aP8AhXPhL/oDw/8Afb/40UUAH/CufCX/AEB4f++3/wAaP+Fc+Ev+gPD/AN9v/jRRQAn/AArnwn/0B4f++3/xo/4Vz4S/6A8P/fb/AONFFAC/8K58J/8AQHh/77f/ABpP+Fc+Ev8AoDw/99v/AI0UUDF/4Vz4T/6A8P8A32/+NH/CufCX/QHh/wC+3/xoooEH/CufCX/QHh/77f8Axo/4Vz4S/wCgPD/32/8AjRRQAf8ACufCf/QHh/77f/Gk/wCFc+E8f8geH/vt/wDGiigA/wCFc+E/+gPD/wB9v/jS/wDCufCf/QHh/wC+3/xoooAP+Fc+E/8AoDw/99v/AI0f8K58J/8AQHh/77f/ABoooAP+Fc+E/wDoDw/99v8A40f8K58J/wDQHh/77f8AxoooAP8AhXPhP/oDw/8Afb/40f8ACufCf/QHh/77f/GiigCa18BeFrWTzItFtSw6FwX/AJk10dvbwwRLHDGsaKMBVAAH4UUUAT4ooooA/9k=";
+function renderPasang(){
+  const chrome = '<svg class="mock" viewBox="0 0 360 120" xmlns="http://www.w3.org/2000/svg"><rect width="360" height="120" fill="#202124"/><rect x="12" y="14" width="250" height="34" rx="17" fill="#35363a"/><text x="30" y="36" font-family="Arial" font-size="13" fill="#bdc1c6">yasinnasabdjean.netlify.app</text><rect x="274" y="16" width="30" height="30" rx="6" fill="none" stroke="#bdc1c6" stroke-width="2"/><text x="289" y="37" font-family="Arial" font-size="15" font-weight="700" fill="#bdc1c6" text-anchor="middle">7</text><g fill="#e8eaed"><circle cx="333" cy="22" r="3.2"/><circle cx="333" cy="31" r="3.2"/><circle cx="333" cy="40" r="3.2"/></g><rect x="0" y="62" width="360" height="58" fill="#0b4d38"/><text x="16" y="96" font-family="Arial" font-size="16" font-weight="700" fill="#fff">E-Yasin &amp; Doa Ziarah</text></svg>';
+  const dlg = '<svg class="mock" viewBox="0 0 360 170" xmlns="http://www.w3.org/2000/svg"><rect width="360" height="170" fill="#111"/><rect x="24" y="22" width="312" height="126" rx="22" fill="#2b2c30"/><rect x="42" y="42" width="34" height="34" rx="9" fill="#f5b400"/><text x="90" y="56" font-family="Arial" font-size="15" font-weight="700" fill="#fff">Instal aplikasi?</text><text x="90" y="76" font-family="Arial" font-size="12" fill="#bdc1c6">E-Yasin &amp; Doa Ziarah</text><text x="214" y="128" font-family="Arial" font-size="14" font-weight="700" fill="#9aa0a6">Batal</text><rect x="262" y="106" width="58" height="32" rx="16" fill="#8ab4f8"/><text x="291" y="127" font-family="Arial" font-size="14" font-weight="700" fill="#202124" text-anchor="middle">Instal</text></svg>';
+  const home = '<svg class="mock" viewBox="0 0 360 150" xmlns="http://www.w3.org/2000/svg"><rect width="360" height="150" fill="#2f4858"/><g font-family="Arial" font-size="11" fill="#fff" text-anchor="middle"><rect x="44" y="26" width="54" height="54" rx="14" fill="#6c7a89"/><text x="71" y="98">Kamera</text><rect x="153" y="26" width="54" height="54" rx="14" fill="#073b2b"/><rect x="165" y="38" width="30" height="30" rx="8" fill="#f5b400"/><text x="180" y="98" font-weight="700">E-Yasin</text><rect x="262" y="26" width="54" height="54" rx="14" fill="#6c7a89"/><text x="289" y="98">Galeri</text></g></svg>';
+  const tag = (x,y,s)=>'<span class="hl-tag" style="left:'+x+';top:'+y+'">'+s+'</span>';
+  let h = '<div class="hero"><h2>'+IC.dl+' Jadikan Aplikasi di HP</h2><p>Pasang sekali, lalu E-Yasin muncul di layar utama seperti aplikasi biasa dan bisa dibuka tanpa internet.</p></div>';
+
+  h += card(1,"Android — buka lewat Chrome",
+    '<p class="sub">Buka alamat E-Yasin di <b>Google Chrome</b>, lalu ketuk <b>titik tiga ⋮</b> di pojok kanan atas.</p>'+
+    '<div class="shot">'+chrome+'<span class="hl" style="right:6px;top:10px;width:34px;height:42px"></span>'+'<span class="hl-tag" style="right:8px;top:70px">① Ketuk titik tiga ↑</span>'+'<span class="stamp">Created by Hari Santoso</span></div>');
+  h += card(2,"Pilih “Instal dan buat pintasan”",
+    '<p class="sub">Di menu yang terbuka, ketuk <b>Instal dan buat pintasan</b> (kadang tertulis <i>Tambahkan ke layar utama</i> / <i>Instal aplikasi</i>).</p>'+
+    '<div class="shot" style="max-width:300px"><img src="'+MENUIMG+'" alt="Menu Chrome">'+
+    '<span class="hl" style="left:2%;right:2%;top:76.3%;height:6.2%"></span><span class="hl-tag" style="left:8px;top:71%">② Ketuk ini</span><span class="stamp">Created by Hari Santoso</span></div>');
+  h += card(3,"Ketuk “Instal”",
+    '<p class="sub">Akan muncul kotak konfirmasi. Ketuk tombol <b>Instal</b> (atau <b>Tambahkan</b>).</p>'+
+    '<div class="shot">'+dlg+'<span class="hl" style="right:5.5%;top:62%;width:19%;height:22%;border-radius:20px"></span>'+tag("8px","8px","③ Ketuk Instal")+'<span class="stamp">Created by Hari Santoso</span></div>');
+  h += card(4,"Selesai — buka dari layar utama",
+    '<p class="sub">Ikon <b>E-Yasin</b> kini ada di layar utama / daftar aplikasi HP. Ketuk untuk membuka.</p>'+
+    '<div class="shot">'+home+'<span class="hl" style="left:41%;top:12%;width:18%;height:42%;border-radius:16px"></span>'+tag("8px","8px","④ Ikon E-Yasin")+'<span class="stamp">Created by Hari Santoso</span></div>'+
+    '<p class="note">Tampilan menu bisa sedikit berbeda antar HP, tetapi letak tombolnya serupa.</p>');
+  h += card(5,"iPhone / iPad — buka lewat Safari",
+    '<ul class="ad"><li>Buka alamat E-Yasin di <b>Safari</b>.</li><li>Ketuk tombol <b>Bagikan</b> (kotak dengan panah ke atas) di bagian bawah layar.</li><li>Gulir ke bawah, ketuk <b>Tambah ke Layar Utama</b>.</li><li>Ketuk <b>Tambah</b> di pojok kanan atas.</li></ul>');
+  h += '<div class="gold-note"><span class="tag" style="color:#7a5a00">Tips</span><ul class="ad"><li>Buka aplikasi sekali saat <b>ada internet</b> agar huruf Arab dan data tersimpan untuk dipakai offline.</li><li>Nama dan foto ahlil kubur ikut diperbarui otomatis dari Google Sheets setiap aplikasi dibuka saat online.</li><li>Bagikan alamat aplikasi ke keluarga lewat WhatsApp; mereka bisa memasangnya dengan langkah di atas.</li></ul></div>';
+  h += '<div class="sig">Created by Hari Santoso</div><div class="wm"></div>';
+  $("#page-pasang").innerHTML = h;
+}
+
+/* ============ DINAMIS ============ */
+function renderDynamic(){
+  renderCover();
+  const t = document.getElementById("tawasulNames"); if(t) t.innerHTML = namesItem("tawasul");
+  const d = document.getElementById("doaNames"); if(d) d.innerHTML = namesItem("doa");
+}
+
+/* ============ NAVIGASI ============ */
+function buildNav(){
+  $("#topTabs").innerHTML = TABS.map(t=>'<button data-t="'+t.id+'" onclick="goTab(\''+t.id+'\')">'+t.icon+t.top+'</button>').join("");
+  $("#bottomNav").innerHTML = TABS.map(t=>'<button data-t="'+t.id+'" onclick="goTab(\''+t.id+'\')">'+t.icon+'<span>'+t.nav+'</span></button>').join("");
+}
+function goTab(id, noScroll){
+  if(!TABS.some(t=>t.id===id)) id="cover";
+  document.querySelectorAll("section.page").forEach(s=>s.classList.toggle("on", s.id==="page-"+id));
+  document.querySelectorAll("[data-t]").forEach(b=>b.classList.toggle("on", b.dataset.t===id));
+  const on = document.querySelector('#topTabs button.on');
+  if(on && on.scrollIntoView){ try{ on.scrollIntoView({inline:"center",block:"nearest",behavior:"smooth"}); }catch(e){} }
+  store.set("eyasin_tab", id);
+  try{ history.replaceState(null,"","#"+id); }catch(e){}
+  if(!noScroll) window.scrollTo({top:0,behavior:"auto"});
+}
+function $(s){ return document.querySelector(s); }
+
+/* ============ MULAI ============ */
+(function init(){
+  applyFont();
+  loadCache();
+  buildNav();
+  renderCover(); renderZiarah(); renderTawasul(); renderYasin(); renderTahlil(); renderDoa(); renderPasang();
+  const h = (location.hash||"").replace("#","");
+  goTab(TABS.some(t=>t.id===h) ? h : "cover", true);
+  fetchUpdate();
+  document.addEventListener("visibilitychange",()=>{ if(!document.hidden) fetchUpdate(); });
+  window.addEventListener("online",()=>fetchUpdate());
+  setInterval(()=>{ if(!document.hidden) fetchUpdate(); }, 5*60*1000);
+  if("serviceWorker" in navigator && /^https?:$/.test(location.protocol)){
+    window.addEventListener("load",()=>{ navigator.serviceWorker.register("sw.js").catch(()=>{}); });
+  }
+})();
+</script>
+</body>
+</html>
