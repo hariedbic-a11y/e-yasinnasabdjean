@@ -8,6 +8,7 @@
 <title>E-Yasin & Doa Ziarah Keluarga</title>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon-512.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Amiri+Quran&display=swap" rel="stylesheet">
@@ -426,7 +427,8 @@ async function fetchUpdate(){
         const items = mapRows(rows);
         if(!items.length){ why = "tabel kosong"; continue; }
         familyData = items; store.set("eyasin_family_v2", JSON.stringify(items));
-        setSync("Tersinkron "+stamp()+" • "+items.length+" data dari Google Sheets");
+        const bad=items.filter(p=>p.foto && !/^https?:\/\//i.test(p.foto));
+        setSync("Tersinkron "+stamp()+" • "+items.length+" data dari Google Sheets"+(bad.length?" • "+bad.length+" foto belum terbaca: kolom URL Foto berisi tulisan (mis. “"+bad[0].foto+"”), bukan alamat link — tempel link aslinya":""));
         renderDynamic(); return true;
       }catch(e){ why = navigator.onLine===false ? "tidak ada internet" : "gagal terhubung ke Google Sheets"; }
     }
@@ -460,7 +462,7 @@ function doaList(){
 /* ============ FOTO (Google Drive -> tautan gambar langsung) ============ */
 function photoList(u,sz){
   sz=sz||400;
-  u=(u||"").trim(); if(!u) return [];
+  u=(u||"").trim(); if(!u || !/^https?:\/\//i.test(u)) return [];
   if(/drive\.google\.com|docs\.google\.com/.test(u)){
     const m=u.match(/\/d\/([\w-]{15,})/)||u.match(/[?&]id=([\w-]{15,})/);
     if(m) return ["https://drive.google.com/thumbnail?id="+m[1]+"&sz=w"+sz,"https://lh3.googleusercontent.com/d/"+m[1]+"=w"+sz,"https://drive.google.com/uc?export=view&id="+m[1],"https://drive.usercontent.google.com/download?id="+m[1]+"&export=view"];

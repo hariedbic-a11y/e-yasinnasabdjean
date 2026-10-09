@@ -1,5 +1,5 @@
-const CACHE = "eyasin-v2";
-const PRECACHE = ["./", "index.html", "manifest.webmanifest", "icon.svg"];
+const CACHE = "eyasin-v3";
+const PRECACHE = ["./", "index.html", "manifest.webmanifest", "icon.svg", "icon-192.png", "icon-512.png"];
 const EXT = /^(fonts\.googleapis\.com|fonts\.gstatic\.com|drive\.google\.com|.*\.googleusercontent\.com)$/;
 
 self.addEventListener("install", e => {
