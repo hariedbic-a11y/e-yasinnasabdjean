@@ -170,6 +170,13 @@ nav.bottom button.on svg{stroke-width:2.6}
 .lb img{max-width:100%;max-height:78vh;object-fit:contain;border-radius:12px;background:#0b3a2b;min-width:120px;min-height:120px}
 .lbx{position:absolute;top:max(12px,env(safe-area-inset-top));right:14px;width:42px;height:42px;border-radius:50%;border:0;background:rgba(255,255,255,.16);color:#fff;font-size:28px;line-height:1;cursor:pointer}
 .lbc{text-align:center;color:#fff}.lbc b{display:block;font-size:17px}.lbc span{font-size:13px;color:#ffe7a3}.lbd{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:8px}.lbd div{background:rgba(255,255,255,.12);border-radius:10px;padding:6px 12px;font-size:13px}.lbd small{display:block;font-size:10px;letter-spacing:.8px;text-transform:uppercase;color:#ffe7a3}
+.inst{position:fixed;left:0;right:0;bottom:calc(66px + env(safe-area-inset-bottom));z-index:45;display:none;justify-content:center;padding:0 12px;pointer-events:none}
+.inst.on{display:flex}
+.inst .box{pointer-events:auto;max-width:496px;width:100%;background:var(--green-800);color:#fff;border:1px solid var(--gold);border-radius:16px;padding:10px 12px;display:flex;align-items:center;gap:10px;box-shadow:0 8px 24px rgba(0,0,0,.28)}
+.inst img{width:42px;height:42px;border-radius:10px;flex:0 0 auto}
+.inst .tx{flex:1;min-width:0;font-size:13px;line-height:1.35}.inst .tx b{display:block;font-size:14px}
+.inst button{border:0;border-radius:999px;font-weight:800;font-size:13px;padding:9px 14px;cursor:pointer}
+.inst .go{background:var(--gold);color:var(--green-900)}.inst .no{background:transparent;color:#cfe7da;padding:9px 6px}
 svg.i{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 </style>
 </head>
@@ -198,6 +205,7 @@ svg.i{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-l
     <section class="page" id="page-pasang"></section>
   </main>
 </div>
+<div class="inst" id="inst"><div class="box"><img src="icon.svg" alt=""><div class="tx"><b>Pasang E-Yasin di HP</b><span id="instTx">Buka lebih cepat dari layar utama, bisa tanpa internet.</span></div><button class="go" id="instGo">Pasang</button><button class="no" id="instNo">Nanti</button></div></div>
 <nav class="bottom"><div class="in" id="bottomNav"></div></nav>
 
 <script>
@@ -902,6 +910,32 @@ function goTab(id, noScroll){
   if(!noScroll) window.scrollTo({top:0,behavior:"auto"});
 }
 function $(s){ return document.querySelector(s); }
+
+/* ============ AJAKAN PASANG (INSTALL) ============ */
+let deferredPrompt = null;
+const isStandalone = () => { try{ return (window.matchMedia && matchMedia("(display-mode: standalone)").matches) || navigator.standalone===true; }catch(e){ return false; } };
+const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent||"");
+const isMobile = /android|iphone|ipad|ipod|mobile/i.test(navigator.userAgent||"");
+function instHidden(){ const v=parseInt(store.get("eyasin_inst_off"),10); return !!v && (Date.now()-v) < 7*24*3600*1000; }
+function showInstall(){
+  if(isStandalone() || instHidden()) return;
+  const b=document.getElementById("inst"); if(!b) return;
+  if(isIOS && !deferredPrompt) document.getElementById("instTx").textContent="Ketuk tombol Bagikan lalu “Tambah ke Layar Utama”. Lihat langkahnya.";
+  b.classList.add("on");
+}
+function hideInstall(save){ const b=document.getElementById("inst"); if(b) b.classList.remove("on"); if(save) store.set("eyasin_inst_off", String(Date.now())); }
+window.addEventListener("beforeinstallprompt", e=>{ e.preventDefault(); deferredPrompt=e; showInstall(); });
+window.addEventListener("appinstalled", ()=>{ deferredPrompt=null; hideInstall(true); });
+document.addEventListener("click", async ev=>{
+  const t=ev.target;
+  if(t && t.id==="instNo"){ hideInstall(true); }
+  else if(t && t.id==="instGo"){
+    if(deferredPrompt){ try{ deferredPrompt.prompt(); await deferredPrompt.userChoice; }catch(e){} deferredPrompt=null; hideInstall(true); }
+    else { goTab("pasang"); hideInstall(false); }
+  }
+});
+/* bila peramban tidak mengirim penawaran sendiri (mis. iPhone), tetap tampilkan ajakan di HP */
+setTimeout(()=>{ if(!deferredPrompt && isMobile) showInstall(); }, 2500);
 
 /* ============ MULAI ============ */
 (function init(){
