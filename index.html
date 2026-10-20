@@ -131,6 +131,44 @@ ul.ad li::marker{color:var(--green-600)}
 .fam .det{font-size:12px;color:var(--muted);display:flex;flex-wrap:wrap;gap:2px 12px}
 .fam .kenang{font-size:12px;color:#7a6b2a;font-style:italic;margin-top:3px}
 .fam.hidup{background:#fbfbf8}
+/* ===== Bagan silsilah (geser kiri-kanan) ===== */
+.bg-sec{margin:6px 0 20px}
+.bg-leg{display:flex;flex-wrap:wrap;gap:6px 16px;margin:2px 2px 6px;font-size:13px;font-weight:800;letter-spacing:.5px;text-transform:uppercase}
+.bg-leg span{display:inline-flex;align-items:center;gap:8px}
+.bg-leg span:before{content:"";width:22px;height:5px;border-radius:3px;background:currentColor}
+.bg-leg .la{color:#1f7a55}.bg-leg .li{color:#b8860b}
+.bgc{position:relative;flex:0 0 auto;margin:0 auto;min-width:100%}
+.bgc .cp{position:absolute;margin:0;z-index:1}
+.bgc svg{position:absolute;left:0;top:0;z-index:0;pointer-events:none;overflow:visible}
+.bgl{position:absolute;z-index:1;font-size:12px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:#fff;padding:4px 12px;border-radius:999px}
+.bgl.la{background:#1f7a55}.bgl.li{background:#b8860b}
+.bg-hint{display:none;text-align:center;font-size:13px;font-weight:700;color:var(--green-800);margin:0 0 6px}
+.bg-hint.on{display:block}
+.bg-sec{--cw:342px}
+.bgs{display:flex;overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:18px;padding:14px 6px 18px;background:#f1f4ec;border:1.5px dashed #c3d1bd;scrollbar-width:thin}
+.cp{display:flex;align-items:stretch;width:var(--cw);position:relative}
+.cp .plus{flex:0 0 22px;display:grid;place-items:center;position:relative;z-index:1}
+.cp .plus i{width:22px;height:22px;border-radius:50%;background:#e8b923;color:#fff;font-style:normal;font-weight:900;font-size:16px;line-height:22px;text-align:center;box-shadow:0 0 0 3px #fff}
+.cp.solo{justify-content:center}
+.pc{flex:0 0 160px;width:160px;box-sizing:border-box;background:#fff;border:1.5px solid var(--line);border-radius:16px;padding:10px 10px 11px;box-shadow:0 2px 8px rgba(20,60,40,.08);display:flex;flex-direction:column;gap:4px;text-align:left}
+.pc .r1{display:flex;align-items:center;gap:8px;min-height:54px}
+.pc .avatar{width:54px;height:54px;padding:2px;flex:0 0 auto;margin:0}
+.pc .avatar svg{width:24px;height:24px}
+.pc .ini{font-size:18px;font-weight:800;color:#f4d56a;letter-spacing:.5px}
+.pc[data-tg*="i"] .avatar>div,.pc.ibu .avatar>div{background:#7a5a00}
+.pc .pm{display:flex;flex-direction:column;align-items:flex-start;gap:3px;min-width:0}
+.pc .tg{font-size:12px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:var(--green-800)}
+.pc.hd .tg{color:#8a7a2a}
+.pc .pn{font-size:12px;font-weight:700;color:#5a4300;background:#fbefc0;padding:2px 9px;border-radius:999px;line-height:1.3}
+.pc h5{margin:3px 0 0;font-size:15px;line-height:1.25;word-break:break-word;color:#142b21}
+.pc .hb{font-size:11px;color:var(--green-600);text-transform:uppercase;letter-spacing:.4px;line-height:1.25}
+.pc .ak{font-size:12px;font-style:italic;color:#7a5a00;line-height:1.3}
+.pc .dt{font-size:12.5px;color:#4d5f55;line-height:1.35;word-break:break-word}
+.pc.gd{border:2.5px solid #e0b020;background:linear-gradient(180deg,#fffbea,#fff)}
+.pc.ph{border:1.5px dashed #c5cdb9;background:#fbfaf5;box-shadow:none;justify-content:center}
+.pc.ph .ring{width:54px;height:54px;border-radius:50%;border:2px dashed #c5cdb9;display:grid;place-items:center;color:#a9b2a0;font-size:22px;flex:0 0 auto}
+.pc.ph .hb{font-size:11px;font-weight:700;color:var(--green-800)}
+.pc.ph em{display:block;font-style:normal;font-size:14px;color:var(--muted);margin-top:2px}
 .count{background:var(--green-100);color:var(--green-800);font-weight:800;font-size:12px;padding:4px 10px;border-radius:999px}
 .row{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:12px}
 .row h3{margin:0;font-size:16px;color:var(--green-700)}
@@ -347,19 +385,19 @@ const BSM = "بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِ
 /* ============ DATA KELUARGA ============ */
 let familyData = [
   { id:"1", hubungan:"Kakek dari Ayah", nama:"Kuru bin Adam", panggilan:"", lahir:"", wafat:"", makam:"", foto:"", catatan:"", sampul:"", status:"", urutan:"" },
-  { id:"2", hubungan:"Nenek dari Ayah", nama:"-", panggilan:"", lahir:"", wafat:"", makam:"", foto:"", catatan:"", sampul:"", status:"", urutan:"" },
-  { id:"3", hubungan:"Ayah dari Bapak", nama:"Djean bin Kuru", panggilan:"Engkong", lahir:"", wafat:"", makam:"Makam Kukusan", foto:"", catatan:"", sampul:"", status:"", urutan:"" },
-  { id:"4", hubungan:"Ibu dari Bapak", nama:"Naisyah binti H. Nidih", panggilan:"Nyai", lahir:"", wafat:"", makam:"Makam Kukusan", foto:"", catatan:"", sampul:"", status:"", urutan:"" },
-  { id:"5", hubungan:"Bapak (Anak 1 Djean)", nama:"Sapiih bin Djean", panggilan:"Baba", lahir:"", wafat:"8 Agustus 2021", makam:"Makam Kukusan", foto:"", catatan:"Sosok ayah teladan bagi keluarga", sampul:"YA", status:"", urutan:"" },
-  { id:"6", hubungan:"Kakek dari Emak", nama:"Risin bin Siun", panggilan:"", lahir:"", wafat:"", makam:"", foto:"", catatan:"", sampul:"", status:"", urutan:"" },
-  { id:"7", hubungan:"Nenek dari Emak", nama:"-", panggilan:"", lahir:"", wafat:"", makam:"", foto:"", catatan:"", sampul:"", status:"", urutan:"" },
-  { id:"8", hubungan:"Ayah dari Emak", nama:"Panjang bin Risin", panggilan:"Engkong", lahir:"", wafat:"", makam:"Makam Kapling", foto:"", catatan:"", sampul:"", status:"", urutan:"" },
-  { id:"9", hubungan:"Ibu dari Emak", nama:"Penil binti Dilan", panggilan:"Empi", lahir:"", wafat:"", makam:"Makam Kapling", foto:"", catatan:"", sampul:"", status:"", urutan:"" },
-  { id:"10", hubungan:"Emak", nama:"Djumi binti Panjang", panggilan:"Emak", lahir:"", wafat:"25 Agustus 2026", makam:"Makam Kukusan", foto:"", catatan:"Ibu tercinta penuh kasih sayang", sampul:"YA", status:"", urutan:"" },
-  { id:"11", hubungan:"Anak 2 Djean", nama:"Fatimah binti Djean", panggilan:"Encing", lahir:"", wafat:"", makam:"Makam Kukusan", foto:"", catatan:"", sampul:"", status:"", urutan:"" },
-  { id:"12", hubungan:"Anak 5 Djean", nama:"Widati binti Djean", panggilan:"Encing", lahir:"", wafat:"", makam:"Makam Kukusan", foto:"", catatan:"", sampul:"", status:"", urutan:"" },
-  { id:"13", hubungan:"Mantu Anak 2 Djean", nama:"Agus Sohu bin Adam", panggilan:"Mamang", lahir:"", wafat:"", makam:"Makam Kukusan", foto:"", catatan:"", sampul:"", status:"", urutan:"" },
-  { id:"14", hubungan:"Mantu Anak 5 Djean", nama:"Sardi Sutisna bin Adam", panggilan:"Mamang", lahir:"", wafat:"", makam:"Makam Kukusan", foto:"", catatan:"", sampul:"", status:"", urutan:"" }
+  { id:"1", hubungan:"Nenek dari Ayah", nama:"-", panggilan:"", lahir:"", wafat:"", makam:"", foto:"", catatan:"", sampul:"", status:"", urutan:"" },
+  { id:"2", hubungan:"Ayah dari Bapak", nama:"Djean bin Kuru", panggilan:"Engkong", lahir:"", wafat:"", makam:"Makam Kukusan", foto:"", catatan:"", sampul:"", status:"", urutan:"" },
+  { id:"2", hubungan:"Ibu dari Bapak", nama:"Naisyah binti H. Nidih", panggilan:"Nyai", lahir:"", wafat:"", makam:"Makam Kukusan", foto:"", catatan:"", sampul:"", status:"", urutan:"" },
+  { id:"3", hubungan:"Bapak (Anak 1 Djean)", nama:"Sapiih bin Djean", panggilan:"Baba", lahir:"", wafat:"8 Agustus 2021", makam:"Makam Kukusan", foto:"", catatan:"Sosok ayah teladan bagi keluarga", sampul:"YA", status:"", urutan:"" },
+  { id:"A", hubungan:"Kakek dari Emak", nama:"Risin bin Siun", panggilan:"", lahir:"", wafat:"", makam:"", foto:"", catatan:"", sampul:"", status:"", urutan:"" },
+  { id:"A", hubungan:"Nenek dari Emak", nama:"-", panggilan:"", lahir:"", wafat:"", makam:"", foto:"", catatan:"", sampul:"", status:"", urutan:"" },
+  { id:"B", hubungan:"Ayah dari Emak", nama:"Panjang bin Risin", panggilan:"Engkong", lahir:"", wafat:"", makam:"Makam Kapling", foto:"", catatan:"", sampul:"", status:"", urutan:"" },
+  { id:"B", hubungan:"Ibu dari Emak", nama:"Penil binti Dilan", panggilan:"Empi", lahir:"", wafat:"", makam:"Makam Kapling", foto:"", catatan:"", sampul:"", status:"", urutan:"" },
+  { id:"3.C", hubungan:"Emak", nama:"Djumi binti Panjang", panggilan:"Emak", lahir:"", wafat:"25 Agustus 2026", makam:"Makam Kukusan", foto:"", catatan:"Ibu tercinta penuh kasih sayang", sampul:"YA", status:"", urutan:"" },
+  { id:"4", hubungan:"Anak 2 Djean", nama:"Fatimah binti Djean", panggilan:"Encing", lahir:"", wafat:"", makam:"Makam Kukusan", foto:"", catatan:"", sampul:"", status:"", urutan:"" },
+  { id:"5", hubungan:"Anak 5 Djean", nama:"Widati binti Djean", panggilan:"Encing", lahir:"", wafat:"", makam:"Makam Kukusan", foto:"", catatan:"", sampul:"", status:"", urutan:"" },
+  { id:"4", hubungan:"Mantu Anak 2 Djean", nama:"Agus Sohu bin Adam", panggilan:"Mamang", lahir:"", wafat:"", makam:"Makam Kukusan", foto:"", catatan:"", sampul:"", status:"", urutan:"" },
+  { id:"5", hubungan:"Mantu Anak 5 Djean", nama:"Sardi Sutisna bin Adam", panggilan:"Mamang", lahir:"", wafat:"", makam:"Makam Kukusan", foto:"", catatan:"", sampul:"", status:"", urutan:"" }
 ];
 /* Urutan nama pada tawasul & doa (bila kolom "Urutan Doa" di Sheets tidak diisi) */
 const DEFAULT_ORDER = ["djumi binti panjang","panjang bin risin","risin bin siun","sapiih bin djean","djean bin kuru","naisyah binti h. nidih","penil binti dilan"];
@@ -394,7 +432,7 @@ function mapRows(rows){
       nama:(o["nama lengkap (bin / binti)"]||o["nama"]||"").trim(), panggilan:clean(o["panggilan / gelar"]||o["panggilan"]),
       lahir:clean(o["tanggal lahir"]), wafat:clean(o["tanggal wafat"]), makam:clean(o["lokasi makam"]),
       foto:clean(o["url foto"]), catatan:clean(o["catatan / kenangan"]), sampul:clean(o["jadikan sampul"]),
-      status:clean(o["status"]), urutan:clean(o["urutan doa"]||o["urutan"])
+      status:clean(o["status"]), urutan:clean(o["urutan doa"]||o["urutan"]), anakke:clean(o["anak ke"]||o["urutan anak"]||o["anak ke-"])
     });
   }
   return out.filter(p=>p.nama);
@@ -402,7 +440,7 @@ function mapRows(rows){
 function normalize(list){ return list.map(p=>Object.assign({}, p, {
   hubungan:clean(p.hubungan), panggilan:clean(p.panggilan), lahir:clean(p.lahir), wafat:clean(p.wafat),
   makam:clean(p.makam), foto:clean(p.foto), catatan:clean(p.catatan), sampul:clean(p.sampul),
-  status:clean(p.status), urutan:clean(p.urutan)
+  status:clean(p.status), urutan:clean(p.urutan), anakke:clean(p.anakke)
 })); }
 function loadCache(){
   const c = store.get("eyasin_family_v2");
@@ -479,13 +517,13 @@ function photoList(u,sz){
 function fotoErr(img){
   const alts=(img.dataset.alt||"").split("|").filter(Boolean);
   if(alts.length){ img.dataset.alt=alts.slice(1).join("|"); img.src=alts[0]; }
-  else { img.outerHTML=ICON_USER; window.__ff=(window.__ff||0)+1;
+  else { img.outerHTML=img.dataset.ini?'<b class="ini">'+esc(img.dataset.ini)+'</b>':ICON_USER; window.__ff=(window.__ff||0)+1;
     const e=document.getElementById("syncMsg"); if(e && !/foto/.test(e.textContent)) e.textContent+=" • foto Drive tidak bisa dimuat: pastikan file dibagikan “Siapa saja yang memiliki link”"; }
 }
-function avatar(p){
+function avatar(p,ini){
   const l=photoList(p.foto), b=photoList(p.foto,1200);
   const cap=p.nama;
-  return '<div class="avatar"><div>'+(l.length?'<img src="'+esc(l[0])+'" data-alt="'+esc(l.slice(1).join("|"))+'" data-big="'+esc(b.join("|"))+'" data-cap="'+esc(cap)+'" data-sub="'+esc(p.hubungan||"")+'" data-lahir="'+esc(p.lahir||"")+'" data-wafat="'+esc(p.wafat||"")+'" data-makam="'+esc(p.makam||"")+'" alt="'+esc(p.nama)+'" loading="lazy" referrerpolicy="no-referrer" style="cursor:zoom-in" onclick="openFoto(this)" onerror="fotoErr(this)">':IC.user)+'</div></div>';
+  return '<div class="avatar"><div>'+(l.length?'<img src="'+esc(l[0])+'" data-alt="'+esc(l.slice(1).join("|"))+'" data-big="'+esc(b.join("|"))+'" data-cap="'+esc(cap)+'"'+(ini?' data-ini="'+esc(ini)+'"':'')+' data-sub="'+esc(p.hubungan||"")+'" data-lahir="'+esc(p.lahir||"")+'" data-wafat="'+esc(p.wafat||"")+'" data-makam="'+esc(p.makam||"")+'" alt="'+esc(p.nama)+'" loading="lazy" referrerpolicy="no-referrer" style="cursor:zoom-in" onclick="openFoto(this)" onerror="fotoErr(this)">':(ini?'<b class="ini">'+esc(ini)+'</b>':IC.user))+'</div></div>';
 }
 /* foto diperbesar saat diketuk */
 function openFoto(img){
@@ -554,6 +592,159 @@ function namesItem(mode){
     '<p class="lat">'+lat.join("<br>")+'</p><p class="arti"><b>Artinya:</b> '+arti.join(" ")+'</p></div>';
 }
 
+/* ===== Bagan silsilah (dibangun dari kolom ID di Google Sheets) ===== */
+function anakKe(p){
+  let v=(p.anakke||"").trim();
+  if(!v){ const m=(p.hubungan||"").match(/\banak\s*(?:ke-?)?\s*(\d+)\b/i); return m?"Anak ke-"+m[1]:""; }
+  let m=v.match(/^(\d+)\s*(?:\/|dari|of|dr|-)\s*(\d+)/i);
+  if(m) return "Anak ke-"+m[1]+" dari "+m[2]+" bersaudara";
+  m=v.match(/^(\d+)$/); if(m) return "Anak ke-"+m[1];
+  return v;
+}
+function initials(n){
+  const w=(n||"").replace(/\b(bin|binti|bt\.?)\b.*$/i,"").trim().split(/\s+/).filter(x=>x && !/^\S{1,2}\.$/.test(x));
+  return (((w[0]||"")[0]||"")+((w[1]||"")[0]||"")).toUpperCase();
+}
+const isFem = p => /\bbinti\b|\bbt\.?\b/i.test(p.nama||"");
+function pcCard(p, hl, tg){
+  const at=tg?' data-tg="'+tg+'"':'';
+  if(!p.nama || p.nama==="-") return '<div class="pc ph"'+at+'><div class="r1"><span class="ring">+</span><span class="pm"><span class="hb">'+esc(p.hubungan||"")+'</span></span></div><em>Belum diisi</em></div>';
+  const w=isWafat(p);
+  const chip = p.panggilan || "";
+  return '<div class="pc'+(w?'':' hd')+(hl?' gd':'')+'"'+at+'><div class="r1">'+avatar(p,initials(p.nama))+
+    '<div class="pm"><span class="tg">'+(w?(isFem(p)?'Almh.':'Alm.'):'Hidup')+'</span>'+(chip?'<span class="pn">'+esc(chip)+'</span>':'')+'</div></div>'+
+    '<h5>'+esc(p.nama)+'</h5>'+
+    (p.hubungan?'<div class="hb">'+esc(p.hubungan)+'</div>':'')+
+    (anakKe(p)?'<div class="ak">'+esc(anakKe(p))+'</div>':'')+
+    (p.lahir?'<div class="dt">Lahir '+esc(p.lahir)+'</div>':'')+
+    (p.wafat?'<div class="dt">Wafat '+esc(p.wafat)+'</div>':'')+
+    (p.makam?'<div class="dt">📍 '+esc(p.makam)+'</div>':'')+'</div>';
+}
+/* satu pasangan: cards = [{p, tg}] berurutan kiri→kanan */
+function pcCouple(cards, hl, g, lv, o){
+  return '<div class="cp'+(cards.length<2?' solo':'')+'" data-g="'+g+'" data-lv="'+lv+'" data-o="'+o+'">'+
+    cards.map(c=>pcCard(c.p,hl,c.tg)).join('<span class="plus"><i>+</i></span>')+'</div>';
+}
+const isSpouseRel = p => /mantu|menantu|istri|suami|pasangan/i.test(p.hubungan||"");
+/* anak kandung di kanan, pasangan (mantu) di kiri */
+function childCards(rows, tg){
+  const r=rows.slice().sort((a,b)=>(isSpouseRel(b)?1:0)-(isSpouseRel(a)?1:0)||(isFem(a)?1:0)-(isFem(b)?1:0)*0);
+  let bi=-1; r.forEach((p,i)=>{ if(!isSpouseRel(p)) bi=i; });
+  if(bi<0) bi=r.length-1;
+  const out=r.map(p=>({p,tg:""})); out[bi].tg=tg; out.sort((a,b)=>(a.tg?1:0)-(b.tg?1:0));
+  return out;
+}
+function ancCards(rows){
+  return rows.slice().sort((a,b)=>(isFem(a)?1:0)-(isFem(b)?1:0)).map(p=>({p,tg:""}));
+}
+function buildBagan(){
+  const all = normalize(familyData).filter(p=>p.nama);
+  const G = {}, order = [];
+  let rootNum=null, rootLet=null;
+  all.forEach(p=>{
+    const id=(p.id||"").trim().toUpperCase().replace(/\s+/g,"");
+    const m=id.match(/^(\d+|[A-Z])(?:\.(\d+|[A-Z]))?$/);
+    p._k = m ? id : "";
+    if(m && m[2] && /^[A-Z]$/.test(m[2]) && /^\d+$/.test(m[1])){ rootNum=m[1]; rootLet=m[2]; p._k=m[2]; }
+    if(!p._k) return;
+    (G[p._k]=G[p._k]||[]).push(p); if(order.indexOf(p._k)<0) order.push(p._k);
+  });
+  if(rootNum===null || !G[rootNum] || !G[rootLet]) return null;
+  const nums = order.filter(k=>/^\d+$/.test(k)).map(Number).sort((a,b)=>a-b);
+  const lets = order.filter(k=>/^[A-Z]$/.test(k)).sort();
+  const rn=Number(rootNum);
+  const used=new Set();
+  const take=k=>{ (G[k]||[]).forEach(r=>used.add(r)); return G[k]||[]; };
+  const chainA = nums.filter(n=>n<rn).map(n=>take(String(n)));
+  const chainI = lets.filter(l=>l<rootLet).map(l=>take(l));
+  const sibA = nums.filter(n=>n>rn).map(n=>take(String(n)));
+  const sibI = lets.filter(l=>l>rootLet).map(l=>take(l));
+  const emak = take(rootLet), baba = take(rootNum);
+  const kids = order.filter(k=>k.indexOf(rootNum+".")===0 && /^\d+\.\d+$/.test(k)).sort((x,y)=>parseInt(x.split(".")[1],10)-parseInt(y.split(".")[1],10)).map(k=>take(k));
+  const rest = all.filter(p=>!used.has(p));
+  return {chainA,chainI,sibA,sibI,emak,baba,kids,rest,
+    ayahName:(baba[0]||{}).panggilan||"", ibuName:(emak[0]||{}).panggilan||""};
+}
+function baganHTML(){
+  const b = buildBagan(); if(!b) return "";
+  let c="";
+  const D = Math.max(b.chainA.length,b.chainI.length);
+  b.chainA.forEach((r,j)=>{ c+=pcCouple(ancCards(r),false,"A",D-b.chainA.length+j,j); });
+  b.chainI.forEach((r,j)=>{ c+=pcCouple(ancCards(r),false,"I",D-b.chainI.length+j,j); });
+  let o=0;
+  b.sibI.forEach(r=>{ c+=pcCouple(childCards(r,"i"),false,"i",D,o++); });
+  const root = b.emak.map(p=>({p,tg:"i"})).concat(b.baba.map(p=>({p,tg:"a"})));
+  c+=pcCouple(root,true,"r",D,0);
+  o=0; b.sibA.forEach(r=>{ c+=pcCouple(childCards(r,"a"),false,"a",D,o++); });
+  o=0; b.kids.forEach(r=>{ c+=pcCouple(childCards(r,"k"),false,"k",D+1,o++); });
+  let h='<div class="bg-sec"><div class="bg-leg"><span class="la">Jalur '+esc(b.ayahName||"Ayah")+'</span><span class="li">Jalur '+esc(b.ibuName||"Ibu")+'</span></div>'+
+    '<div class="bg-hint">←  Geser bagan ke kiri atau kanan  →</div><div class="bgs"><div class="bgc" data-an="'+esc(b.ayahName||"Ayah")+'" data-in="'+esc(b.ibuName||"Ibu")+'">'+c+'</div></div></div>';
+  if(b.rest.length) h += '<div class="bg-sec"><div class="bg-leg"><span class="la">Keluarga lainnya</span></div><div style="display:flex;flex-direction:column;gap:10px;margin-top:8px">'+b.rest.filter(p=>p.nama!=="-").map(famRow).join("")+'</div></div>';
+  return h;
+}
+/* tata letak & garis penghubung (diukur setelah tampil) */
+function layoutBagan(){
+  document.querySelectorAll("#page-cover .bgc").forEach(c=>{
+    const old=c.querySelector("svg"); if(old) old.remove(); c.querySelectorAll(".bgl").forEach(e=>e.remove());
+    const cps=[].slice.call(c.querySelectorAll(".cp")); if(!cps.length) return;
+    const cw=cps[0].offsetWidth, GX=36, GY=96, PAD=18, TOP=40;
+    const lv=e=>+e.dataset.lv, grp=g=>cps.filter(e=>e.dataset.g===g).sort((a,b)=>a.dataset.o-b.dataset.o);
+    const maxLv=Math.max.apply(null,cps.map(lv));
+    const H=[],Y=[]; let y=TOP;
+    for(let l=0;l<=maxLv;l++){ H[l]=Math.max.apply(null,[0].concat(cps.filter(e=>lv(e)===l).map(e=>e.offsetHeight))); Y[l]=y; y+=H[l]+GY; }
+    const totalH=y-GY+PAD;
+    const X=new Map();
+    const row=[].concat(grp("i"),grp("r"),grp("a"));
+    let x=0; row.forEach(e=>{ X.set(e,x); x+=cw+GX; });
+    const root=grp("r")[0], D=lv(root);
+    const cx=(e,tg)=>{ const k=e.querySelector('.pc[data-tg="'+tg+'"]'); return X.get(e)+k.offsetLeft+k.offsetWidth/2; };
+    const tA=row.filter(e=>e.querySelector('.pc[data-tg="a"]')).map(e=>cx(e,"a"));
+    const tI=row.filter(e=>e.querySelector('.pc[data-tg="i"]')).map(e=>cx(e,"i"));
+    const tA2=row.filter(e=>e.dataset.g==='a').map(e=>cx(e,'a')); const tAc=tA2.length?tA2:tA;
+    let cenA=(Math.min.apply(null,tAc)+Math.max.apply(null,tAc))/2;
+    let cenI=X.get(root)+cw/2;
+    const chA=grp("A"), chI=grp("I");
+    if(chA.length&&chI.length){ const need=cenI+cw/2+GX+cw/2; if(cenA<need) cenA=need; }
+    chA.forEach(e=>X.set(e,cenA-cw/2)); chI.forEach(e=>X.set(e,cenI-cw/2));
+    const kids=grp("k"); if(kids.length){ let kx=X.get(root); kids.forEach(e=>{ X.set(e,kx); kx+=cw+GX; }); }
+    let minX=1e9,maxX=-1e9; cps.forEach(e=>{ minX=Math.min(minX,X.get(e)); maxX=Math.max(maxX,X.get(e)+cw); });
+    const off=PAD-minX; cps.forEach(e=>{ X.set(e,X.get(e)+off); e.style.left=X.get(e)+"px"; e.style.top=Y[lv(e)]+"px"; });
+    cenA+=off; cenI+=off;
+    const W=maxX-minX+PAD*2; c.style.width=W+"px"; c.style.height=totalH+"px";
+    const NS="http://www.w3.org/2000/svg", svg=document.createElementNS(NS,"svg");
+    svg.setAttribute("width",W); svg.setAttribute("height",totalH);
+    const COL={a:"#1f7a55",i:"#b8860b",k:"#1f7a55"};
+    svg.innerHTML='<defs>'+Object.keys(COL).map(k=>'<marker id="ar'+k+'" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="3.4" markerHeight="3.4" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="'+COL[k]+'"/></marker>').join("")+'</defs>';
+    const path=(k,d)=>{ const e=document.createElementNS(NS,"path"); e.setAttribute("d",d); e.setAttribute("fill","none"); e.setAttribute("stroke",COL[k]); e.setAttribute("stroke-width","4.5"); e.setAttribute("stroke-linecap","round"); e.setAttribute("stroke-linejoin","round"); e.setAttribute("marker-end","url(#ar"+k+")"); svg.appendChild(e); };
+    const elbow=(k,px,py,qx,qy,bus)=>{
+      if(Math.abs(px-qx)<2) return path(k,"M"+px+" "+py+" V"+qy);
+      const r=14,d=qx>px?1:-1;
+      path(k,"M"+px+" "+py+" V"+(bus-r)+" Q"+px+" "+bus+" "+(px+d*r)+" "+bus+" H"+(qx-d*r)+" Q"+qx+" "+bus+" "+qx+" "+(bus+r)+" V"+qy);
+    };
+    const mid=e=>Y[lv(e)]+e.offsetHeight/2;
+    const chainLines=(ch,k,cen,targets,lvChild,kids2)=>{
+      ch.forEach((e,j)=>{
+        const nxt=ch[j+1];
+        if(nxt) path(k,"M"+cen+" "+mid(e)+" V"+(mid(nxt)-13));
+        else targets.forEach(t=>elbow(k,cen,mid(e),t.x+off,Y[lvChild]-2,Y[lvChild]-34));
+      });
+    };
+    chainLines(chA,"a",cenA,tA.map(v=>({x:v-off})),D);
+    chainLines(chI,"i",cenI,tI.map(v=>({x:v-off})),D);
+    if(kids.length){ const rc=X.get(root)+cw/2; kids.forEach(e=>{ elbow("k",rc,mid(root),cx2(e),Y[D+1]-2,Y[D+1]-34); }); }
+    function cx2(e){ const k=e.querySelector('.pc[data-tg="k"]'); return X.get(e)+k.offsetLeft+k.offsetWidth/2; }
+    c.insertBefore(svg,c.firstChild);
+    const lab=(cls,txt,e)=>{ const d=document.createElement("span"); d.className="bgl "+cls; d.textContent=txt; d.style.left=X.get(e)+"px"; d.style.top=(Y[lv(e)]-32)+"px"; c.appendChild(d); };
+    if(chA.length) lab("la","Jalur "+c.dataset.an,chA[0]);
+    if(chI.length) lab("li","Jalur "+c.dataset.in,chI[0]);
+  });
+}
+function famRow(p){
+  return '<div class="fam'+(isWafat(p)?'':' hidup')+'">'+avatar(p)+'<div style="flex:1;min-width:0"><div class="rel"><b>'+esc(p.hubungan)+'</b>'+(p.panggilan?'<i>“'+esc(p.panggilan)+'”</i>':'')+'</div>'+
+    '<h4>'+esc(p.nama)+'</h4><div class="det">'+(p.wafat?'<span>⏳ '+esc(p.wafat)+'</span>':'')+(p.makam?'<span>📍 '+esc(p.makam)+'</span>':'')+'</div>'+
+    (p.catatan?'<div class="kenang">“'+esc(p.catatan)+'”</div>':'')+'</div></div>';
+}
+
 /* ============ 1. SILSILAH ============ */
 function renderCover(){
   const v = valid(), w = v.filter(isWafat);
@@ -565,12 +756,10 @@ function renderCover(){
     covers.map(p=>'<h2>'+esc(p.nama)+'</h2><div class="meta">'+(p.wafat?'Wafat: '+esc(p.wafat):'')+(p.makam?' • '+esc(p.makam):'')+'</div>').join("")+
     '</div>';
 
+  let bagan=""; try{ bagan=baganHTML(); }catch(e){ bagan=""; }
   h += '<div class="card"><div class="row"><div><h3>Silsilah &amp; Galeri Nasab Keluarga</h3><div class="stat">Dikenal &amp; didoakan oleh anak, mantu, cucu &amp; cicit</div></div><span class="count">'+v.filter(isBB).length+' Almarhum/ah</span></div>'+
-    '<div style="display:flex;flex-direction:column;gap:10px">'+
-    v.map(p=>'<div class="fam'+(isWafat(p)?'':' hidup')+'">'+avatar(p)+'<div style="flex:1;min-width:0"><div class="rel"><b>'+esc(p.hubungan)+'</b>'+(p.panggilan?'<i>“'+esc(p.panggilan)+'”</i>':'')+'</div>'+
-      '<h4>'+esc(p.nama)+'</h4><div class="det">'+(p.wafat?'<span>⏳ '+esc(p.wafat)+'</span>':'')+(p.makam?'<span>📍 '+esc(p.makam)+'</span>':'')+'</div>'+
-      (p.catatan?'<div class="kenang">“'+esc(p.catatan)+'”</div>':'')+'</div></div>').join("")+
-    '</div><div class="sync"><span>Nama &amp; foto ikut diperbarui dari Google Sheets bila ada internet.</span></div>'+
+    (bagan || '<div style="display:flex;flex-direction:column;gap:10px">'+v.map(famRow).join("")+'</div>')+
+    '<div class="sync"><span>Nama &amp; foto ikut diperbarui dari Google Sheets bila ada internet.</span></div>'+
     '<div class="sync"><span id="syncMsg">'+esc(syncMsg)+'</span></div>'+
     '<div class="sync"><button onclick="syncNow(this)">Sinkronkan sekarang</button></div></div>';
 
@@ -580,7 +769,11 @@ function renderCover(){
 
   h += nextBtn("ziarah","Lanjutkan ke Tuntunan Ziarah Kubur");
   $("#page-cover").innerHTML = h;
+  layoutBagan(); baganHint();
+  if(document.fonts&&document.fonts.ready) document.fonts.ready.then(()=>{ try{ layoutBagan(); baganHint(); }catch(e){} });
 }
+function baganHint(){ document.querySelectorAll("#page-cover .bg-sec").forEach(s=>{ const sc=s.querySelector(".bgs"), hn=s.querySelector(".bg-hint"); if(sc&&hn) hn.classList.toggle("on", sc.scrollWidth>sc.clientWidth+4); }); }
+window.addEventListener("resize",()=>{ try{baganHint();}catch(e){} });
 
 /* ============ 2. ZIARAH ============ */
 function renderZiarah(){
