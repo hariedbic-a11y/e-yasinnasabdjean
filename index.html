@@ -499,16 +499,31 @@ const isUtama = p => /ya/i.test(p.sampul||"");
 function isWafat(p){
   const st=(p.status||"").toLowerCase();
   if(/hidup|tidak|belum/.test(st)) return false;
-  if(/wafat|alm/.test(st)) return true;
+  if(/wafat|alm|meninggal/.test(st)) return true;
   if(p.wafat) return true;
   if(isBB(p)) return true;
   return /^(kakek|nenek|ayah|ibu|bapak|emak|buyut|moyang|datuk|abah)/i.test(p.hubungan||"");
 }
-/* daftar yang didoakan (sudah wafat), berurutan */
+/* urutan kolom A: 1,2,3, lalu 3.C (pasangan 3), 3.1, 3.2 …, 4,5,6 … baru huruf A,B,… */
+function idRank(p, i){
+  const id=(p.id||"").trim().toUpperCase().replace(/\s+/g,"");
+  let m=id.match(/^(\d+)(?:\.(\d+|[A-Z]))?$/);
+  if(m){ const s=m[2]; return [0,+m[1], s===undefined?0:(/^\d+$/.test(s)?2:1), s===undefined?0:(/^\d+$/.test(s)?+s:s.charCodeAt(0)), i]; }
+  m=id.match(/^([A-Z])(?:\.(\d+))?$/);
+  if(m) return [1,m[1].charCodeAt(0),0,m[2]?+m[2]:0,i];
+  return [2,0,0,0,i];
+}
+function cmpRank(a,b){ for(let k=0;k<a.length;k++){ if(a[k]!==b[k]) return a[k]<b[k]?-1:1; } return 0; }
+/* daftar yang didoakan: berdasarkan kolom Status (Meninggal), urutan sama persis seperti baris di tabel Sheets */
 function doaList(){
-  const idx = p => { const n=parseInt(p.urutan,10); if(n>0) return n;
-    const k=DEFAULT_ORDER.indexOf(p.nama.toLowerCase().replace(/\s+/g," ").trim()); return k>=0?k+1:1000; };
-  return valid().filter(p=>isBB(p) && !/hidup|tidak|belum/i.test(p.status||"")).map((p,i)=>({p,i})).sort((a,b)=>idx(a.p)-idx(b.p)||a.i-b.i).map(x=>x.p);
+  const man = p => { const n=parseInt(p.urutan,10); return n>0?n:0; };
+  const mati = p => { const st=(p.status||"").toLowerCase();
+    if(/hidup|tidak|belum/.test(st)) return false;
+    if(st) return /meninggal|wafat|alm/.test(st);
+    return true; };
+  return valid().map((p,i)=>({p,r:idRank(p,i)})).filter(x=>isBB(x.p) && mati(x.p))
+    .sort((a,b)=>{ const ma=man(a.p), mb=man(b.p); if(ma||mb) return (ma||1e6)-(mb||1e6) || a.r[4]-b.r[4]; return a.r[4]-b.r[4]; })
+    .map(x=>x.p);
 }
 
 /* ============ FOTO (Google Drive -> tautan gambar langsung) ============ */
@@ -766,7 +781,7 @@ function renderCover(){
     '</div>';
 
   let bagan=""; try{ bagan=baganHTML(); }catch(e){ bagan=""; }
-  h += '<div class="card"><div class="row"><div><h3>Silsilah &amp; Galeri Nasab Keluarga</h3><div class="stat">Dikenal &amp; didoakan oleh anak, mantu, cucu &amp; cicit</div></div><span class="count">'+v.filter(isBB).length+' Almarhum/ah</span></div>'+
+  h += '<div class="card"><div class="row"><div><h3>Silsilah &amp; Galeri Nasab Keluarga</h3><div class="stat">Dikenal &amp; didoakan oleh anak, mantu, cucu &amp; cicit</div></div><span class="count">'+v.filter(p=>p.status?/meninggal|wafat|alm/i.test(p.status):(isBB(p)&&isWafat(p))).length+' Almarhum/ah</span></div>'+
     (bagan || '<div style="display:flex;flex-direction:column;gap:10px">'+v.map(famRow).join("")+'</div>')+
     '<div class="sync"><span>Nama &amp; foto ikut diperbarui dari Google Sheets bila ada internet.</span></div>'+
     '<div class="sync"><span id="syncMsg">'+esc(syncMsg)+'</span></div>'+
