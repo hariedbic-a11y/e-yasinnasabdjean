@@ -599,7 +599,7 @@ function namesItem(mode){
 /* ===== Bagan silsilah (dibangun dari kolom ID di Google Sheets) ===== */
 function anakKe(p){
   let v=(p.anakke||"").trim();
-  if(!v){ const m=(p.hubungan||"").match(/\banak\s*(?:ke-?)?\s*(\d+)\b/i); return m?"Anak ke-"+m[1]:""; }
+  if(!v){ if(/mantu|menantu|istri|suami|pasangan/i.test(p.hubungan||"")) return ""; const m=(p.hubungan||"").match(/\banak\s*(?:ke-?)?\s*(\d+)\b/i); return m?"Anak ke-"+m[1]:""; }
   let m=v.match(/^(\d+)\s*(?:\/|dari|of|dr|-)\s*(\d+)/i);
   if(m) return "Anak ke-"+m[1]+" dari "+m[2]+" bersaudara";
   m=v.match(/^(\d+)$/); if(m) return "Anak ke-"+m[1];
