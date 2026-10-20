@@ -137,15 +137,19 @@ ul.ad li::marker{color:var(--green-600)}
 .bg-leg span{display:inline-flex;align-items:center;gap:8px}
 .bg-leg span:before{content:"";width:22px;height:5px;border-radius:3px;background:currentColor}
 .bg-leg .la{color:#1f7a55}.bg-leg .li{color:#b8860b}
-.bgc{position:relative;flex:0 0 auto;margin:0 auto;min-width:100%}
+.bgc{position:relative;flex:0 0 auto;margin:0 auto}
 .bgc .cp{position:absolute;margin:0;z-index:1}
 .bgc svg{position:absolute;left:0;top:0;z-index:0;pointer-events:none;overflow:visible}
 .bgl{position:absolute;z-index:1;font-size:12px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:#fff;padding:4px 12px;border-radius:999px}
 .bgl.la{background:#1f7a55}.bgl.li{background:#b8860b}
+.bg-leg .bg-zm:before{display:none}
+.bg-zm{display:inline-flex;gap:6px;margin-left:auto}
+.bg-zm button{width:38px;height:34px;border-radius:10px;border:1.5px solid var(--green-800);background:#fff;color:var(--green-800);font-size:18px;font-weight:800;line-height:1;cursor:pointer}
+.bg-zm button:active{background:var(--green-100)}
 .bg-hint{display:none;text-align:center;font-size:13px;font-weight:700;color:var(--green-800);margin:0 0 6px}
 .bg-hint.on{display:block}
 .bg-sec{--cw:342px}
-.bgs{display:flex;overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:18px;padding:14px 6px 18px;background:#f1f4ec;border:1.5px dashed #c3d1bd;scrollbar-width:thin}
+.bgs{touch-action:pan-x pan-y;display:flex;overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:18px;padding:14px 6px 18px;background:#f1f4ec;border:1.5px dashed #c3d1bd;scrollbar-width:thin}
 .cp{display:flex;align-items:stretch;width:var(--cw);position:relative}
 .cp .plus{flex:0 0 22px;display:grid;place-items:center;position:relative;z-index:1}
 .cp .plus i{width:22px;height:22px;border-radius:50%;background:#e8b923;color:#fff;font-style:normal;font-weight:900;font-size:16px;line-height:22px;text-align:center;box-shadow:0 0 0 3px #fff}
@@ -677,14 +681,15 @@ function baganHTML(){
   c+=pcCouple(root,true,"r",D,0);
   o=0; b.sibA.forEach(r=>{ c+=pcCouple(childCards(r,"a"),false,"a",D,o++); });
   o=0; b.kids.forEach(r=>{ c+=pcCouple(childCards(r,"k"),false,"k",D+1,o++); });
-  let h='<div class="bg-sec"><div class="bg-leg"><span class="la">Jalur '+esc(b.ayahName||"Ayah")+'</span><span class="li">Jalur '+esc(b.ibuName||"Ibu")+'</span></div>'+
-    '<div class="bg-hint">←  Geser bagan ke kiri atau kanan  →</div><div class="bgs"><div class="bgc" data-an="'+esc(b.ayahName||"Ayah")+'" data-in="'+esc(b.ibuName||"Ibu")+'">'+c+'</div></div></div>';
+  let h='<div class="bg-sec"><div class="bg-leg"><span class="la">Jalur '+esc(b.ayahName||"Ayah")+'</span><span class="li">Jalur '+esc(b.ibuName||"Ibu")+'</span><span class="bg-zm" style="gap:6px"><button onclick="bgZ(this,-1)" aria-label="Perkecil">−</button><button onclick="bgZ(this,0)" aria-label="Pas layar">⤢</button><button onclick="bgZ(this,1)" aria-label="Perbesar">+</button></span></div>'+
+    '<div class="bg-hint">←  Geser bagan  •  cubit dua jari untuk zoom  →</div><div class="bgs"><div class="bgc" data-an="'+esc(b.ayahName||"Ayah")+'" data-in="'+esc(b.ibuName||"Ibu")+'">'+c+'</div></div></div>';
   if(b.rest.length) h += '<div class="bg-sec"><div class="bg-leg"><span class="la">Keluarga lainnya</span></div><div style="display:flex;flex-direction:column;gap:10px;margin-top:8px">'+b.rest.filter(p=>p.nama!=="-").map(famRow).join("")+'</div></div>';
   return h;
 }
 /* tata letak & garis penghubung (diukur setelah tampil) */
 function layoutBagan(){
   document.querySelectorAll("#page-cover .bgc").forEach(c=>{
+    const z0=c.dataset.z; c.style.zoom=1;
     const old=c.querySelector("svg"); if(old) old.remove(); c.querySelectorAll(".bgl").forEach(e=>e.remove());
     const cps=[].slice.call(c.querySelectorAll(".cp")); if(!cps.length) return;
     const cw=cps[0].offsetWidth, GX=36, GY=96, PAD=18, TOP=40;
@@ -737,6 +742,7 @@ function layoutBagan(){
     const lab=(cls,txt,e)=>{ const d=document.createElement("span"); d.className="bgl "+cls; d.textContent=txt; d.style.left=X.get(e)+"px"; d.style.top=(Y[lv(e)]-32)+"px"; c.appendChild(d); };
     if(chA.length) lab("la","Jalur "+c.dataset.an,chA[0]);
     if(chI.length) lab("li","Jalur "+c.dataset.in,chI[0]);
+    if(z0) c.style.zoom=z0;
   });
 }
 function famRow(p){
@@ -769,8 +775,29 @@ function renderCover(){
 
   h += nextBtn("ziarah","Lanjutkan ke Tuntunan Ziarah Kubur");
   $("#page-cover").innerHTML = h;
-  layoutBagan(); baganHint();
+  layoutBagan(); baganPinch(); baganHint();
   if(document.fonts&&document.fonts.ready) document.fonts.ready.then(()=>{ try{ layoutBagan(); baganHint(); }catch(e){} });
+}
+/* zoom bagan: cubit dua jari atau tombol */
+function baganZoom(sc, z, fx){
+  const c=sc.querySelector(".bgc"); if(!c) return;
+  z=Math.max(.1,Math.min(1.6,z)); const old=+c.dataset.z||1;
+  const f=(fx!=null)?fx:sc.clientWidth/2, pos=sc.scrollLeft+f;
+  c.dataset.z=z; c.style.zoom=z; sc.scrollLeft=pos/old*z-f;
+  baganHint();
+}
+function bgZ(btn,dir){
+  const sc=btn.closest(".bg-sec").querySelector(".bgs"), c=sc.querySelector(".bgc"), cur=+c.dataset.z||1;
+  if(dir===0){ const w=parseFloat(c.style.width)||c.scrollWidth; baganZoom(sc, Math.min(1,(sc.clientWidth-12)/w)); sc.scrollLeft=0; }
+  else baganZoom(sc, dir>0?cur*1.25:cur/1.25);
+}
+function baganPinch(){
+  document.querySelectorAll("#page-cover .bgs").forEach(sc=>{
+    let st=null; const dist=e=>Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);
+    sc.addEventListener("touchstart",e=>{ if(e.touches.length===2){ const c=sc.querySelector(".bgc"); st={d:dist(e),z:+c.dataset.z||1}; } },{passive:true});
+    sc.addEventListener("touchmove",e=>{ if(st&&e.touches.length===2){ e.preventDefault(); const mid=(e.touches[0].clientX+e.touches[1].clientX)/2-sc.getBoundingClientRect().left; baganZoom(sc,st.z*dist(e)/st.d,mid); } },{passive:false});
+    sc.addEventListener("touchend",e=>{ if(e.touches.length<2) st=null; },{passive:true});
+  });
 }
 function baganHint(){ document.querySelectorAll("#page-cover .bg-sec").forEach(s=>{ const sc=s.querySelector(".bgs"), hn=s.querySelector(".bg-hint"); if(sc&&hn) hn.classList.toggle("on", sc.scrollWidth>sc.clientWidth+4); }); }
 window.addEventListener("resize",()=>{ try{baganHint();}catch(e){} });
