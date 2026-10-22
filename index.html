@@ -783,7 +783,7 @@ function renderCover(){
   let bagan=""; try{ bagan=baganHTML(); }catch(e){ bagan=""; }
   h += '<div class="card"><div class="row"><div><h3>Silsilah &amp; Galeri Nasab Keluarga</h3><div class="stat">Dikenal &amp; didoakan oleh anak, mantu, cucu &amp; cicit</div></div><span class="count">'+v.filter(p=>p.status?/meninggal|wafat|alm/i.test(p.status):(isBB(p)&&isWafat(p))).length+' Almarhum/ah</span></div>'+
     (bagan || '<div style="display:flex;flex-direction:column;gap:10px">'+v.map(famRow).join("")+'</div>')+
-    '<div class="sync"><span>Nama &amp; foto ikut diperbarui dari Google Sheets bila ada internet.</span></div>'+
+    '<div class="sync"><span>Nama &amp; foto ikut diperbarui bila ada internet.</span></div>'+
     '<div class="sync"><span id="syncMsg">'+esc(syncMsg)+'</span></div>'+
     '<div class="sync"><button onclick="syncNow(this)">Sinkronkan sekarang</button></div></div>';
 
